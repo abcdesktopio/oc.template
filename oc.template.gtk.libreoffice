@@ -1,4 +1,4 @@
-FROM abcdesktop/oio:oc.template.gtk
+FROM abcdesktopio/oc.template.gtk
 
 
 # install help in all language
