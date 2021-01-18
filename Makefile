@@ -31,7 +31,7 @@ level0:
 	docker build $(OPTIONBUILD_ARG) -t abcdesktopio/oc.template.gtk.language-pack-all -f oc.template.gtk.language-pack-all .
 
 # remove the first .
-level1: octemplate.gtk.java octemplate.gtk.fulldev octemplate.gtk.java.eclipse octemplate.gtk.libreoffice octemplate.gtk.firefox.rest octemplate.gtk.wine.50 octemplate.gtk.gimagereader
+level1: octemplate.gtk.java octemplate.gtk.fulldev octemplate.gtk.java.eclipse octemplate.gtk.libreoffice octemplate.gtk.firefox octemplate.gtk.firefox.rest octemplate.gtk.wine.50 octemplate.gtk.gimagereader
 
 #  octemplate.gtk.wine.50 
 #

@@ -1,0 +1,19 @@
+FROM abcdesktopio/oc.template.gtk
+MAINTAINER Alexandre DEVELY
+
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+	apt-get install  --no-install-recommends --yes  firefox $(apt-cache search firefox-locale | awk '{print $1 }') \
+	&& rm -rf /var/lib/apt/lists/*
+
+# init is use to create /home/balloon/Downloads
+COPY composer/init.d/init.firefox /composer/init.d/init.firefox
+# use Download as temp directory
+COPY policies.json /usr/lib/firefox/distribution
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+	flashplugin-installer		\
+        ubuntu-restricted-extras 	\
+        libavc1394-0             	\
+	&& rm -rf /var/lib/apt/lists/*
+COPY /ntlm_auth /usr/bin/ntlm_auth.desktop
+RUN chown root:root /usr/bin/ntlm_auth.desktop && chmod 111 /usr/bin/ntlm_auth.desktop 

@@ -3,7 +3,7 @@ FROM abcdesktopio/oc.template.gtk.firefox
 MAINTAINER Alexandre DEVELY
 
 USER root
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y  --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y  --no-install-recommends unzip wget && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /tmp/addon-XXXXXXXX
 
