@@ -1,0 +1,9 @@
+FROM abcdesktopio/oc.template.gtk
+
+
+# install help in all language
+RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends       \
+        $(apt-cache search language-pack-gnome | awk '{print $1 }')                \
+        && rm -rf /var/lib/apt/lists/*
+
+
