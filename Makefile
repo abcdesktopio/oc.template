@@ -44,7 +44,7 @@ ai:
 	docker build -t abcdesktopio:oc.template.gtk.fulldev.ia -f oc.template.gtk.fulldev.ia
 push:
 	for dir in $(dockertemplate); do \
-                docker push abcdesktopio:$$dir ;\
+                docker push abcdesktopio/$$dir ;\
         done 
 
 cleandangling:
