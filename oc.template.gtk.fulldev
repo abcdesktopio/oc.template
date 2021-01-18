@@ -1,4 +1,5 @@
-FROM abcdesktopio/oc.template.gtk
+ARG TAG=dev
+FROM abcdesktopio/oc.template.gtk:$TAG
 MAINTAINER Alexandre DEVELY
 
 # VSCode

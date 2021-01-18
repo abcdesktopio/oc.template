@@ -1,5 +1,5 @@
-FROM abcdesktopio/oc.template.gtk.firefox
-
+ARG TAG=dev
+FROM abcdesktopio/oc.template.gtk.firefox:$TAG
 MAINTAINER Alexandre DEVELY
 
 USER root

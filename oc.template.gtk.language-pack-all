@@ -1,5 +1,5 @@
-FROM abcdesktopio/oc.template.gtk
-
+ARG TAG=dev
+FROM abcdesktopio/oc.template.gtk:$TAG
 
 # install help in all language
 RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends       \
