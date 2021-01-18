@@ -1,4 +1,4 @@
-FROM abcdesktop/oc.template.gtk
+FROM abcdesktopio/oc.template.gtk
 MAINTAINER Alexandre DEVELY 
 
 
