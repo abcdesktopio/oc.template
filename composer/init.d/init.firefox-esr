@@ -1,0 +1,17 @@
+
+# create Downloads directory if not exists
+if [ ! -d /home/balloon/Downloads ]; then
+	mkdir -p /home/balloon/Downloads
+fi
+
+# create ntlm_auth if not exists
+if [ ! -L "~/ntlm_auth" ]; then 
+	# remove ~/ntlm_auth if file exist
+	if [ -f ~/ntlm_auth ]
+	then
+		rm -f ~/ntlm_auth || true
+	fi
+	ln -s /usr/bin/ntlm_auth.desktop ~/ntlm_auth
+else
+	echo "~/ntlm_auth is a link"
+fi

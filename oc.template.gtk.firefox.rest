@@ -1,0 +1,12 @@
+FROM abcdesktopio/oc.template.gtk.firefox
+
+MAINTAINER Alexandre DEVELY
+
+USER root
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y  --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /tmp/addon-XXXXXXXX
+
+COPY composer/firefox-extension-manager.sh /composer
+
+RUN bash -x /composer/firefox-extension-manager.sh --install --system --url https://addons.mozilla.org/fr/firefox/addon/rester/

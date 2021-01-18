@@ -1,0 +1,72 @@
+FROM abcdesktopio/oc.template.gtk
+MAINTAINER Alexandre DEVELY
+
+# VSCode
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+	curl		\
+	wget		\
+	libxss1		\	
+	libnotify4 	\
+  	libxkbfile1 	\
+ 	libsecret-1-0	\
+	git		\
+	vim		\
+	dbus-x11	\
+	gnome-terminal	\
+	&& rm -rf /var/lib/apt/lists/*
+
+# lib for vscode but could be shared by other
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes \
+        libx11-xcb1     \
+        libxcb-dri3-0   \
+        libgbm1         \
+        libdrm2         \
+        libxtst6     && \
+        apt-get clean
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+	ubuntu-dev-tools	\
+	build-essential		\
+	automake		\
+	autoconf		\
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+	evince                          \
+        xarchiver                       \
+        p7zip-full                      \
+        unzip                           \
+        file-roller                   	\
+	&& rm -rf /var/lib/apt/lists/*  
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+        python                          \
+        python3                      	\
+        python3-pip                   	\
+	python3-pylint-plugin-utils	\
+	&& rm -rf /var/lib/apt/lists/* 
+
+# RUN DEBIAN_FRONTEND=noninteractive pip3 install 
+
+# install Cloud Foundry Pivotal cf command line
+RUN     cd /tmp && wget "https://cli.run.pivotal.io/stable?release=linux64-binary" -O pivotal.tgz && tar -xvf pivotal.tgz && \
+        mv cf /usr/local/bin
+
+# Install Java.
+RUN DEBIAN_FRONTEND=noninteractive add-apt-repository ppa:linuxuprising/java
+RUN DEBIAN_FRONTEND=noninteractive echo oracle-java15-installer shared/accepted-oracle-license-v1-2 select true | /usr/bin/debconf-set-selections
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+        oracle-java15-installer         \
+        gsfonts-x11                     \
+        java-common                     \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+	oracle-java15-set-default	\
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+        maven                           \
+        && rm -rf /var/lib/apt/lists/*
+
+
