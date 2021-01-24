@@ -139,6 +139,15 @@ jobs:
           tags: |
             abcdesktopio/oc.template.gtk.libreoffice:dev
 
+      - name: Build and push oc.template.gtk.wine.50
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: oc.template.gtk.wine.50
+          push: true
+          tags: |
+            abcdesktopio/oc.template.gtk.wine.50:dev
+
       - name: Build and push oc.template.gtk.mswindows
         uses: docker/build-push-action@v2
         with:
@@ -148,11 +157,3 @@ jobs:
           tags: |
             abcdesktopio/oc.template.gtk.mswindows:dev
 
-      - name: Build and push oc.template.gtk.wine.50
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: oc.template.gtk.wine.50
-          push: true
-          tags: |
-            abcdesktopio/oc.template.gtk.wine.50:dev
