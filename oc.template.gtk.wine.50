@@ -1,5 +1,5 @@
 ARG TAG=dev
-FROM abcdesktopio/oc.template.gtk:$TAG
+FROM abcdesktopio/oc.template.gtk.18.04:$TAG
 MAINTAINER Alexandre DEVELY 
 
 
