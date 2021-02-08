@@ -1,8 +1,6 @@
-name: Update oc.nginx
+name: Update oc.template
 
 on:
-  repository_dispatch:
-    types: dispatch-from-oc.user.18.04
   push:
     branches:
       - main
