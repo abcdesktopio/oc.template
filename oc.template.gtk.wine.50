@@ -68,6 +68,12 @@ RUN apt-get update && \
     apt-get install --no-install-recommends --yes winehq-stable fonts-wine && \
     apt-get clean
  
+# add xrdb for playonlinux
+# xrdb is in x11-xserver-utils
+RUN apt-get update && \
+    apt-get install --no-install-recommends --yes playonlinux x11-xserver-utils && \
+    apt-get clean
+ 
 RUN wget -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && chmod 755 /usr/bin/winetricks
 
 # only for crossover
