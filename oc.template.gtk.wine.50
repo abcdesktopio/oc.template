@@ -35,8 +35,10 @@ RUN apt-get update && \
  
 # gir1.2-gtk-3.0:i386 gir1.2-pango-1.0:i386 used by crossover
 
+# add for 20.04
+# apt-get install --no-install-recommends --yes libgcc-s1:i386 && \
+
 RUN apt-get update && \
-    apt-get install --no-install-recommends --yes libgcc-s1:i386 && \
     apt-get install --no-install-recommends --yes aptitude libnss-mdns:i386 libsdl2-2.0-0 libsdl2-2.0-0:i386 gir1.2-gtk-3.0:i386 gir1.2-pango-1.0:i386 && \
     apt-get clean 
 
