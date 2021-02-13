@@ -69,7 +69,7 @@ RUN mkdir -p /composer/.cache/fontconfig
 # COPY composer/.cache/fontconfig /composer/.cache/fontconfig
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends --yes winehq-stable fonts-wine && \
+    apt-get install --no-install-recommends --yes wine-stable fonts-wine && \
     apt-get clean
  
 # add xrdb for playonlinux
