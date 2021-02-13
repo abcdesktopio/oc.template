@@ -88,4 +88,5 @@ RUN wget -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/win
 COPY composer/updatereg.py              /composer
 COPY composer/init.d/init.wine		/composer/init.d/init.wine
 COPY composer/init.d/_init.wine         /composer/init.d/_init.wine
-ENV WINEARCH win32
+# Set for each app 
+# ENV WINEARCH win32
