@@ -1,5 +1,5 @@
 ARG TAG=dev
-FROM abcdesktopio/oc.template.gtk.18.04:$TAG
+FROM abcdesktopio/oc.template.gtk:$TAG
 MAINTAINER Alexandre DEVELY 
 
 
@@ -12,7 +12,7 @@ RUN dpkg --add-architecture i386
 
 # only to use wine repo
 # RUN wget -qO - https://dl.winehq.org/wine-builds/winehq.key | apt-key add -
-# RUN apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
+# RUN apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ focal main'
 
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
 
@@ -72,22 +72,24 @@ RUN mkdir -p /composer/.cache/fontconfig
 # COPY composer/.cache/fontconfig /composer/.cache/fontconfig
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends --yes wine32 wine64 fonts-wine && \
+    apt-get install --yes wine && \
     apt-get clean
  
 # add xrdb for playonlinux
 # xrdb is in x11-xserver-utils
 RUN apt-get update && \
-    apt-get install --no-install-recommends --yes playonlinux x11-xserver-utils && \
+    apt-get install --no-install-recommends --yes libpython3.6 playonlinux x11-xserver-utils && \
     apt-get clean
  
 RUN wget -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && chmod 755 /usr/bin/winetricks
 
-
 COPY composer/updatereg.py              /composer
 COPY composer/init.d/init.wine		/composer/init.d/init.wine
 COPY composer/init.d/_init.wine         /composer/init.d/_init.wine
+RUN  mkdir /composer/.wine /composer/bin && chown 4096:4096 /composer/.wine /composer/bin
+
 # Set for each app 
+ENV WINEPREFIX=/composer/.wine
 ENV WINEARCH win32
 ENV DISPLAY :0.0
 
