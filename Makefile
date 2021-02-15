@@ -22,7 +22,7 @@ ifndef TAG
 endif 
 
 
-dockertemplate= oc.template.gtk.18.04 oc.template.gtk oc.template.gtk.wine.50 oc.template.gtk.java oc.template.gtk.fulldev oc.template.gtk.java.eclipse oc.template.gtk.libreoffice oc.template.gtk.firefox.rest oc.template.gtk.postman oc.template.gtk.mswindows oc.template.gtk.java.sts4
+dockertemplate= oc.template.gtk.18.04 oc.template.gtk oc.template.gtk.java oc.template.gtk.fulldev oc.template.gtk.java.eclipse oc.template.gtk.libreoffice oc.template.gtk.firefox.rest oc.template.gtk.postman oc.template.gtk.wine oc.template.gtk.wine.mswindows oc.template.gtk.java.sts4
 
 # count core to run several make in parallel 
 CORE_COUNT=$(shell getconf _NPROCESSORS_ONLN) 
@@ -52,14 +52,12 @@ level0:
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.language-pack-all:$(TAG) -f oc.template.gtk.language-pack-all .
 
 # remove the first .
-level1: octemplate.gtk.java octemplate.gtk.fulldev octemplate.gtk.java.eclipse octemplate.gtk.libreoffice octemplate.gtk.firefox octemplate.gtk.firefox.rest octemplate.gtk.wine.50 octemplate.gtk.gimagereader
+level1: octemplate.gtk.java octemplate.gtk.fulldev octemplate.gtk.java.eclipse octemplate.gtk.libreoffice octemplate.gtk.firefox octemplate.gtk.firefox.rest octemplate.gtk.wine octemplate.gtk.gimagereader
 	echo "level1 use TAG=$(TAG)"\;
 
-#  octemplate.gtk.wine.50 
-#
 level2:
 	echo "level2 use TAG=$(TAG)"\;
-	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.mswindows:$(TAG) -f oc.template.gtk.mswindows .
+	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.wine.mswindows:$(TAG) -f oc.template.gtk.wine.mswindows .
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.java.sts4:$(TAG) -f oc.template.gtk.java.sts4 .
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.fulldev.vscode:$(TAG) -f oc.template.gtk.fulldev.vscode .
 

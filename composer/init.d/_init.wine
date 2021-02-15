@@ -110,16 +110,16 @@ done;
 # =================================================================
 echo "80"
 echo "# Add new cache entries" ;
-touch /composer/.cache/fontconfig/*
-if [ ! -L "~/.cache/fontconfig" ] 
-then 
-	ln -s /composer/.cache/fontconfig  	~/.cache/fontconfig
-fi
-
-if [ ! -L "~/.cache/wine" ] 
-then
-	ln -s /composer/.cache/wine  		~/.cache/wine
-fi
+# touch /composer/.cache/fontconfig/*
+# if [ ! -L "~/.cache/fontconfig" ] 
+# then 
+# 	ln -s /composer/.cache/fontconfig  	~/.cache/fontconfig
+# fi
+# 
+# if [ ! -L "~/.cache/wine" ] 
+# then
+# 	ln -s /composer/.cache/wine  		~/.cache/wine
+# fi
 
 
 # =================================================================
