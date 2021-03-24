@@ -80,8 +80,11 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install --no-install-recommends --yes libpython3.6 playonlinux x11-xserver-utils && \
     apt-get clean
- 
-RUN wget -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && chmod 755 /usr/bin/winetricks
+
+
+RUN apt-get update && \
+    apt-get install --no-install-recommends --yes mono-runtime winetricks && \
+    apt-get clean
 
 COPY composer/updatereg.py              /composer
 COPY composer/init.d/init.wine		/composer/init.d/init.wine
