@@ -1,13 +1,14 @@
 ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk.18.04:$TAG
 MAINTAINER Alexandre DEVELY 
+ENV DEBIAN_FRONTEND noninteractive 
 
-
+# install wget 
 RUN apt-get update && apt-get install --no-install-recommends --yes \
        wget                       		\
        && apt-get clean
 
-
+# set arch to i386 
 RUN dpkg --add-architecture i386
 
 # only to use wine repo
@@ -84,9 +85,9 @@ RUN wget -O /usr/bin/winetricks https://raw.githubusercontent.com/Winetricks/win
 #COPY crossover_19.0.1-1.deb /tmp
 #RUN dpkg -i /tmp/crossover_19.0.1-1.deb && rm -rf /tmp/crossover_19.0.1-1.deb
 
-
 COPY composer/updatereg.py              /composer
 COPY composer/init.d/init.wine		/composer/init.d/init.wine
 COPY composer/init.d/_init.wine         /composer/init.d/_init.wine
+
 # Set for each app 
 # ENV WINEARCH win32
