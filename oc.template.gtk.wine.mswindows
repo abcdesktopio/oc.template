@@ -1,8 +1,8 @@
 ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk.wine:$TAG
+ENV DEBIAN_FRONTEND noninteractive 
 
-
-RUN  DEBIAN_FRONTEND=noninteractive apt-get update && \
+RUN apt-get update && \
  	apt-get install --install-recommends -y \
 	xterm			\
 	wget			\
@@ -14,13 +14,11 @@ RUN  DEBIAN_FRONTEND=noninteractive apt-get update && \
 	python-dbus 		\
 	&& rm -rf /var/lib/apt/lists/*	
 
-
-
-# add play on linux 
-RUN DEBIAN_FRONTEND=noninteractive wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -
-RUN DEBIAN_FRONTEND=noninteractive wget http://deb.playonlinux.com/playonlinux_bionic.list -O /etc/apt/sources.list.d/playonlinux.list
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends	\
+# add source play on linux 
+RUN wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -
+RUN wget http://deb.playonlinux.com/playonlinux_bionic.list -O /etc/apt/sources.list.d/playonlinux.list
+# install play
+RUN apt-get update && apt-get install -y --no-install-recommends	\
         playonlinux					\
 	libosmesa6:i386					\
         libnss-mdns					\
