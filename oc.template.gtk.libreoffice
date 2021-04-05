@@ -1,6 +1,6 @@
 ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk:$TAG
-
+ENV DEBIAN_FRONTEND noninteractive 
 
 # install help in all language
 #RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends       \
@@ -9,49 +9,46 @@ FROM abcdesktopio/oc.template.gtk:$TAG
 
 # RUN add-apt-repository ppa:libreoffice/libreoffice-7-0
 RUN add-apt-repository ppa:libreoffice/ppa
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt install -y  --no-install-recommends \
-    	libreoffice 				\
-	libreoffice-gtk3			\
-	libreoffice-style-elementary 		\
-	libreoffice-base-drivers		\
-	libreoffice-sdbc-hsqldb			\
- 	libghc-hdbc-dev				\	
- 	&& rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update && apt install -y  --no-install-recommends 	\
+    	libreoffice 						\
+	libreoffice-gtk3					\
+	libreoffice-style-elementary 				\
+	libreoffice-base-drivers				\
+	libreoffice-sdbc-hsqldb					\
+ 	libghc-hdbc-dev						\	
+ 	&& apt-get clean
 
 # install help in all language
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends	\
-	$(apt-cache search libreoffice-help | awk '{print $1 }')		\
-	&& rm -rf /var/lib/apt/lists/*
-
-
+RUN apt-get update && apt-get install -y  --no-install-recommends	\
+	$(apt-cache search libreoffice-help | awk '{print $1 }')	\
+	&& apt-get clean
 
 # install myspell-dictionary packages when available
-#RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y        \       
-#        $(apt-cache search myspell-dictionary | awk '{print $1 }')                \
+#RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y	\       
+#        $(apt-cache search myspell-dictionary | awk '{print $1 }')		\
 #       && rm -rf /var/lib/apt/lists/*
 
 # install hyphen when available
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y --no-install-recommends       \       
-        $(apt-cache search hyphen | awk '{print $1 }')                \
-       && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends       	\       
+        $(apt-cache search hyphen | awk '{print $1 }')                	\
+    && apt-get clean
 
 
 # install ibreoffice-grammarcheck when available
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends       \
-        $(apt-cache search ibreoffice-grammarcheck | awk '{print $1 }')                \
-       && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y  --no-install-recommends       \
+        $(apt-cache search ibreoffice-grammarcheck | awk '{print $1 }') \
+    && apt-get clean
 
 
 # l10n files are loaded by libreoffice-help packages when available
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends 	\
-	$(apt-cache search libreoffice-l10n | awk '{print $1 }')		\
-       && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y  --no-install-recommends 	\
+	$(apt-cache search libreoffice-l10n | awk '{print $1 }')	\
+    && apt-get clean
 
 #
 # install themes
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y --no-install-recommends  \
-        xfonts-base                     \
-        dbus-x11                    \
- 	&& apt-get clean
+RUN apt-get update && apt-get install -y --no-install-recommends  	\
+        xfonts-base	\
+        dbus-x11	\
+    && apt-get clean
 
