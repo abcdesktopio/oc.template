@@ -57,7 +57,6 @@ level2:
 	echo "level2 use TAG=$(TAG)"\;
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.wine.mswindows:$(TAG) -f oc.template.gtk.wine.mswindows .
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.java.sts4:$(TAG) -f oc.template.gtk.java.sts4 .
-	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.fulldev.vscode:$(TAG) -f oc.template.gtk.fulldev.vscode .
 
 ai:
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.fulldev.ia:$(TAG) -f oc.template.gtk.fulldev.ia
