@@ -10,14 +10,14 @@ ENV TERM linux
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends \
+RUN apt-get update && apt-get install -y  --no-install-recommends \
         apt-utils                       \
 	sudo 				\
         && apt-get clean
 
 
 # Add command desktoptojson 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
      libkf5coreaddons-dev-bin 		\
      gnupg                              \
      software-properties-common         \
@@ -29,11 +29,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-ins
      && apt-get clean
 
 COPY language-pack.list /tmp
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends $(cat /tmp/language-pack.list | awk '{print $1 }') \
+RUN apt-get update && apt-get install -y --no-install-recommends $(cat /tmp/language-pack.list | awk '{print $1 }') \
         && locale-gen                   \
         && apt-get clean
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
      krb5-user 	\
      && apt-get clean
 
@@ -45,22 +45,17 @@ COPY composer /composer
 #        && apt-get clean
 
 # this package nodejs include npm 
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends        \
+RUN apt-get update && apt-get install -y  --no-install-recommends        \
         nodejs			\   
 	npm			\                                         
         && apt-get clean
 
 # Add nodejs service
-RUN     cd /composer/node/ocrun                     && npm install  
+RUN cd /composer/node/ocrun && npm install  
 
 
 
 ##########
-
-
-
-
-
 # Next command use $BUSER context
 ENV BUSER balloon
 # RUN adduser --disabled-password --gecos '' $BUSER
