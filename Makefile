@@ -32,10 +32,8 @@ all:
 	# pull default docker images
 	docker pull ubuntu:18.04
 	docker pull ubuntu:20.04
-	$(MAKE) removeexitedcontainer
-	$(MAKE) cleandangling
-	# do it twice
-	$(MAKE) cleandangling
+	# $(MAKE) removeexitedcontainer
+	# $(MAKE) cleandangling
 	echo "Makefile use TAG=$(TAG)"\;
 	$(MAKE) level0
 	$(MAKE) level1
