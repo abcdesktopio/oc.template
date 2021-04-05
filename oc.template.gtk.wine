@@ -2,12 +2,13 @@ ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk:$TAG
 MAINTAINER Alexandre DEVELY 
 
-
+# install wget
 RUN apt-get update && apt-get install --no-install-recommends --yes \
        wget                       		\
        && apt-get clean
 
 
+# set arch to i386
 RUN dpkg --add-architecture i386
 
 # only to use wine repo
