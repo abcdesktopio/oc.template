@@ -32,9 +32,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # Runs a single command using the runners shell
       - name: Build images
-        run: |
+        run:
           make all
       
       - name: Build and push oc.template.gtk
