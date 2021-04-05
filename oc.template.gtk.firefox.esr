@@ -1,7 +1,7 @@
 ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk:$TAG
 MAINTAINER Alexandre DEVELY 
-
+ENV DEBIAN_FRONTEND noninteractive 
 RUN  add-apt-repository -y ppa:mozillateam/ppa 		&& \
 	apt-get update					&& \
 	apt-get install  --no-install-recommends --yes firefox-esr			&& \
@@ -12,10 +12,9 @@ RUN  add-apt-repository -y ppa:mozillateam/ppa 		&& \
 # init is use to create /home/balloon/Downloads
 COPY composer/init.d/init.firefox /composer/init.d/init.firefox-esr
 
-
 # use Download as temp directory
 COPY policies.json /usr/lib/firefox/distribution
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+RUN apt-get update && apt-get install  --no-install-recommends --yes  \
 	flashplugin-installer		\
         ubuntu-restricted-extras 	\
         libavc1394-0             	\
