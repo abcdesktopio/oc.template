@@ -1,9 +1,7 @@
 ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk:$TAG
-
-# install help in all language
-RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends       \
+ENV DEBIAN_FRONTEND noninteractive  
+# install help in all languages for gnome
+RUN apt-get update && apt-get install -y  --no-install-recommends       \
         $(apt-cache search language-pack-gnome | awk '{print $1 }')                \
         && rm -rf /var/lib/apt/lists/*
-
-
