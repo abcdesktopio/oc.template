@@ -2,8 +2,8 @@ ARG TAG=dev
 FROM abcdesktopio/oc.template.gtk:$TAG
 MAINTAINER Alexandre DEVELY
 
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+ENV DEBIAN_FRONTEND noninteractive 
+RUN apt-get update && \
 	apt-get install  --no-install-recommends --yes  firefox $(apt-cache search firefox-locale | awk '{print $1 }') \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -11,7 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 COPY composer/init.d/init.firefox /composer/init.d/init.firefox
 # use Download as temp directory
 COPY policies.json /usr/lib/firefox/distribution
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install  --no-install-recommends --yes  \
+RUN apt-get update && apt-get install  --no-install-recommends --yes  \
 	flashplugin-installer		\
         ubuntu-restricted-extras 	\
         libavc1394-0             	\
