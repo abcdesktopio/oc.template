@@ -67,6 +67,8 @@ else
         fi
 fi
 EXIT_CODE=$?
+# log the exit code in /tmp/lastcmd.log
 echo "end of app exit_code=$EXIT_CODE" >> /tmp/lastcmd.log
-
+# exit with the application exit code 
+exit $EXIT_CODE
 
