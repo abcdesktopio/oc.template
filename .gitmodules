@@ -1,0 +1,4 @@
+[submodule "composer/node/ocrun"]
+	path = composer/node/ocrun
+	url = https://github.com/abcdesktopio/run-service.git
+	branch = main
