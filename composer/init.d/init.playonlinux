@@ -8,4 +8,9 @@ bash /composer/init.d/_init.playonlinux | zenity --progress \
   --auto-close \
   --auto-kill
 
+zenity --info \
+  --title="Starting Wine App" \
+  --text="$APPNAME is taking a while, for the first start" \
+  --timeout 10 &
+
 echo "End of init $(date)" >> /tmp/init.playonlinux.date
