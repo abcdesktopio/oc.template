@@ -1,20 +1,21 @@
 #!/bin/bash
+# =================================================================
+echo "# Running Init PlayOnLinux Application." ;
+
 ODWINE=~/.odwine
 # convert APPNAME to lower case
 APPNAME=$(echo "$APPNAME" | tr '[:upper:]' '[:lower:]')
-echo "APPNAME=$APPNAME"
 LOCALWINE="$ODWINE/$APPNAME"
-echo "LOCALWINE=$LOCALWINE"
 LOCALWINEUSERDATA="$LOCALWINE/USERDATA"
-echo "LOCALWINEUSERDATA=$LOCALWINEUSERDATA"
 
 # create home wine directory
 mkdir -p  $ODWINE
 mkdir -p "$LOCALWINE"
 mkdir -p "$LOCALWINEUSERDATA"
 
-# show message info
-zenity --info --text "$APPNAME is starting, please wait few seconds" --title "$APPNAME" --timeout 5 &
+# =================================================================
+echo "10"
+echo "# Copying Wine Registry Application." ; sleep 0.5
 
 # regsitry files :
 # user.reg
@@ -28,8 +29,10 @@ fi
 rm $WINEPREFIX/user.reg
 ln -s $LOCALWINE/user.reg $WINEPREFIX/user.reg
 
+# =================================================================
+echo "20"
+echo "# Building Windows directories" ; 
 
-echo "build default homedir entries"
 USERSHAREDFOLDERLIST=( 'Templates' 'Desktop' 'Cookies' 'Favorites' 'PrintHood' 'SendTo' 'Contacts' 'Downloads' 'Links' 'NetHood' 'Recent' 'Searches' )
 echo " USERSHAREDFOLDERLIST set "
 
@@ -61,36 +64,42 @@ for f in "${USERSHAREDFOLDERLIST[@]}";  do
         # echo "list $f"
         # ls -la "$WINEPREFIX"/drive_c/users/balloon/"$f"
         # Create a symbolic link
-        echo "Linking symbolic ~/$f $WINEPREFIX/drive_c/users/balloon/$f"
+        # echo "Linking symbolic ~/$f $WINEPREFIX/drive_c/users/balloon/$f"
         ln -s ~/"$f" "$WINEPREFIX"/drive_c/users/balloon/"$f"
 done;
 
-echo "build $LOCALWINEUSERDATA entries"
+# echo "build $LOCALWINEUSERDATA entries"
 APPFOLDERLIST=("AppData" "Local Settings" )
 for f in "${APPFOLDERLIST[@]}"; do
-    echo "$f"
+    # =================================================================
+    echo "50"
+    echo "# Building $f" ;
     if  [ ! -d "$LOCALWINEUSERDATA"/"$f" ]; then
-        echo "$LOCALWINEUSERDATA/$f does not exist, create it"
+        # echo "$LOCALWINEUSERDATA/$f does not exist, create it"
         mkdir -p "$LOCALWINEUSERDATA"/"$f"
     fi
 
     if  [ -L "$WINEPREFIX"/drive_c/users/balloon/"$f" ]; then
-        echo  "$WINEPREFIX/drive_c/users/balloon/$f is a link, remove it"
+        # echo  "$WINEPREFIX/drive_c/users/balloon/$f is a link, remove it"
         rm -f "$WINEPREFIX"/drive_c/users/balloon/"$f"
     fi
 
     if  [ -d "$WINEPREFIX"/drive_c/users/balloon/"$f" ]; then
-        echo  "$WINEPREFIX/drive_c/users/balloon/$f  is a directory, copy and remove it"
-        echo "cp -nrv $WINEPREFIX/drive_c/users/balloon/$f/* $LOCALWINEUSERDATA/$f"
+        # echo  "$WINEPREFIX/drive_c/users/balloon/$f  is a directory, copy and remove it"
+        # echo "cp -nrv $WINEPREFIX/drive_c/users/balloon/$f/* $LOCALWINEUSERDATA/$f"
         ls -la "$WINEPREFIX"/drive_c/users/balloon/"$f"/*
         cp -nrv "$WINEPREFIX"/drive_c/users/balloon/"$f"/* "$LOCALWINEUSERDATA"/"$f"
         rm -rf "$WINEPREFIX"/drive_c/users/balloon/"$f"
     fi
 
     # Create a symbolic link
-    echo "Linking symbolic $LOCALWINEUSERDATA/$f $WINEPREFIX/drive_c/users/balloon/$f"
+    # echo "Linking symbolic $LOCALWINEUSERDATA/$f $WINEPREFIX/drive_c/users/balloon/$f"
     ln -s "$LOCALWINEUSERDATA"/"$f" "$WINEPREFIX"/drive_c/users/balloon/"$f"
 done;
+
+# =================================================================
+echo "90"
+echo "# Remapping 'Application Data' and AppData/Roaming" ;
 
 # Special case for 'Application Data'
 # "Application Data" is what you would find in Windows XP.
@@ -101,7 +110,9 @@ if [ -d "$WINEPREFIX"/drive_c/users/balloon/'Application Data' ]; then
 fi
 rm -rf "$WINEPREFIX"/drive_c/users/balloon/'Application Data'
 ln -s "$LOCALWINEUSERDATA/AppData/Roaming" "$WINEPREFIX"/drive_c/users/balloon/'Application Data'
-echo 'end of init'
+
+echo "# All finished." ; 
+echo "100"
 
 if  [ ! -L "/home/balloon/.PlayOnLinux" ]; then
     PLAYONLINUX=$(echo $WINEPREFIX | cut -d/ -f 1-3)
