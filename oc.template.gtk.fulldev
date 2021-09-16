@@ -4,7 +4,7 @@ MAINTAINER Alexandre DEVELY
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install  --no-install-recommends --yes  \
+RUN apt-get update && apt-get install  --yes  \
 	curl		\
 	wget		\
 	libxss1		\	
@@ -18,22 +18,23 @@ RUN apt-get update && apt-get install  --no-install-recommends --yes  \
 	&& rm -rf /var/lib/apt/lists/*
 
 # lib for vscode but could be shared by other
-RUN apt-get update && apt-get install  --no-install-recommends --yes \
+RUN apt-get update && apt-get install  --yes \
         libx11-xcb1     \
         libxcb-dri3-0   \
         libgbm1         \
         libdrm2         \
-        libxtst6     && \
+        libxtst6     	\
+	ssh		&&
         apt-get clean
 
-RUN apt-get update && apt-get install  --no-install-recommends --yes  \
+RUN apt-get update && apt-get install  --yes  \
 	ubuntu-dev-tools	\
 	build-essential		\
 	automake		\
 	autoconf		\
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install  --no-install-recommends --yes  \
+RUN apt-get update && apt-get install  --yes  \
 	evince                          \
         xarchiver                       \
         p7zip-full                      \
@@ -41,13 +42,18 @@ RUN apt-get update && apt-get install  --no-install-recommends --yes  \
         file-roller                   	\
 	&& rm -rf /var/lib/apt/lists/*  
 
-RUN apt-get update && apt-get install  --no-install-recommends --yes  \
+RUN apt-get update && apt-get install  --yes  \
         python                          \
         python3                      	\
         python3-pip                   	\
 	python3-pylint-plugin-utils	\
 	&& rm -rf /var/lib/apt/lists/* 
 
+
+RUN  apt-get update && apt-get install  --yes  \
+	yarnpkg				\
+        grunt				\
+        && rm -rf /var/lib/apt/lists/*
 
 # RUN DEBIAN_FRONTEND=noninteractive pip3 install 
 
@@ -57,12 +63,10 @@ RUN cd /tmp && wget "https://cli.run.pivotal.io/stable?release=linux64-binary" -
     mv cf /usr/local/bin
 
 # Install Java.
-RUN add-apt-repository ppa:linuxuprising/java
-RUN echo oracle-java16-installer shared/accepted-oracle-license-v1-2 select true | /usr/bin/debconf-set-selections
 RUN apt-get update && apt-get install --install-recommends --yes  \
-        oracle-java16-installer         \
+        default-jre         		\
+	default-jdk			\
         gsfonts-x11                     \
-        java-common                     \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install --install-recommends --yes  \
