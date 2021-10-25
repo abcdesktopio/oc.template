@@ -12,7 +12,6 @@ OPT_LOCAL=""
 ## Export Var
 export LIBOVERLAY_SCROLLBAR=0
 export UBUNTU_MENUPROXY=
-export DISPLAY=:0
 export HOME=/home/balloon
 export LOGNAME=balloon
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
