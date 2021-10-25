@@ -19,10 +19,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/g
 export USER=balloon
 export PULSE_SERVER=/tmp/.pulse.sock
 export ABCDESKTOP_RUN_DIR='/composer/run'
-<<<<<<< HEAD
-=======
 
->>>>>>> 27c7bf4b051a09d9b7ec825189f66d7244ea519d
 
 # Note that '/home/balloon/.local/share' is not in the search path
 # set by the XDG_DATA_HOME and XDG_DATA_DIRS
@@ -179,11 +176,7 @@ fi
 
 if [ ! -d ~/.local/share/mime ]; then
   cp -rp /composer/mime ~/.local/share
-<<<<<<< HEAD
   update-mime-database ~/.local/share/mime > /var/log/desktop/update-mime-database.log &
-=======
-  update-mime-database ~/.local/share/mime > /var/log/abcdesktop/update-mime-database.log &
->>>>>>> 27c7bf4b051a09d9b7ec825189f66d7244ea519d
 fi
 
 
@@ -202,7 +195,7 @@ echo `date` > ${ABCDESKTOP_RUN_DIR}/start.txt
 
 
 ## KERBEROS SECTION
-<<<<<<< HEAD
+
 if [ -f /var/secrets/desktop/kerberos/keytab ]; then
         export KRB5_CLIENT_KTNAME=/var/secrets/desktop/kerberos/keytab
 fi
@@ -217,22 +210,6 @@ fi
 
 if [ -f /var/secrets/desktop/kerberos/REALM ]; then
         export REALM=$(cat /var/secrets/desktop/kerberos/REALM)
-=======
-if [ -f /var/secrets/abcdesktop/kerberos/keytab ]; then
-        export KRB5_CLIENT_KTNAME=/var/secrets/abcdesktop/kerberos/keytab
-fi
-
-if [ -f /var/secrets/abcdesktop/kerberos/krb5.conf ]; then
-        export KRB5_CONFIG=/var/secrets/abcdesktop/kerberos/krb5.conf
-fi
-
-if [ -f /var/secrets/abcdesktop/kerberos/PRINCIPAL ]; then
-        export USERPRINCIPALNAME=$(cat /var/secrets/abcdesktop/kerberos/PRINCIPAL)
-fi
-
-if [ -f /var/secrets/abcdesktop/kerberos/REALM ]; then
-        export REALM=$(cat /var/secrets/abcdesktop/kerberos/REALM)
->>>>>>> 27c7bf4b051a09d9b7ec825189f66d7244ea519d
 fi
 
 if [ ! -z "$USERPRINCIPALNAME" ] && [ ! -z "$REALM" ] && [ ! -z "$KRB5_CONFIG" ] && [ ! -z "$KRB5_CLIENT_KTNAME" ]; then
@@ -241,24 +218,14 @@ fi
 
 
 if [ ! -z "$KUBERNETES_SERVICE_HOST" ]; then
-<<<<<<< HEAD
    echo "starting in kubernetes mode " >> /var/log/desktop/config.log
    echo "starting KUBERNETES_SERVICE_HOST is set to $KUBERNETES_SERVICE_HOST" >> /var/log/desktop/config.log
-=======
-   echo "starting in kubernetes mode " >> /var/log/abcdesktop/config.log
-   echo "starting KUBERNETES_SERVICE_HOST is set to $KUBERNETES_SERVICE_HOST" >> /var/log/abcdesktop/config.log
->>>>>>> 27c7bf4b051a09d9b7ec825189f66d7244ea519d
 else
    # KUBERNETES_SERVICE_HOST must exist 
    # else supervisord return an error  
    KUBERNETES_SERVICE_HOST=''
-<<<<<<< HEAD
    echo "starting in docker mode" >> /var/log/desktop/config.log
    echo "starting /composer/post-docker-entrypoint.sh in background" >> /var/log/desktop/config.log
-=======
-   echo "starting in docker mode" >> /var/log/abcdesktop/config.log
-   echo "starting /composer/post-docker-entrypoint.sh in background" >> /var/log/abcdesktop/config.log
->>>>>>> 27c7bf4b051a09d9b7ec825189f66d7244ea519d
    /composer/post-docker-entrypoint.sh &
 fi
 
@@ -276,11 +243,7 @@ sed -i "s/module-http-protocol-tcp/module-http-protocol-tcp listen=$CONTAINER_IP
 sed -i "s/localhost:631/$CONTAINER_IP_ADDR:631/g" /etc/cups/cupsd.conf
 
 # start supervisord
-<<<<<<< HEAD
 /usr/bin/supervisord --pidfile /var/run/desktop/supervisord.pid --configuration /etc/supervisord.conf 
-=======
-/usr/bin/supervisord --pidfile /var/run/abcdesktop/supervisord.pid --configuration /etc/supervisord.conf 
->>>>>>> 27c7bf4b051a09d9b7ec825189f66d7244ea519d
 
 t=1
 while [ $t -le 10 ]
