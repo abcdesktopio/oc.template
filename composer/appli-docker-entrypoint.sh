@@ -7,8 +7,9 @@ echo "ARGS=$ARGS" >> /tmp/lastcmd.log
 echo "APPARGS=$APPARGS" >> /tmp/lastcmd.log
 
 # export VAR
-export DISPLAY=$DISPLAY
-export PULSE_SERVER=/tmp/.pulse.sock
+export DISPLAY=${DISPLAY:-':0.0'}
+export PULSE_SERVER=${PULSE_SERVER:-'/tmp/.pulse.sock'}
+export CUPS_SERVER=${CUPS_SERVER:-'/tmp/.cups.sock'}
 export USER=$BUSER
 export LIBOVERLAY_SCROLLBAR=0
 export UBUNTU_MENUPROXY=0
