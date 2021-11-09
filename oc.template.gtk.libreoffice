@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends       	\
 
 # install ibreoffice-grammarcheck when available
 RUN apt-get update && apt-get install -y  --no-install-recommends       \
-        $(apt-cache search ibreoffice-grammarcheck | awk '{print $1 }') \
+        $(apt-cache search libreoffice-grammarcheck | awk '{print $1 }') \
     && apt-get clean
 
 
