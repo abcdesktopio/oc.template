@@ -59,6 +59,7 @@ RUN cd /composer/node/ocrun && npm install
 ##########
 RUN apt-get update && apt-get install -y --no-install-recommends 	\
      	krb5-user  							\
+	xauth								\
      	&& apt-get clean						\
 	&& rm -rf /var/lib/apt/lists/*
 
