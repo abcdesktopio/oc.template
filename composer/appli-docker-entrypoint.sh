@@ -41,6 +41,20 @@ if [ -d /composer/.cache ]; then
 	cp -nr /composer/.cache/* ~/.cache/
 fi 
 
+
+# .Xauthority
+if [ ! -f ~/.Xauthority ]; then
+	echo "touch ~/.Xauthority file"
+	touch ~/.Xauthority
+fi
+
+# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
+if [ ! -z "$XAUTH_KEY" ]; then
+	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY
+fi
+
+
+
 # Run the APP with args
 if [ -z "$ARGS" ]; then    
 	if [ -z "$APPARGS" ]; then  
