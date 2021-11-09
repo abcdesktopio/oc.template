@@ -7,8 +7,9 @@ echo "ARGS=$ARGS" >> /tmp/lastcmd.log
 echo "APPARGS=$APPARGS" >> /tmp/lastcmd.log
 
 # export VAR
-export DISPLAY=$DISPLAY
-export PULSE_SERVER=/tmp/.pulse.sock
+export DISPLAY=${DISPLAY:-':0.0'}
+export PULSE_SERVER=${PULSE_SERVER:-'/tmp/.pulse.sock'}
+export CUPS_SERVER=${CUPS_SERVER:-'/tmp/.cups.sock'}
 export USER=$BUSER
 export LIBOVERLAY_SCROLLBAR=0
 export UBUNTU_MENUPROXY=0
@@ -39,6 +40,20 @@ if [ -d /composer/.cache ]; then
         mkdir -p ~/.cache
 	cp -nr /composer/.cache/* ~/.cache/
 fi 
+
+
+# .Xauthority
+if [ ! -f ~/.Xauthority ]; then
+	echo "touch ~/.Xauthority file"
+	touch ~/.Xauthority
+fi
+
+# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
+if [ ! -z "$XAUTH_KEY" ]; then
+	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY
+fi
+
+
 
 # Run the APP with args
 if [ -z "$ARGS" ]; then    
