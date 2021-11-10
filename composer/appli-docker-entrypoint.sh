@@ -54,12 +54,8 @@ fi
 
 # create a PULSEAUDIO COOKIE 
 if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
-	mkdir -p ~/.config/pulse
-	P=$PULSEAUDIO_COOKIE
-	# can be 32 bytes len 
-	# generate key, PULSEAUDIO requires PA_NATIVE_COOKIE_LENGTH 256
-	# this is dirty
-	echo $P$P$P$P$P$P$P$P | xxd -r -p > ~/.config/pulse/cookie
+  	mkdir -p ~/.config/pulse
+  	cat /etc/pulse/cookie | openssl rc4 -K "$PULSEAUDIO_COOKIE" -nopad -nosalt > ~/.config/pulse/cookie
 fi
 
 # Run the APP with args
