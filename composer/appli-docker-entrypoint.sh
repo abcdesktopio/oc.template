@@ -37,7 +37,6 @@ fi
 
 
 if [ -d /composer/.cache ]; then
-        mkdir -p ~/.cache
 	cp -nr /composer/.cache/* ~/.cache/
 fi 
 
@@ -53,7 +52,15 @@ if [ ! -z "$XAUTH_KEY" ]; then
 	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY
 fi
 
-
+# create a PULSEAUDIO COOKIE 
+if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
+	mkdir -p ~/.config/pulse
+	P=$PULSEAUDIO_COOKIE
+	# can be 32 bytes len 
+	# generate key, PULSEAUDIO requires PA_NATIVE_COOKIE_LENGTH 256
+	# this is dirty
+	echo $P$P$P$P$P$P$P$P | xxd -r -p > ~/.config/pulse/cookie
+fi
 
 # Run the APP with args
 if [ -z "$ARGS" ]; then    
