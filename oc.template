@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 MAINTAINER Alexandre DEVELY 
 RUN mkdir -p /composer/init.d
-ADD etc/locale.conf /etc
+COPY etc/ /etc
 
 # correct debconf: (TERM is not set, so the dialog frontend is not usable.)
 ENV DEBCONF_FRONTEND noninteractive
@@ -30,7 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      && apt-get clean			\
      && rm -rf /var/lib/apt/lists/*
 	
-
 COPY language-pack.list /tmp
 RUN apt-get update && apt-get install -y --no-install-recommends $(cat /tmp/language-pack.list | awk '{print $1 }') \
         && locale-gen                   \
