@@ -108,6 +108,11 @@ if [ ! -d ~/.config ]; then
         cp -r /composer/.config ~/.config
 fi
 
+if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
+	P=$PULSEAUDIO_COOKIE
+	echo $P$P$P$P$P$P$P$P | xxd -r -p > ~/.config/pulse/cookie 
+fi
+
 if [ ! -d ~/.config/gtk-3.0 ]; then
         mkdir -p ~/.config/gtk-3.0
         cp -r /composer/.config/gtk-3.0 ~/.config/gtk-3.0
