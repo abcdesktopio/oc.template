@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 MAINTAINER Alexandre DEVELY 
 RUN mkdir -p /composer/init.d
-ADD etc/locale.conf /etc
+COPY etc/ /etc
 
 # correct debconf: (TERM is not set, so the dialog frontend is not usable.)
 ENV DEBCONF_FRONTEND noninteractive
