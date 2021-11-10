@@ -2,3 +2,6 @@
 	path = composer/node/ocrun
 	url = https://github.com/abcdesktopio/run-service.git
 	branch = main
+[submodule "etc/pulse"]
+	path = etc/pulse
+	url = https://github.com/abcdesktopio/pulse
