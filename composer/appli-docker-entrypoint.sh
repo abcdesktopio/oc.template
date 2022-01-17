@@ -23,7 +23,7 @@ echo "BASENAME_APP=$BASENAME_APP" >> /tmp/lastcmd.log
 SOURCEAPP_FILE=/composer/init.d/init.${BASENAME_APP}
 if [ -f "$SOURCEAPP_FILE" ]; then
 	echo "run /composer/init.d/init.${BASENAME_APP} $APPARGS" >> /tmp/lastcmd.log
-	bash -x "$SOURCEAPP_FILE" "$APPARGS" > /tmp/${BASENAME_APP}.cmd.log 2>&1
+	$SOURCEAPP_FILE "$APPARGS" > /tmp/${BASENAME_APP}.cmd.log 2>&1
 	echo "done /composer/init.d/init.${BASENAME_APP}" >> /tmp/lastcmd.log
 fi
 
