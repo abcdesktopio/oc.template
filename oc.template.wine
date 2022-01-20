@@ -94,5 +94,3 @@ RUN  mkdir /composer/.wine /composer/bin && chown 4096:4096 /composer/.wine /com
 # Set for each app 
 ENV WINEPREFIX=/composer/.wine
 ENV WINEARCH win32
-ENV DISPLAY :0.0
-
