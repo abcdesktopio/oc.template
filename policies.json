@@ -5,11 +5,11 @@
     "DisableAppUpdate": true,
     "DisableTelemetry": true,
     "DontCheckDefaultBrowser": true,
-    "HardwareAcceleration": false,
     "DisableSystemAddonUpdate": true,
-    "DefaultDownloadDirectory": "${home}/Downloads"
+    "DefaultDownloadDirectory": "${home}/Downloads",
     "Preferences": {
-      "browser.cache.disk.parent_directory": "${home}/Downloads"
+      "browser.cache.disk.enable": true,
+      "browser.cache.disk.parent_directory": "/tmp"
     }
   }
 }
