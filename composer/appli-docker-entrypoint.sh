@@ -15,16 +15,37 @@ export LIBOVERLAY_SCROLLBAR=0
 export UBUNTU_MENUPROXY=0
 export HOME=/home/balloon
 export LOGNAME=balloon
-env > /tmp/lastcmdenv.log 
+export STDOUT_LOGFILE=/tmp/lastcmd.log
+export STDOUT_ENVLOGFILE=/tmp/lastcmdenv.log
+env > $STDOUT_ENVLOGFILE
+INIT_OVERLAY_PATH=/composer/init.overlay.d
 
+# dump xhost settings
+echo "dump xhost settings" >> $STDOUT_LOGFILE
+xhost >> $STDOUT_LOGFILE
+
+echo "run previous init overlay stack" >> $STDOUT_LOGFILE
+# Run init overlay script file if exist
+if [ -d "$INIT_OVERLAY_PATH" ]; then
+	for overlay_script in "INIT_OVERLAY_PATH/*.sh"
+	do
+		if [ -f $overlay_script -a -x $overlay_script ]
+		then
+			echo "run $overlay_script" >> $STDOUT_LOGFILE
+			$overlay_script >> $STDOUT_LOGFILE
+		fi
+	done
+fi
+
+echo "run init app if exists" >> $STDOUT_LOGFILE
 # Run init APP if exist
 BASENAME_APP=$(basename "$APPBIN")
-echo "BASENAME_APP=$BASENAME_APP" >> /tmp/lastcmd.log
+echo "BASENAME_APP=$BASENAME_APP" >> $STDOUT_LOGFILE
 SOURCEAPP_FILE=/composer/init.d/init.${BASENAME_APP}
 if [ -f "$SOURCEAPP_FILE" ]; then
-	echo "run /composer/init.d/init.${BASENAME_APP} $APPARGS" >> /tmp/lastcmd.log
+	echo "run /composer/init.d/init.${BASENAME_APP} $APPARGS" >> $STDOUT_LOGFILE
 	$SOURCEAPP_FILE "$APPARGS" > /tmp/${BASENAME_APP}.cmd.log 2>&1
-	echo "done /composer/init.d/init.${BASENAME_APP}" >> /tmp/lastcmd.log
+	echo "done /composer/init.d/init.${BASENAME_APP}" >> $STDOUT_LOGFILE
 fi
 
 if [ -f ~/.DBUS_SESSION_BUS ]; then
@@ -35,25 +56,25 @@ if [ ! -d ~/.cache ]; then
      mkdir  ~/.cache
 fi
 
-
 if [ -d /composer/.cache ]; then
 	cp -nr /composer/.cache/* ~/.cache/
 fi 
 
-
 # .Xauthority
 if [ ! -f ~/.Xauthority ]; then
-	echo "touch ~/.Xauthority file"
+	echo "touch ~/.Xauthority file" >> $STDOUT_LOGFILE
 	touch ~/.Xauthority
 fi
 
 # create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
 if [ ! -z "$XAUTH_KEY" ]; then
-	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY
+	echo "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY" >> $STDOUT_LOGFILE
+	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
 fi
 
 # create a PULSEAUDIO COOKIE 
 if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
+	echo "setting pulseaudio cookie" >> $STDOUT_LOGFILE
   	mkdir -p ~/.config/pulse
   	cat /etc/pulse/cookie | openssl rc4 -K "$PULSEAUDIO_COOKIE" -nopad -nosalt > ~/.config/pulse/cookie
 fi
@@ -86,7 +107,7 @@ else
 fi
 EXIT_CODE=$?
 # log the exit code in /tmp/lastcmd.log
-echo "end of app exit_code=$EXIT_CODE" >> /tmp/lastcmd.log
+echo "end of app exit_code=$EXIT_CODE" >> $STDOUT_LOGFILE
 # exit with the application exit code 
 exit $EXIT_CODE
 

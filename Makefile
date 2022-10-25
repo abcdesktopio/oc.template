@@ -25,16 +25,16 @@ ifndef PROXY
  PROXY=
 endif
 
-dockertemplate= oc.template.gtk.18.04 oc.template.gtk oc.template.gtk.java oc.template.gtk.fulldev oc.template.gtk.java.eclipse oc.template.gtk.libreoffice oc.template.gtk.firefox.rest oc.template.gtk.postman oc.template.gtk.wine oc.template.gtk.wine.mswindows oc.template.gtk.java.sts4
-
 # count core to run several make in parallel 
 CORE_COUNT=$(shell getconf _NPROCESSORS_ONLN) 
 
 all:
 	@echo Note: You can use the command make -j $(CORE_COUNT) to use all cores
 	# pull default docker images
+	docker pull debian:stable-slim
 	docker pull ubuntu:18.04
 	docker pull ubuntu:20.04
+	docker pull ubuntu:22.04
 	# $(MAKE) removeexitedcontainer
 	# $(MAKE) cleandangling
 	echo "Makefile use TAG=$(TAG)"\;
@@ -42,25 +42,33 @@ all:
 	$(MAKE) level1
 	$(MAKE) level2
 
-octemplate%:
-	echo abcdesktopio/oc.template$* \;
-	docker build $(PROXY) --build-arg TAG=$(TAG) -t abcdesktopio/oc.template$*:$(TAG) -f oc.template$* . 
-
 level0: 
 	echo "level0 use TAG=$(TAG)"\;
 	echo "level0 use PROXY=$(PROXY)"\;
-	docker build $(PROXY) --build-arg  TAG=$(TAG) -t abcdesktopio/oc.template:$(TAG)   -f oc.template .
-	docker build $(PROXY) --build-arg  TAG=$(TAG) -t abcdesktopio/oc.template.18.04:$(TAG) -f oc.template.18.04 .
-	docker build $(PROXY) --build-arg  TAG=$(TAG) -t abcdesktopio/oc.template.gtk.18.04:$(TAG) -f oc.template.gtk.18.04 .
-	docker build $(PROXY) --build-arg  TAG=$(TAG) -t abcdesktopio/oc.template.gtk:$(TAG)   -f oc.template.gtk .
-	docker build $(PROXY) --build-arg  TAG=$(TAG) -t abcdesktopio/oc.template.gtk.language-pack-all:$(TAG) -f oc.template.gtk.language-pack-all .
+	docker build $(PROXY) --build-arg BASE_IMAGE=ubuntu:22.04                       -t abcdesktopio/oc.template:$(TAG)              -f oc.template .
+	docker build $(PROXY) --build-arg BASE_IMAGE=ubuntu:20.04        		-t abcdesktopio/oc.template.20.04:$(TAG)   	-f oc.template .
+	docker build $(PROXY) --build-arg BASE_IMAGE=ubuntu:18.04                       -t abcdesktopio/oc.template.18.04:$(TAG)        -f oc.template .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=debian:stable-slim  		-t abcdesktopio/oc.template.debian:$(TAG)   	-f oc.template .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template  		-t abcdesktopio/oc.template.gtk:$(TAG)    	-f oc.template.gtk .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.debian  	-t abcdesktopio/oc.template.debian.gtk:$(TAG)   -f oc.template.gtk .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.18.04   	-t abcdesktopio/oc.template.gtk.18.04:$(TAG) 	-f oc.template.gtk .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.20.04     -t abcdesktopio/oc.template.gtk.20.04:$(TAG)    -f oc.template.gtk .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.gtk     	-t abcdesktopio/oc.template.gtk.elementary:$(TAG) 	 -f oc.template.gtk.elementary . 
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.gtk     	-t abcdesktopio/oc.template.gtk.language-pack-all:$(TAG) -f oc.template.gtk.language-pack-all .
 
 # remove the first .
-level1: octemplate.gtk.java octemplate.gtk.fulldev octemplate.gtk.java.eclipse octemplate.gtk.libreoffice octemplate.gtk.firefox octemplate.gtk.firefox.rest octemplate.wine octemplate.gtk.gimagereader
+level1:
 	echo "level1 use TAG=$(TAG)"\;
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.gtk 	  -t abcdesktopio/oc.template.gtk.java:$(TAG)    			-f oc.template.gtk.java .
+	# docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.gtk 	  -t abcdesktopio/oc.template.gtk.fulldev:$(TAG)	 		-f oc.template.gtk.fulldev .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.gtk 	  -t abcdesktopio/oc.template.gtk.libreoffice:$(TAG) 		-f oc.template.gtk.libreoffice .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.debian.gtk  -t abcdesktopio/oc.template.debian.gtk.firefox:$(TAG) 		-f oc.template.gtk.firefox .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template 		  -t abcdesktopio/oc.template.wine:$(TAG) 			-f oc.template.wine .
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.gtk         -t abcdesktopio/oc.template.gtk.gimagereader 			-f oc.template.gtk.gimagereader .
 
 level2:
 	echo "level2 use TAG=$(TAG)"\;
+	docker build $(PROXY) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.debian.gtk.firefox -t abcdesktopio/oc.template.debian.gtk.firefox.rest:$(TAG) -f oc.template.gtk.firefox.rest .
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.wine.mswindows:$(TAG) -f oc.template.wine.mswindows .
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.java.sts4:$(TAG) -f oc.template.gtk.java.sts4 .
 

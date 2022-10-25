@@ -1,5 +1,6 @@
 ARG TAG=dev
-FROM abcdesktopio/oc.template.gtk:$TAG
+ARG BASE_IMAGE=abcdesktopio/oc.template.gtk
+FROM ${BASE_IMAGE}:$TAG
 MAINTAINER Alexandre DEVELY 
 
 # install wget

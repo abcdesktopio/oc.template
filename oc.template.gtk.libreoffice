@@ -8,8 +8,9 @@ ENV DEBIAN_FRONTEND noninteractive
 #        && rm -rf /var/lib/apt/lists/*
 
 # RUN add-apt-repository ppa:libreoffice/libreoffice-7-0
-RUN add-apt-repository ppa:libreoffice/ppa
-RUN apt-get update && apt install -y  --no-install-recommends 	\
+# RUN add-apt-repository ppa:libreoffice/ppa
+RUN apt-get update && apt install -y  			 	\
+	at-spi2-core						\
     	libreoffice 						\
 	libreoffice-gtk3					\
 	libreoffice-style-elementary 				\

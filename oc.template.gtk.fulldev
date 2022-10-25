@@ -1,5 +1,6 @@
 ARG TAG=dev
-FROM abcdesktopio/oc.template.gtk:$TAG
+ARG BASE_IMAGE=abcdesktopio/oc.template.gtk
+FROM ${BASE_IMAGE}:$TAG
 MAINTAINER Alexandre DEVELY
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -47,7 +48,6 @@ RUN apt-get update && apt-get install --no-install-recommends --yes  \
 	&& rm -rf /var/lib/apt/lists/*  
 
 RUN apt-get update && apt-get install --no-install-recommends --yes  \
-        python                          \
         python3                      	\
         python3-pip                   	\
 	python3-pylint-plugin-utils	\
