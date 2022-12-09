@@ -52,7 +52,6 @@ minimal:
 	@echo "minimal use TAG=$(TAG)"\;
 	@echo "minimal use PROXY=$(PROXY)"\;
 	@echo "minimal use NOCACHE=$(NOCACHE)"\;
-	# build minimal
 	docker build $(PROXY) $(NOCACHE) --build-arg BASE_IMAGE=alpine       	   -t abcdesktopio/oc.template.alpine.minimal:$(TAG)  		-f oc.template.alpine.minimal .
 	docker build $(PROXY) $(NOCACHE) --build-arg BASE_IMAGE=ubuntu:18.04 	   -t abcdesktopio/oc.template.ubuntu.minimal.18.04:$(TAG)  	-f oc.template.ubuntu.minimal .
 	docker build $(PROXY) $(NOCACHE) --build-arg BASE_IMAGE=ubuntu:20.04 	   -t abcdesktopio/oc.template.ubuntu.minimal.20.04:$(TAG)    	-f oc.template.ubuntu.minimal .
@@ -96,6 +95,21 @@ level2:
 	echo "level2 use TAG=$(TAG)"\;
 	docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.wine.22.04  -t abcdesktopio/oc.template.ubuntu.wine.mswindows:$(TAG) -f oc.template.ubuntu.wine.mswindows .
 	docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.alpine.minimal -t abcdesktopio/oc.template.alpine.wine:$(TAG) -f oc.template.alpine.wine .
+
+push:
+	for i in oc.template.alpine:$(TAG) oc.template.ubuntu.18.04:$(TAG) oc.template.ubuntu.20.04:$(TAG) oc.template.ubuntu.22.04:$(TAG) oc.template.debian:$(TAG) ; do \
+        	echo pushing $$i ;  \
+		docker push abcdesktopio/$$i ; \
+    	done
+	for i in oc.template.alpine.gtk:$(TAG) oc.template.ubuntu.gtk.18.04:$(TAG) oc.template.ubuntu.gtk.20.04:$(TAG) oc.template.ubuntu.gtk:$(TAG) oc.template.debian.gtk:$(TAG) oc.template.ubuntu.gtk.language-pack-all:$(TAG) ; do \
+                docker push abcdesktopio/$$i ; \
+        done
+	for i in oc.template.alpine.libreoffice:$(TAG) oc.template.ubuntu.gtk.java:$(TAG) oc.template.ubuntu.gtk.libreoffice:$(TAG) oc.template.ubuntu.wine:$(TAG) ; do \
+                docker push abcdesktopio/$$i ; \
+        done
+	for i in oc.template.alpine.wine:$(TAG) oc.template.ubuntu.wine.mswindows:$(TAG) ; do \
+                docker push abcdesktopio/$$i ; \
+        done
 
 ai:
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.fulldev.ia:$(TAG) -f oc.template.gtk.fulldev.ia
