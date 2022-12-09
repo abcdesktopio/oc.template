@@ -7,8 +7,6 @@ ENV DEBIAN_FRONTEND noninteractive
 #        $(apt-cache search language-pack-gnome | awk '{print $1 }')                \
 #        && rm -rf /var/lib/apt/lists/*
 
-# RUN add-apt-repository ppa:libreoffice/libreoffice-7-0
-# RUN add-apt-repository ppa:libreoffice/ppa
 RUN apt-get update && apt install -y  			 	\
 	at-spi2-core						\
     	libreoffice 						\
@@ -20,9 +18,9 @@ RUN apt-get update && apt install -y  			 	\
  	&& apt-get clean
 
 # install help in all language
-RUN apt-get update && apt-get install -y  --no-install-recommends	\
-	$(apt-cache search libreoffice-help | awk '{print $1 }')	\
-	&& apt-get clean
+#RUN apt-get update && apt-get install -y  --no-install-recommends	\
+#	$(apt-cache search libreoffice-help | awk '{print $1 }')	\
+#	&& apt-get clean
 
 # install myspell-dictionary packages when available
 #RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y	\       
@@ -30,26 +28,29 @@ RUN apt-get update && apt-get install -y  --no-install-recommends	\
 #       && rm -rf /var/lib/apt/lists/*
 
 # install hyphen when available
-RUN apt-get update && apt-get install -y --no-install-recommends       	\       
-        $(apt-cache search hyphen | awk '{print $1 }')                	\
-    && apt-get clean
+#RUN apt-get update && apt-get install -y --no-install-recommends       	\       
+#        $(apt-cache search hyphen | awk '{print $1 }')                	\
+#    && apt-get clean
 
 
 # install ibreoffice-grammarcheck when available
-RUN apt-get update && apt-get install -y  --no-install-recommends       \
-        $(apt-cache search libreoffice-grammarcheck | awk '{print $1 }') \
-    && apt-get clean
+#RUN apt-get update && apt-get install -y  --no-install-recommends       \
+#        $(apt-cache search libreoffice-grammarcheck | awk '{print $1 }') \
+#    && apt-get clean
 
 
 # l10n files are loaded by libreoffice-help packages when available
-RUN apt-get update && apt-get install -y  --no-install-recommends 	\
-	$(apt-cache search libreoffice-l10n | awk '{print $1 }')	\
-    && apt-get clean
+#RUN apt-get update && apt-get install -y  --no-install-recommends 	\
+#	$(apt-cache search libreoffice-l10n | awk '{print $1 }')	\
+#    && apt-get clean
 
 #
-# install themes
+# install xfonts
+# install dbus
 RUN apt-get update && apt-get install -y --no-install-recommends  	\
         xfonts-base	\
         dbus-x11	\
     && apt-get clean
+
+RUN mkdir -p /run/user/ && chmod 777 /run/user/
 

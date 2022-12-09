@@ -69,7 +69,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-ins
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && 	\
 	apt-get install -y --no-install-recommends dbus-x11		 	\
         && apt-get clean
-
+RUN mkdir -p /run/user/ && chmod 777 /run/user/
 RUN chown -R balloon:balloon /composer/.cache/*
 
 # apt-get install libgl1-mesa-dri:i386 libgl1-mesa-glx:i386

@@ -1,0 +1,45 @@
+ARG TAG=dev
+FROM abcdesktopio/oc.template.gtk.language-pack-all:$TAG
+MAINTAINER Alexandre DEVELY <alexandre.devely@orange.com>
+
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update                                  && \
+	apt-get install  --no-install-recommends --yes  \
+	hunspell-an 		\
+	hunspell-ar 		\
+	hunspell-be 		\
+	hunspell-br 		\
+	hunspell-da 		\
+	hunspell-de-at  	\
+	hunspell-de-ch  	\
+	hunspell-de-de  	\
+	hunspell-en-ca  	\
+	hunspell-en-us  	\
+	hunspell-eu-es  	\
+	hunspell-fr 		\
+	hunspell-fr-classical 	\
+	hunspell-gl-es  	\
+	hunspell-hu 		\
+	hunspell-kk 		\
+	hunspell-ko 		\
+	hunspell-ml 		\
+	hunspell-ne 		\
+	hunspell-ro 		\
+	hunspell-ru 		\
+	hunspell-sv      	\
+	hunspell-sr 		\
+	hunspell-tools  	\
+	hunspell-uz 		\
+	hunspell-vi 		\	
+	hunspell-en-med         \
+	hunspell-de-med        	\ 
+	&& rm -rf /var/lib/apt/lists/*
+
+
+RUN  add-apt-repository -y ppa:mozillateam/ppa          && \
+        apt-get update                                  && \
+        apt-get install  --no-install-recommends --yes gimagereader                 && \
+        apt-get install  --no-install-recommends --yes $(apt-cache search tesseract-ocr | awk '{print $1 }') && \
+        rm -rf /var/lib/apt/lists/*
+
+

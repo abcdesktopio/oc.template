@@ -1,5 +1,5 @@
 ARG TAG=dev
-ARG BASE_IMAGE=abcdesktopio/oc.template.gtk
+ARG BASE_IMAGE
 FROM ${BASE_IMAGE}:$TAG
 MAINTAINER Alexandre DEVELY 
 
