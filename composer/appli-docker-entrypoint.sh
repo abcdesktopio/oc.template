@@ -1,28 +1,18 @@
 #!/bin/bash
 
+START_TIME=$EPOCHSECONDS
+
+
 # Dump env APP ARG and APPARG to log file
-
-echo "APP=$APP" >> /tmp/lastcmd.log
-echo "ARGS=$ARGS" >> /tmp/lastcmd.log
-echo "APPARGS=$APPARGS" >> /tmp/lastcmd.log
-
 # export VAR
-export DISPLAY=${DISPLAY:-':0.0'}
-export PULSE_SERVER=${PULSE_SERVER:-'/tmp/.pulse.sock'}
-export CUPS_SERVER=${CUPS_SERVER:-'/tmp/.cups.sock'}
-export USER=$BUSER
-export LIBOVERLAY_SCROLLBAR=0
-export UBUNTU_MENUPROXY=0
-export HOME=/home/balloon
-export LOGNAME=balloon
 export STDOUT_LOGFILE=/tmp/lastcmd.log
 export STDOUT_ENVLOGFILE=/tmp/lastcmdenv.log
+echo "start at EPOCHSECONDS=$START_TIME $(date)" >> $STDOUT_LOGFILE
+echo "APP=$APP" >> $STDOUT_LOGFILE
+echo "ARGS=$ARGS" >> $STDOUT_LOGFILE
+echo "APPARGS=$APPARGS" >> $STDOUT_LOGFILE
 env > $STDOUT_ENVLOGFILE
 INIT_OVERLAY_PATH=/composer/init.overlay.d
-
-# dump xhost settings
-echo "dump xhost settings" >> $STDOUT_LOGFILE
-xhost >> $STDOUT_LOGFILE
 
 echo "run previous init overlay stack" >> $STDOUT_LOGFILE
 # Run init overlay script file if exist
@@ -36,6 +26,7 @@ if [ -d "$INIT_OVERLAY_PATH" ]; then
 		fi
 	done
 fi
+echo "init overlay script done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
 
 echo "run init app if exists" >> $STDOUT_LOGFILE
 # Run init APP if exist
@@ -48,9 +39,7 @@ if [ -f "$SOURCEAPP_FILE" ]; then
 	echo "done /composer/init.d/init.${BASENAME_APP}" >> $STDOUT_LOGFILE
 fi
 
-if [ -f ~/.DBUS_SESSION_BUS ]; then
-	source ~/.DBUS_SESSION_BUS
-fi 
+echo "init app script done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
 
 if [ ! -d ~/.cache ]; then
      mkdir  ~/.cache
@@ -62,14 +51,12 @@ fi
 
 # .Xauthority
 if [ ! -f ~/.Xauthority ]; then
-	echo "touch ~/.Xauthority file" >> $STDOUT_LOGFILE
-	touch ~/.Xauthority
-fi
-
-# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
-if [ ! -z "$XAUTH_KEY" ]; then
-	echo "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY" >> $STDOUT_LOGFILE
-	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
+	# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
+	if [ ! -z "$XAUTH_KEY" ]; then
+        	echo "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY" >> $STDOUT_LOGFILE
+        	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
+		echo "xauth add  done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+	fi
 fi
 
 # create a PULSEAUDIO COOKIE 
@@ -77,7 +64,18 @@ if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
 	echo "setting pulseaudio cookie" >> $STDOUT_LOGFILE
   	mkdir -p ~/.config/pulse
   	cat /etc/pulse/cookie | openssl rc4 -K "$PULSEAUDIO_COOKIE" -nopad -nosalt > ~/.config/pulse/cookie
+	echo "pusleaudio cookie done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
 fi
+
+# start dbux-launch if exists
+if [ -x /usr/bin/dbus-launch ]; then
+	mkdir -p /run/user/$(id --user)/dconf
+        export $(/usr/bin/dbus-launch)
+	echo "dbus-launch done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+fi
+
+echo "end of init at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+echo "running $APP at $(date)" >> $STDOUT_LOGFILE
 
 # Run the APP with args
 if [ -z "$ARGS" ]; then    
