@@ -115,5 +115,6 @@ ai:
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.fulldev.ia:$(TAG) -f oc.template.gtk.fulldev.ia
 
 clean:
-	docker rmi `docker images -q --filter "dangling=true"` || true
-	docker rm `docker ps -a -q -f "status=exited"` || true
+	for i in oc.template.alpine:$(TAG) oc.template.ubuntu.18.04:$(TAG) oc.template.ubuntu.20.04:$(TAG) oc.template.ubuntu.22.04:$(TAG) oc.template.debian:$(TAG) oc.template.alpine.gtk:$(TAG) oc.template.ubuntu.gtk.18.04:$(TAG) oc.template.ubuntu.gtk.20.04:$(TAG) oc.template.ubuntu.gtk:$(TAG) oc.template.debian.gtk:$(TAG) oc.template.ubuntu.gtk.language-pack-all:$(TAG) oc.template.alpine.libreoffice:$(TAG) oc.template.ubuntu.gtk.java:$(TAG) oc.template.ubuntu.gtk.libreoffice:$(TAG) oc.template.ubuntu.wine:$(TAG)  oc.template.alpine.wine:$(TAG) oc.template.ubuntu.wine.mswindows:$(TAG)  ; do \
+                docker rmi abcdesktopio/$$i ; \
+        done
