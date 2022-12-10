@@ -6,8 +6,7 @@ FROM ${BASE_IMAGE}:${TAG}
 
 
 # add libreoffice
-RUN apk add --no-cache --update \
-	libreoffice		\	
-	libreoffice-gnome	\
-	adwaita-icon-theme	\
-	libadwaita
+RUN apk add --no-cache --update  \
+   faenza-icon-theme-libreoffice \
+   libreoffice 			 \
+   libreoffice-gtk
