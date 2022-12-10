@@ -3,15 +3,24 @@
 ## template docker files
 
 abcdesktop template file to build application containers images from oc.apps
-Template image are used `FROM` for `Dockerfile`
+Template images are used `FROM` for `Dockerfile`
 
-## to clone this repository
+If you use abcdesktop `3.0` release use `--branch 3.0`
+
+
+## to clone 3.0 template 
+
+```
+git clone --branch 3.0 --recurse-submodules https://github.com/abcdesktopio/oc.template.git
+```
+
+## to clone 1.0 template 
 
 ```
 git clone --recurse-submodules https://github.com/abcdesktopio/oc.template.git 
 ```
 
-## to make template container image
+## to make template container image for `1.0` or `3.0`
 
 ```
 cd oc.template
