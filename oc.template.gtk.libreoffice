@@ -1,6 +1,9 @@
+# default TAG is dev
 ARG TAG=dev
-FROM abcdesktopio/oc.template.gtk:$TAG
-ENV DEBIAN_FRONTEND noninteractive 
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}:${TAG}
+
+ENV DEBIAN_FRONTEND noninteractive
 
 # install help in all language
 #RUN DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y  --no-install-recommends       \
