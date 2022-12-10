@@ -39,11 +39,11 @@ pull:
 	@echo "-----------------"
 	@echo "--- make pull ---"
 	@echo "-----------------"
-	docker pull debian:stable-slim
-	docker pull ubuntu:18.04
-	docker pull ubuntu:20.04
-	docker pull ubuntu:22.04
-	docker pull alpine:latest
+	for i in debian:stable-slim ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 alpine:latest ; do \
+                echo pulling $$i ;  \
+                docker pull $$i ; \
+        done
+
 
 minimal: 
 	@echo "--------------------"
