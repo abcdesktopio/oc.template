@@ -21,16 +21,6 @@ git clone --branch 3.0 --recurse-submodules https://github.com/abcdesktopio/oc.t
 git clone --recurse-submodules https://github.com/abcdesktopio/oc.template.git 
 ```
 
-## to make template container image for 1.0
-
-```bash
-cd oc.template
-make
-```
-
-`Makefile` build all source template images. 
-The default `TAG` is `dev`
-
 
 ## to make template container image for 3.0
 
@@ -93,8 +83,19 @@ abcdesktopio/oc.template.ubuntu.minimal.22.04           3.0           91a4e2a466
 abcdesktopio/oc.template.ubuntu.minimal.20.04           3.0           1e5d58f8e739   About an hour ago   332MB
 abcdesktopio/oc.template.ubuntu.minimal.18.04           3.0           84f228f79697   About an hour ago   245MB
 abcdesktopio/oc.template.alpine.minimal                 3.0           8528ff0674c7   About an hour ago   92.8MB
-```bash
+```
 
+
+
+## to make template container image for 1.0
+
+```bash
+cd oc.template
+make
+```
+
+`Makefile` build all source template images. 
+The default `TAG` is `dev`
 
 
 ## to get more details
