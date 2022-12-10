@@ -20,7 +20,7 @@ git clone --branch 3.0 --recurse-submodules https://github.com/abcdesktopio/oc.t
 git clone --recurse-submodules https://github.com/abcdesktopio/oc.template.git 
 ```
 
-## to make template container image for `1.0` or `3.0`
+## to make template container image for 1.0 or 3.0
 
 ```
 cd oc.template
