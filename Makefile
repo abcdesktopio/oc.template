@@ -87,8 +87,8 @@ gtk:
 level1:
 	echo "level1 use TAG=$(TAG)"\;
 	docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.alpine 	-t abcdesktopio/oc.template.alpine.libreoffice:$(TAG) -f oc.template.alpine.libreoffice .
-	docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.gtk 	-t abcdesktopio/oc.template.ubuntu.gtk.java:$(TAG) -f oc.template.ubuntu.gtk.java .
-	docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.gtk 	-t abcdesktopio/oc.template.ubuntu.gtk.libreoffice:$(TAG) 		-f oc.template.gtk.libreoffice .
+	docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.gtk.20.04 -t abcdesktopio/oc.template.ubuntu.gtk.java:$(TAG) -f oc.template.ubuntu.gtk.java .
+	docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.gtk.20.04 -t abcdesktopio/oc.template.ubuntu.gtk.libreoffice:$(TAG) 		-f oc.template.gtk.libreoffice .
 	docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.22.04   -t abcdesktopio/oc.template.ubuntu.wine:$(TAG) -f oc.template.ubuntu.wine .
 
 level2:
