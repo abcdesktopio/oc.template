@@ -1,0 +1,11 @@
+# default TAG is dev
+ARG TAG=dev
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}:${TAG}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+     openssl				\
+     sudo				\
+     krb5-user 				\
+     && apt-get clean			\
+     && rm -rf /var/lib/apt/lists/	
