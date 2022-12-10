@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y  --no-install-recommends \
 
 # Add command desktoptojson 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-     libkf5coreaddons-dev-bin 		\
      gnupg                              \
      software-properties-common         \
      locales				\
