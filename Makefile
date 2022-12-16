@@ -32,6 +32,17 @@ endif
 # count core to run several make in parallel 
 CORE_COUNT=$(shell getconf _NPROCESSORS_ONLN) 
 
+cuda: 
+	# pull default nvidia/cuda images
+	@echo "-----------------"
+	@echo "--- make pull ---"
+	@echo "-----------------"
+	for i in nvidia/cuda:12.0.0-base-ubuntu22.04 nvidia/cuda:12.0.0-base-ubuntu20.04 ; do \
+                echo pulling $$i ;  \
+                docker pull $$i ; \
+        done
+	docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=nvidia/cuda:12.0.0-base-ubuntu20.04  -t abcdesktopio/oc.template.ubuntu.nvidia.20.04:$(TAG) -f oc.template.ubuntu.minimal .
+	docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=nvidia/cuda:12.0.0-base-ubuntu22.04  -t abcdesktopio/oc.template.ubuntu.nvidia.22.04:$(TAG) -f oc.template.ubuntu.minimal .
 all: pull minimal level0 gtk level1 level2
 
 pull:
@@ -97,24 +108,22 @@ level2:
 	docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.alpine.minimal -t abcdesktopio/oc.template.alpine.wine:$(TAG) -f oc.template.alpine.wine .
 
 push:
-	for i in oc.template.alpine:$(TAG) oc.template.ubuntu.18.04:$(TAG) oc.template.ubuntu.20.04:$(TAG) oc.template.ubuntu.22.04:$(TAG) oc.template.debian:$(TAG) ; do \
-        	echo pushing $$i ;  \
-		docker push abcdesktopio/$$i ; \
-    	done
-	for i in oc.template.alpine.gtk:$(TAG) oc.template.ubuntu.gtk.18.04:$(TAG) oc.template.ubuntu.gtk.20.04:$(TAG) oc.template.ubuntu.gtk:$(TAG) oc.template.debian.gtk:$(TAG) oc.template.ubuntu.gtk.language-pack-all:$(TAG) ; do \
-                docker push abcdesktopio/$$i ; \
-        done
-	for i in oc.template.alpine.libreoffice:$(TAG) oc.template.ubuntu.gtk.java:$(TAG) oc.template.ubuntu.gtk.libreoffice:$(TAG) oc.template.ubuntu.wine:$(TAG) ; do \
-                docker push abcdesktopio/$$i ; \
-        done
-	for i in oc.template.alpine.wine:$(TAG) oc.template.ubuntu.wine.mswindows:$(TAG) ; do \
-                docker push abcdesktopio/$$i ; \
+	 for i in oc.template.alpine oc.template.ubuntu.18.04 oc.template.ubuntu.20.04 oc.template.ubuntu.22.04 oc.template.debian oc.template.alpine.gtk oc.template.ubuntu.gtk.18.04 oc.template.ubuntu.gtk.20.04 oc.template.ubuntu.gtk oc.template.debian.gtk oc.template.ubuntu.gtk.language-pack-all oc.template.alpine.libreoffice oc.template.ubuntu.gtk.java oc.template.ubuntu.gtk.libreoffice oc.template.ubuntu.wine oc.template.alpine.wine oc.template.ubuntu.wine.mswindows ; do \
+		 echo pushing abcdesktopio/$$i:$(TAG) ; \
+                 docker push abcdesktopio/$$i:$(TAG); \
         done
 
 ai:
 	docker build --build-arg TAG=$(TAG) -t abcdesktopio/oc.template.gtk.fulldev.ia:$(TAG) -f oc.template.gtk.fulldev.ia
 
+devto30:
+	for i in oc.template.alpine oc.template.ubuntu.18.04 oc.template.ubuntu.20.04 oc.template.ubuntu.22.04 oc.template.debian oc.template.alpine.gtk oc.template.ubuntu.gtk.18.04 oc.template.ubuntu.gtk.20.04 oc.template.ubuntu.gtk oc.template.debian.gtk oc.template.ubuntu.gtk.language-pack-all oc.template.alpine.libreoffice oc.template.ubuntu.gtk.java oc.template.ubuntu.gtk.libreoffice oc.template.ubuntu.wine oc.template.alpine.wine oc.template.ubuntu.wine.mswindows ; do \
+		 echo $$i ; \
+		 docker tag abcdesktopio/$$i:dev abcdesktopio/$$i:3.0 ; \
+        done
+
 clean:
-	for i in oc.template.alpine:$(TAG) oc.template.ubuntu.18.04:$(TAG) oc.template.ubuntu.20.04:$(TAG) oc.template.ubuntu.22.04:$(TAG) oc.template.debian:$(TAG) oc.template.alpine.gtk:$(TAG) oc.template.ubuntu.gtk.18.04:$(TAG) oc.template.ubuntu.gtk.20.04:$(TAG) oc.template.ubuntu.gtk:$(TAG) oc.template.debian.gtk:$(TAG) oc.template.ubuntu.gtk.language-pack-all:$(TAG) oc.template.alpine.libreoffice:$(TAG) oc.template.ubuntu.gtk.java:$(TAG) oc.template.ubuntu.gtk.libreoffice:$(TAG) oc.template.ubuntu.wine:$(TAG)  oc.template.alpine.wine:$(TAG) oc.template.ubuntu.wine.mswindows:$(TAG)  ; do \
-                docker rmi abcdesktopio/$$i ; \
+	for i in oc.template.alpine oc.template.ubuntu.18.04 oc.template.ubuntu.20.04 oc.template.ubuntu.22.04 oc.template.debian oc.template.alpine.gtk oc.template.ubuntu.gtk.18.04 oc.template.ubuntu.gtk.20.04 oc.template.ubuntu.gtk oc.template.debian.gtk oc.template.ubuntu.gtk.language-pack-all oc.template.alpine.libreoffice oc.template.ubuntu.gtk.java oc.template.ubuntu.gtk.libreoffice oc.template.ubuntu.wine oc.template.alpine.wine oc.template.ubuntu.wine.mswindows ; do \
+                 docker rmi abcdesktopio/$$i:3.0 ; \
+		 docker rmi abcdesktopio/$$i:dev ; \
         done
