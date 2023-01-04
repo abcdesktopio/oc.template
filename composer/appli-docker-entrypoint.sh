@@ -1,45 +1,47 @@
 #!/bin/bash
 
-START_TIME=$EPOCHSECONDS
+export STDOUT_LOGFILE=/tmp/lastcmd.log
+export STDOUT_ENVLOGFILE=/tmp/lastcmdenv.log
+START_TIME=$(date +%s)
+
+log() {
+NOW_TIME=$(date +%s)
+DIFF_TIME=$(expr $NOW_TIME - $START_TIME)
+echo "$DIFF_TIME $1" >> $STDOUT_LOGFILE
+}
 
 
 # Dump env APP ARG and APPARG to log file
 # export VAR
-export STDOUT_LOGFILE=/tmp/lastcmd.log
-export STDOUT_ENVLOGFILE=/tmp/lastcmdenv.log
-echo "start at EPOCHSECONDS=$START_TIME $(date)" >> $STDOUT_LOGFILE
-echo "APP=$APP" >> $STDOUT_LOGFILE
-echo "ARGS=$ARGS" >> $STDOUT_LOGFILE
-echo "APPARGS=$APPARGS" >> $STDOUT_LOGFILE
+log "start at EPOCHSECONDS=$START_TIME $(date)"
+log "APP=$APP"
+log "ARGS=$ARGS"
+log "APPARGS=$APPARGS"
 env > $STDOUT_ENVLOGFILE
 INIT_OVERLAY_PATH=/composer/init.overlay.d
 
-echo "run previous init overlay stack" >> $STDOUT_LOGFILE
+log "run init overlay scripts"
 # Run init overlay script file if exist
 if [ -d "$INIT_OVERLAY_PATH" ]; then
 	for overlay_script in "INIT_OVERLAY_PATH/*.sh"
 	do
-		if [ -f $overlay_script -a -x $overlay_script ]
-		then
-			echo "run $overlay_script" >> $STDOUT_LOGFILE
+		if [ -f $overlay_script -a -x $overlay_script ]; then
+			log "running $overlay_script"
 			$overlay_script >> $STDOUT_LOGFILE
 		fi
 	done
 fi
-echo "init overlay script done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+log "init overlay scripts done" 
 
-echo "run init app if exists" >> $STDOUT_LOGFILE
 # Run init APP if exist
 BASENAME_APP=$(basename "$APPBIN")
 echo "BASENAME_APP=$BASENAME_APP" >> $STDOUT_LOGFILE
 SOURCEAPP_FILE=/composer/init.d/init.${BASENAME_APP}
 if [ -f "$SOURCEAPP_FILE" ]; then
-	echo "run /composer/init.d/init.${BASENAME_APP} $APPARGS" >> $STDOUT_LOGFILE
+	log "run $SOURCEAPP_FILE"
 	$SOURCEAPP_FILE "$APPARGS" > /tmp/${BASENAME_APP}.cmd.log 2>&1
-	echo "done /composer/init.d/init.${BASENAME_APP}" >> $STDOUT_LOGFILE
+	log "done  $SOURCEAPP_FILE"
 fi
-
-echo "init app script done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
 
 if [ ! -d ~/.cache ]; then
      mkdir  ~/.cache
@@ -53,29 +55,29 @@ fi
 if [ ! -f ~/.Xauthority ]; then
 	# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
 	if [ ! -z "$XAUTH_KEY" ]; then
-        	echo "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY" >> $STDOUT_LOGFILE
+        	log "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY"
         	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
-		echo "xauth add  done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+		log "xauth add done exitcode=$?"
 	fi
 fi
 
 # create a PULSEAUDIO COOKIE 
 if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
-	echo "setting pulseaudio cookie" >> $STDOUT_LOGFILE
+	log "setting pulseaudio cookie"
   	mkdir -p ~/.config/pulse
   	cat /etc/pulse/cookie | openssl rc4 -K "$PULSEAUDIO_COOKIE" -nopad -nosalt > ~/.config/pulse/cookie
-	echo "pusleaudio cookie done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+	log "pusleaudio cookie done exitcode=$?"
 fi
 
 # start dbux-launch if exists
 if [ -x /usr/bin/dbus-launch ]; then
 	mkdir -p /run/user/$(id --user)/dconf
         export $(/usr/bin/dbus-launch)
-	echo "dbus-launch done at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
+	log "dbus-launch done exitcode=$?" 
 fi
 
-echo "end of init at $(($EPOCHSECONDS - $START))" >> $STDOUT_LOGFILE
-echo "running $APP at $(date)" >> $STDOUT_LOGFILE
+log "end of init"
+log "running $APP at $(date)"
 
 # Run the APP with args
 if [ -z "$ARGS" ]; then    
@@ -103,9 +105,11 @@ else
                 ${APP} ${ARGS} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
         fi
 fi
+
 EXIT_CODE=$?
 # log the exit code in /tmp/lastcmd.log
-echo "end of app exit_code=$EXIT_CODE" >> $STDOUT_LOGFILE
+log "end of app exit_code=$EXIT_CODE"
+
 # exit with the application exit code 
 exit $EXIT_CODE
 
