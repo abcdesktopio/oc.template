@@ -1,0 +1,127 @@
+/*
+* Software Name : abcdesktop.io
+* Version: 0.2
+* SPDX-FileCopyrightText: Copyright (c) 2020-2021 Orange
+* SPDX-License-Identifier: GPL-2.0-only
+*
+* This software is distributed under the GNU General Public License v2.0 only
+* see the "license.txt" file for more details.
+*
+* Author: abcdesktop.io team
+* Software description: cloud native desktop service
+*/
+
+
+/* eslint-disable no-console */
+const fs = require('fs');
+const path = require('path');
+const childProcess = require('child_process');
+const DOCKERREGISTRYPATH = 'abcdesktopio';
+const HOSTEDURL = "https://raw.githubusercontent.com/abcdesktopio/oc.apps/main";
+const RELEASE='3.0';
+
+// function to encode file data to base64 encoded string
+function base64Encode(file) {
+  // read binary data
+  const bitmap = fs.readFileSync(file);
+  // convert binary data to base64 encoded string
+  return bitmap.toString('base64');
+}
+
+
+// test function
+function makedummy(e) {
+  const tempname = "./dummy.md";
+  const filename = tempname.toLowerCase();
+  console.log( filename );
+  var wstream = fs.createWriteStream(filename);
+  wstream.write("dummy");
+  wstream.end();
+}
+
+
+function writecmd( fd, cmd, type ) {
+  fs.writeSync( fd, "\n");
+  if (!type) type = ''; 
+  fs.writeSync( fd, "``` " + type + "\n");
+  fs.writeSync( fd, cmd + "\n" );
+  fs.writeSync( fd, "```\n\n");
+}
+
+
+function getrelease( image ) {
+  var release = undefined;
+  var command = 'docker run --rm ' + DOCKERREGISTRYPATH + '/' + image;
+  command += ' /bin/cat /etc/os-release';
+  try {
+    console.log(command);
+    stdout = childProcess.execSync(command).toString();
+    release = stdout;
+  } catch (error) {
+    console.error( `error in getrelease ${DOCKERREGISTRYPATH}/${image}`);
+    // console.error( error );
+    // error.status;  // 0 : successful exit, but here in exception it has to be greater than 0
+    // error.message; // Holds the message you typically want.
+    // error.stderr;  // Holds the stderr output. Use `.toString()`.
+    // error.stdout;  // Holds the stdout output. Use `.toString()`.
+ }
+ console.log (release);
+ return release;
+}
+
+
+function detectimage(image) {
+  const detector={ 'debian':'/etc/os-release', 'ubuntu':'/etc/lsb-release', 'alpine':'/etc/alpine-release' };
+  var release=undefined;
+  for (const [key, value] of Object.entries(detector)) {
+    release = getrelease( image, value );
+    if (release) 
+      break;
+  }
+  return release
+}
+
+const rootimages=[ 'debian', 'ubuntu', 'alpine'];
+
+
+function makedocumentation(imagename, imagebase, dockerfilename) {
+
+  const filename = imagename.toLowerCase() + '.md';
+
+  console.log( 'createfile ' + filename );
+  fd = fs.openSync(filename,'w');
+  fs.writeSync( fd, `# ${imagename}\n`);
+
+  imagenamenotag=imagename.split(':')[0];
+
+  if (rootimages.includes( imagenamenotag ) ) {
+    fs.writeSync( fd, `## from\n${imagebase}\n`);
+  }
+  else {
+    fs.writeSync( fd, `## from\n[${imagebase}](${imagebase.md})\n`);
+  }
+  
+  fs.writeSync( fd,'## Container distributiuon release\n\n');
+  release = getrelease(imagename);
+  if (release) {
+    writecmd( fd, release );
+    fs.writeSync( fd, '\n');
+  }
+  fs.writeSync( fd, "\n" );
+  fs.writeSync( fd, '## `DockerFile` source code\n');
+  const dockefiledatadata = fs.readFileSync(dockerfilename,{encoding:'utf8', flag:'r'});
+  writecmd( fd, dockefiledatadata );
+
+  fs.closeSync( fd );
+}
+
+const args = process.argv.slice(2);
+console.log('args: ', args);
+var imagename = args[1];
+if (imagename.indexOf('/') != -1 ) {
+	imagename = imagename.split('/')[1];
+}
+	
+var imagebase = args[0]
+var dockerfilename = args[2];
+makedocumentation(imagename, imagebase, dockerfilename);
