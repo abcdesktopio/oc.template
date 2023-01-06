@@ -86,24 +86,30 @@ const rootimages=[ 'debian', 'ubuntu', 'alpine'];
 
 function makedocumentation(imagename, imagebase, dockerfilename) {
 
-  const filename = imagename.toLowerCase() + '.md';
+  const imagebasenotag=imagebase.split(':')[0];
+  const imagenamenotag=imagename.split(':')[0];
+  const filename = imagenamenotag.toLowerCase() + '.md';
 
   console.log( 'createfile ' + filename );
   fd = fs.openSync(filename,'w');
-  fs.writeSync( fd, `# ${imagename}\n`);
 
-  imagenamenotag=imagename.split(':')[0];
+  fs.writeSync( fd, `# ${imagenamenotag}\n`);
 
-  if (rootimages.includes( imagenamenotag ) ) {
-    fs.writeSync( fd, `## from\n${imagebase}\n`);
+  var imagebasenotagnoprefix = imagebasenotag;
+  if (imagebasenotagnoprefix.indexOf('/') != -1 ) {
+    imagebasenotagnoprefix = imagebasenotagnoprefix.split('/')[1];
+  }
+
+  if (rootimages.includes( imagebasenotag ) ) {
+    fs.writeSync( fd, `## from\n Docker official images [${imagebase}](https://hub.docker.com/_/${imagebasenotag})\n`);
   }
   else {
-    fs.writeSync( fd, `## from\n[${imagebase}](${imagebase.md})\n`);
+    fs.writeSync( fd, `## from\n inherite [${imagebase}](../${imagebasenotagnoprefix})\n`);
   }
   
-  fs.writeSync( fd,'## Container distributiuon release\n\n');
-  release = getrelease(imagename);
+  const release = getrelease(imagename);
   if (release) {
+    fs.writeSync( fd,'## Container distribution release\n\n');
     writecmd( fd, release );
     fs.writeSync( fd, '\n');
   }
@@ -116,7 +122,7 @@ function makedocumentation(imagename, imagebase, dockerfilename) {
 }
 
 const args = process.argv.slice(2);
-console.log('args: ', args);
+
 var imagename = args[1];
 if (imagename.indexOf('/') != -1 ) {
 	imagename = imagename.split('/')[1];
@@ -124,4 +130,7 @@ if (imagename.indexOf('/') != -1 ) {
 	
 var imagebase = args[0]
 var dockerfilename = args[2];
+console.log('imagename: ', imagename);
+console.log('imagebase: ', imagebase);
+console.log('dockerfilename: ', dockerfilename);
 makedocumentation(imagename, imagebase, dockerfilename);
