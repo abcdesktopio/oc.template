@@ -5,18 +5,16 @@ export STDOUT_ENVLOGFILE=/tmp/lastcmdenv.log
 START_TIME=$(date +%s)
 
 log() {
-NOW_TIME=$(date +%s)
-DIFF_TIME=$(expr $NOW_TIME - $START_TIME)
-echo "$DIFF_TIME $1" >> $STDOUT_LOGFILE
+echo "$(date) $1" >> $STDOUT_LOGFILE
 }
 
 
 # Dump env APP ARG and APPARG to log file
 # export VAR
-log "start at EPOCHSECONDS=$START_TIME $(date)"
-log "APP=$APP"
-log "ARGS=$ARGS"
-log "APPARGS=$APPARGS"
+log "start new application $APP"
+log "-> APP=$APP"
+log "-> ARGS=$ARGS"
+log "-> APPARGS=$APPARGS"
 env > $STDOUT_ENVLOGFILE
 INIT_OVERLAY_PATH=/composer/init.overlay.d
 
@@ -53,12 +51,16 @@ fi
 
 # .Xauthority
 if [ ! -f ~/.Xauthority ]; then
+	log "~/.Xauthority does not exist"
+	ls -la ~ >> $STDOUT_LOGFILE
 	# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
 	if [ ! -z "$XAUTH_KEY" ]; then
         	log "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY"
         	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
 		log "xauth add done exitcode=$?"
 	fi
+else
+	log "~/.Xauthority exists"
 fi
 
 # create a PULSEAUDIO COOKIE 
