@@ -15,7 +15,8 @@
 # the default tag is dev
 # usage
 # TAG=dev make
-# TAG=latest make
+# TAG=3.0 make
+# NOCACHE=--no-cache make
 #
 ifndef TAG
  TAG=dev
