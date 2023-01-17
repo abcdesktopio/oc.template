@@ -15,6 +15,8 @@ log "start new application $APP"
 log "-> APP=$APP"
 log "-> ARGS=$ARGS"
 log "-> APPARGS=$APPARGS"
+log "-> id=$(id)"
+
 env > $STDOUT_ENVLOGFILE
 INIT_OVERLAY_PATH=/composer/init.overlay.d
 
@@ -87,24 +89,24 @@ if [ -z "$ARGS" ]; then
 		# $APPARGS is empty or unset 
 		# $ARGS is empty or unset
 		# no params
-		${APP} 2>&1 | tee /tmp/$BASENAME_APP.log 
+		"${APP}" 2>&1 | tee /tmp/$BASENAME_APP.log 
 	else
 		# $APPARGS is set 
                 # $ARGS is empty or unset
                 # APPARGS is the only param
-		${APP} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
+		"${APP}" "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
 	fi
 else
 	if [ -z "$APPARGS" ]; then  
                 # $APPARGS is empty or unset 
                 # $ARGS is set
                 # $ARGS is the only param
-                ${APP} ${ARGS} 2>&1 | tee /tmp/$BASENAME_APP.log
+                "${APP}" ${ARGS} 2>&1 | tee /tmp/$BASENAME_APP.log
         else
 		# $APPARGS is set 
                 # $ARGS is set
                 # use params: $ARGS and $APPARGS
-                ${APP} ${ARGS} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
+                "${APP}" ${ARGS} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
         fi
 fi
 
