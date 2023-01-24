@@ -75,7 +75,7 @@ fi
 
 # start dbux-launch if exists
 if [ -x /usr/bin/dbus-launch ]; then
-	mkdir -p /run/user/$(id --user)/dconf
+	mkdir -p /run/user/$(id -u)/dconf
         export $(/usr/bin/dbus-launch)
 	log "dbus-launch done exitcode=$?" 
 fi
