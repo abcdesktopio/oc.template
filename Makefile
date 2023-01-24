@@ -120,22 +120,20 @@ level1:
 	echo "level1 use TAG=$(TAG)"\;
 	$(call generate_file,abcdesktopio/oc.template.alpine,oc.template.alpine.libreoffice,oc.template.alpine.libreoffice)
 	$(call generate_file,abcdesktopio/oc.template.ubuntu.gtk.20.04,oc.template.ubuntu.gtk.java,oc.template.ubuntu.gtk.java)
-	$(call generate_file,abcdesktopio/oc.template.ubuntu.gtk.20.04,oc.template.ubuntu.gtk.libreoffice,oc.template.gtk.libreoffice)
-	$(call generate_file,abcdesktopio/oc.template.ubuntu.22.04,oc.template.ubuntu.wine,oc.template.ubuntu.wine)
 	# docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.alpine 	-t abcdesktopio/oc.template.alpine.libreoffice:$(TAG) -f oc.template.alpine.libreoffice .
 	# docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.gtk.20.04 -t abcdesktopio/oc.template.ubuntu.gtk.java:$(TAG) -f oc.template.ubuntu.gtk.java .
-	# docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.gtk.20.04 -t abcdesktopio/oc.template.ubuntu.gtk.libreoffice:$(TAG) 		-f oc.template.gtk.libreoffice .
 	# docker build $(PROXY) $(NOCACHE) --build-arg  TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.22.04   -t abcdesktopio/oc.template.ubuntu.wine:$(TAG) -f oc.template.ubuntu.wine .
 
 level2:
 	echo "level2 use TAG=$(TAG)"\;
+	$(call generate_file,abcdesktopio/oc.template.ubuntu.22.04,oc.template.ubuntu.wine,oc.template.ubuntu.wine)
 	$(call generate_file,abcdesktopio/oc.template.ubuntu.wine.22.04,oc.template.ubuntu.wine.mswindow,oc.template.ubuntu.wine.mswindows)
-	$(call generate_file,abcdesktopio/oc.template.alpine.minimal,oc.template.alpine.wine,oc.template.alpine.wine)
+	$(call generate_file,abcdesktopio/oc.template.alpine,oc.template.alpine.wine,oc.template.alpine.wine)
 	# docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.ubuntu.wine.22.04  -t abcdesktopio/oc.template.ubuntu.wine.mswindows:$(TAG) -f oc.template.ubuntu.wine.mswindows .
 	# docker build $(PROXY) $(NOCACHE) --build-arg TAG=$(TAG) --build-arg BASE_IMAGE=abcdesktopio/oc.template.alpine.minimal -t abcdesktopio/oc.template.alpine.wine:$(TAG) -f oc.template.alpine.wine .
 
 push:
-	for i in oc.template.alpine oc.template.ubuntu.18.04 oc.template.ubuntu.20.04 oc.template.ubuntu.22.04 oc.template.debian oc.template.alpine.gtk oc.template.ubuntu.gtk.18.04 oc.template.ubuntu.gtk.20.04 oc.template.ubuntu.gtk oc.template.debian.gtk oc.template.ubuntu.gtk.language-pack-all oc.template.alpine.libreoffice oc.template.ubuntu.gtk.java oc.template.ubuntu.gtk.libreoffice oc.template.ubuntu.wine oc.template.alpine.wine oc.template.ubuntu.wine.mswindows ; do \
+	for i in oc.template.alpine oc.template.ubuntu.18.04 oc.template.ubuntu.20.04 oc.template.ubuntu.22.04 oc.template.debian oc.template.alpine.gtk oc.template.ubuntu.gtk.18.04 oc.template.ubuntu.gtk.20.04 oc.template.ubuntu.gtk oc.template.debian.gtk oc.template.ubuntu.gtk.language-pack-all oc.template.alpine.libreoffice oc.template.ubuntu.gtk.java oc.template.ubuntu.wine oc.template.alpine.wine oc.template.ubuntu.wine.mswindows ; do \
 		echo pushing abcdesktopio/$$i:$(TAG) ; \
         docker push abcdesktopio/$$i:$(TAG); \
     done
