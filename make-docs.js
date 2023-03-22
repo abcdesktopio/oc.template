@@ -123,6 +123,13 @@ function makedocumentation(imagename, imagebase, dockerfilename) {
 
 const args = process.argv.slice(2);
 
+if ( args.length != 3) {
+        console.error('make-docs.js invalid number of parameters ' + args.length );
+	console.error('make-docs.js BASE_IMAGE BUILD_IMAGE DOCKERFILE');
+	console.error('usage after the command docker build $(PROXY) $(NOCACHE) --build-arg BASE_IMAGE=$(1) -t abcdesktopio/$(2):$(TAG) -f $(3) .');
+	process.exit(1);
+}
+
 var imagename = args[1];
 if (imagename.indexOf('/') != -1 ) {
 	imagename = imagename.split('/')[1];
