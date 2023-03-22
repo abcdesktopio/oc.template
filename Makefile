@@ -60,7 +60,7 @@ pull:
 	@echo "-----------------"
 	@echo "--- make pull ---"
 	@echo "-----------------"
-	for i in debian:stable-slim ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 alpine:latest ; do \
+	for i in debian:stable-slim ubuntu:18.04 ubuntu:20.04 ubuntu:22.04 alpine:edge alpine:3.17 ; do \
 		echo pulling $$i ;  \
 		docker pull $$i ; \
     done
