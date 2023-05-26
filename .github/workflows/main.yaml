@@ -20,17 +20,13 @@ jobs:
         with: 
           node-version: "18.x"
         
-      - name: generate minimal 
+      - name: rules
         run: |
-          ls -la
-          ls -la rules
-          ls -la rules/json2str.js
-          cat rules/minimal.json
           node rules/json2str.js rules/minimal.json
         
     outputs:
       # Will look like '["6.0.0rc1", "5.3.2"]'
-      bazelversions: ${{ toJSON(steps.*.outputs) }}
+      bazelversions: ${{ toJSON(steps.rules.outputs.rules) }}
       
   test:
     runs-on: ubuntu-latest
