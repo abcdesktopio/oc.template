@@ -1,9 +1,11 @@
 
 name: Sample
 
+
 on:
+  push:
+    branches: [ master ]
   workflow_dispatch:
-  
   
 jobs:
   matrix-prep-bazelversion:
