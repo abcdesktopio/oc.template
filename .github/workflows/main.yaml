@@ -39,9 +39,8 @@ jobs:
 
       - name: Check matrix definition
         run: |
-          matrix='${{ needs.matrix.outputs.matrix }}'
+          matrix='${{fromJson(needs.matrix.outputs.matrix)}}'
           echo $matrix
-          echo $matrix | jq .
             
   build:
     runs-on: ubuntu-latest
