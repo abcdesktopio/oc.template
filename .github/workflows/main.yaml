@@ -23,6 +23,9 @@ jobs:
       - name: generate minimal 
         run: |
           ls -la
+          ls -la rules
+          ls -la rules/tostr.js
+          cat rules/minimal.json
           node rules/tostr.js rules/minimal.json
         
     outputs:
