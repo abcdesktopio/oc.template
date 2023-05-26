@@ -79,8 +79,13 @@ if [ -x /usr/bin/dbus-launch ]; then
         export $(/usr/bin/dbus-launch)
 	log "dbus-launch done exitcode=$?" 
 fi
-
 log "end of init"
+
+# change current dir to homedir 
+# to fix ntlm_auth load for firefox on alpine distribution
+# firefox does not support SSO, does not execute ntlm_auth if ntlm_auth not in current dir or in $PATH
+cd ~
+log "current dir is $(pwd)"
 log "running $APP at $(date)"
 
 # Run the APP with args
