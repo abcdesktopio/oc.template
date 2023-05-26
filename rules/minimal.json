@@ -19,5 +19,5 @@
     "target": "oc.template.ubuntu.minimal.22.04",
     "dockerfile": "oc.template.ubuntu.minimal"
   }
- ] 
+ ]
 }
