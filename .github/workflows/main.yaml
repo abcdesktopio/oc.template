@@ -25,7 +25,7 @@ jobs:
           
       - id: set-matrix
         run: |
-          matrix=$(cat rules/minimal.json | jq -c .rules)
+          matrix=$(cat rules/minimal.json | jq -c .)
           echo $matrix
           echo $matrix | jq .
           echo "::set-output name=matrix::$matrix"
@@ -54,3 +54,9 @@ jobs:
     - run: echo ${{ matrix }}
     - run: echo ${{ matrix.source }}
     - run: echo ${{ matrix.target }}
+    - name: Install json2yaml
+      run: |
+        sudo npm install -g json2yaml
+    - name: Check matrix definition
+      run: |
+        echo $matrix | json2yaml
