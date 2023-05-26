@@ -25,7 +25,7 @@ jobs:
           
       - id: set-matrix
         run: |
-          matrix=$(node rules/json2str.js rules/minimal.json)
+          matrix=$(cat rules/minimal.json)
           echo $matrix
           echo "::set-output name=matrix::$matrix"
 
