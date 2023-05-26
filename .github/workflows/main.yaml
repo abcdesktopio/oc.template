@@ -4,20 +4,30 @@ name: Sample
 on:
   workflow_dispatch:
   
+  
 jobs:
-  job1:
+  matrix-prep-bazelversion:
+    # Prepares the 'bazelversion' axis of the test matrix
     runs-on: ubuntu-latest
+    steps:
+      # Need the repo checked out in order to read the file
+      - uses: actions/checkout@v3
+      - id: bazel_6
+        run: echo "bazelversion=CACA" >> $GITHUB_OUTPUT
+      - id: bazel_5
+        run: echo "bazelversion=5.3.2" >> $GITHUB_OUTPUT
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-    - id: set-matrix
-      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
-  job2:
-    needs: job1
+      # Will look like '["6.0.0rc1", "5.3.2"]'
+      bazelversions: ${{ toJSON(steps.*.outputs.bazelversion) }}
+      
+  test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
-    steps:
-    - run: echo ${{ matrix.project }}
-    - run: echo ${{ matrix.config }}
+    needs:
+      - matrix-prep-bazelversion
 
+    strategy:
+      matrix:
+        # Reads the value saved by "outputs" of the jobs above
+        bazelversion: ${{ fromJSON(needs.matrix-prep-bazelversion.outputs.bazelversions) }}
+    steps:
+      - run: echo ${{ matrix.bazelversion }}
