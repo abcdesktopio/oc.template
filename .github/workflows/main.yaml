@@ -3,26 +3,21 @@ name: Sample
 
 on:
   workflow_dispatch:
-
+  
 jobs:
-  matrix_prep:
+  job1:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3.1.0      
-      - id: set-matrix
-        uses: ./ # Uses an action in the root directory        
-        with:
-          inputFile: '.github/workflows/matrix_includes.json' # Defaults to 'matrix_includes.json'
-          filter: '[?runOn==`${{ github.ref }}` || runOn==`always`]'
-          addInclude: true # Defaults to true
-  build:
-    needs: matrix_prep
-    strategy:      
-      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
-    name: Build
-    runs-on: ${{ matrix.runs_on }}
+    - id: set-matrix
+      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
     steps:
-    - name: Echo
-      run: echo "${{ matrix.runOn }}"
+    - run: echo ${{ matrix.project }}
+    - run: echo ${{ matrix.config }}
+
