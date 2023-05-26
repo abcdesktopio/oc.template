@@ -1,4 +1,4 @@
-{ "rules" : 
+{ "include" : 
  [
   {
     "source": "alpine",
