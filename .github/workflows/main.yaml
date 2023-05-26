@@ -25,9 +25,8 @@ jobs:
           
       - id: set-matrix
         run: |
-          matrix=$(cat rules/minimal.json | jq -c .)
+          matrix=$(node rules/json2str.js rules/minimal.json)
           echo $matrix
-          echo $matrix | jq .
           echo "::set-output name=matrix::$matrix"
 
   check-matrix:
@@ -44,7 +43,7 @@ jobs:
           echo $matrix
           echo $matrix | jq .
           echo $matrix | json2yaml
-          
+            
   build:
     runs-on: ubuntu-latest
     needs: matrix
