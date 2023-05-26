@@ -24,7 +24,7 @@ jobs:
         run: |
           ls -la
           ls -la rules
-          ls -la rules/tostr.js
+          ls -la rules/json2str.js
           cat rules/minimal.json
           node rules/json2str.js rules/minimal.json
         
