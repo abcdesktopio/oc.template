@@ -25,7 +25,7 @@ jobs:
           
       - id: set-matrix
         run: |
-          matrix=$(cat rules/minimal.json | jq -c .)
+          matrix=$(cat rules/minimal.json | jq -c .rules)
           echo $matrix
           echo $matrix | jq .
           echo "::set-output name=matrix::$matrix"
@@ -51,5 +51,6 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
     steps:
+    - run: echo ${{ matrix }}
     - run: echo ${{ matrix.source }}
     - run: echo ${{ matrix.target }}
