@@ -1,29 +1,34 @@
 { "include" : 
   [
   {
-    "source": "abcdesktopio/oc.template.alpine.minimal",
-    "target": "oc.template.alpine",
-    "dockerfile": "oc.template.alpine"
+    "source": "abcdesktopio/oc.template.debian",
+    "target": "oc.template.debian.gtk",
+    "dockerfile": "oc.template.ubuntu.gtk"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.minimal.18.04",
-    "target": "oc.template.ubuntu.18.04",
-    "dockerfile": "oc.template.ubuntu"
+    "source": "abcdesktopio/oc.template.alpine",
+    "target": "oc.template.alpine.gtk",
+    "dockerfile": "oc.template.alpine.gtk"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.minimal.20.04",
-    "target": "oc.template.ubuntu.20.04",
-    "dockerfile": "oc.template.ubuntu"
+    "source": "abcdesktopio/oc.template.ubuntu.18.04",
+    "target": "oc.template.ubuntu.gtk.18.04",
+    "dockerfile": "oc.template.ubuntu.gtk"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.minimal.22.04",
-    "target": "oc.template.ubuntu.22.04",
-    "dockerfile": "oc.template.ubuntu"
+    "source": "abcdesktopio/oc.template.ubuntu.20.04",
+    "target": "oc.template.ubuntu.gtk",
+    "dockerfile": "oc.template.ubuntu.gtk"
   },
   {
-    "source": "abcdesktopio/oc.template.debian.minimal",
-    "target": "oc.template.debian",
-    "dockerfile": "oc.template.ubuntu"
+    "source": "abcdesktopio/oc.template.ubuntu.20.04",
+    "target": "oc.template.ubuntu.gtk.20.04",
+    "dockerfile": "oc.template.ubuntu.gtk"
+  },
+  {
+    "source": "abcdesktopio/oc.template.ubuntu.22.04",
+    "target": "oc.template.ubuntu.gtk.22.04",
+    "dockerfile": "oc.template.ubuntu.gtk"
   }
   ]
 }
