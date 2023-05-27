@@ -17,8 +17,10 @@ jobs:
         run: |
            matrixStringifiedObject="{\"include\":[{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
            matrixStringifiedObjectRules=$(node rules/json2str.js rules/minimal.json)
+           matrixStringifiedObjectRuleJSON=fromJson(matrixStringifiedObjectRules)
            echo "debug matrixStringifiedObject=$matrixStringifiedObject"
            echo "debug matrixStringifiedObjectRules=$matrixStringifiedObjectRules"
+           echo "debug matrixStringifiedObjectRuleJSON=$matrixStringifiedObjectRuleJSON"
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
