@@ -19,7 +19,7 @@ export USER=balloon
 export PULSE_SERVER=/tmp/.pulse.sock
 export ABCDESKTOP_RUN_DIR='/composer/run'
 
-
+#
 # Note that '/home/balloon/.local/share' is not in the search path
 # set by the XDG_DATA_HOME and XDG_DATA_DIRS
 # environment variables, so applications may not be able to find it until you set them. The directories currently searched are:
@@ -27,9 +27,7 @@ export ABCDESKTOP_RUN_DIR='/composer/run'
 # - /root/.local/share
 # - /usr/local/share/
 # - /usr/share/
-
-
-
+#
 
 DEFAULT_VNC_PASSWD="111111"
 
