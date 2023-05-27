@@ -32,7 +32,8 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
-           matrixStringifiedObject="{\"include\":[{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
+           # matrixStringifiedObject="{\"include\":[{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
+            matrixStringifiedObjectRules=$(cat rules/minimal.json)
            echo "::set-output name=matrix::$matrixStringifiedObject"
   job2:
     needs: job1
