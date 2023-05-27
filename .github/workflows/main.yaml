@@ -12,6 +12,12 @@ jobs:
         uses: actions/setup-node@v3
         with: 
           node-version: "18.x"
+      - name: dump Dynamic Matrix
+        id: dumpmatrix
+        run: |
+           # matrixStringifiedObject="{\"include\":[{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
+           matrixStringifiedObject=$(node rules/json2str.js rules/minimal.json)
+           echo "debug matrixStringifiedObject=$matrixStringifiedObject"
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
