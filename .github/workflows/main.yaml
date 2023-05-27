@@ -27,7 +27,7 @@ jobs:
         run: |
            matrixStringifiedObjectRules=$(node rules/json2str.js rules/minimal.json)
            echo "debug matrixStringifiedObjectRules=$matrixStringifiedObjectRules"
-           matrixStringifiedObjectRuleJSON=${{ toJSON($matrixStringifiedObjectRules) }}
+           matrixStringifiedObjectRuleJSON=${{fromJson(matrixStringifiedObjectRules)}}
            echo "debug matrixStringifiedObjectRuleJSON=$matrixStringifiedObjectRuleJSON"
       - name: Set Dynamic Matrix
         id: setmatrix
