@@ -1,52 +1,24 @@
 
 name: Sample
-
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-  
-  
-env:
-  VERSIONS: "{\"include\":[\"source\":{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
-
+on: push
 jobs:
-  prepare-matrix:
-    name: Prepare Matrix Output
+  job1:
     runs-on: ubuntu-latest
-    outputs: 
-      all_versions: ${{ steps.step1.outputs.matrix }}
-      
-    steps: 
-      - name: Create Matrix Variable
-        id: step1
-        run: echo "matrix=${{env.VERSIONS}}" >> $GITHUB_OUTPUT
-
-  deploy-gke:
-    name: Deploy to GKE
-    runs-on: ubuntu-latest
-    needs: prepare-matrix
-    #
-    # {
-    #   {
-    #     "prepare-matrix": {
-    #       "result": "success",
-    #         "outputs": {
-    #             "all_versions": "[{source:alpine,target:oc.template.alpine.minimal,dockerfile:oc.template.alpine.minimal},{source:ubuntu:18.04,target:oc.template.ubuntu.minimal.18.04,dockerfile:oc.template.ubuntu.minimal},{source:ubuntu:20.04,target:oc.template.ubuntu.minimal.20.04,dockerfile:oc.template.ubuntu.minimal},{source:ubuntu:22.04,target:oc.template.ubuntu.minimal.22.04,dockerfile:oc.template.ubuntu.minimal}]"
-    #.        }
-    #     }
-    #   }
-    # }
-    #
-    strategy:
-      matrix: ${{ fromJson(needs.prepare-matrix.outputs.all_versions) }}
+    outputs:
+       matrix: ${{ steps.setmatrix.outputs.matrix }}
     steps:
-    - name: Hello
-      # ${{ tojson(matrix) }}
-      # shell: cat {0}
-      run: echo "hello"
-    - name: Dump
-      run: echo ${{ matrix.source }} 
-      
-
+      - name: Set Dynamic Matrix
+        id: setmatrix
+        run: |
+           matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
+           echo "::set-output name=matrix::$matrixStringifiedObject"
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
+    steps:
+    - run: echo Run ${{ matrix.run }}
+    - run: date
+    - run: sleep 1
+    - run: date
