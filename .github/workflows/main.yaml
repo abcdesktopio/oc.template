@@ -27,6 +27,21 @@ jobs:
     name: Deploy to GKE
     runs-on: ubuntu-latest
     needs: prepare-matrix
+    #
+    # {
+    #   {
+    #     "prepare-matrix": {
+    #       "result": "success",
+    #         "outputs": {
+    #             "all_versions": "[{source:alpine,target:oc.template.alpine.minimal,dockerfile:oc.template.alpine.minimal},{source:ubuntu:18.04,target:oc.template.ubuntu.minimal.18.04,dockerfile:oc.template.ubuntu.minimal},{source:ubuntu:20.04,target:oc.template.ubuntu.minimal.20.04,dockerfile:oc.template.ubuntu.minimal},{source:ubuntu:22.04,target:oc.template.ubuntu.minimal.22.04,dockerfile:oc.template.ubuntu.minimal}]"
+    #.        }
+    #     }
+    #   }
+    # }
+    #
+    strategy:
+      matrix: ${{fromJson(needs.prepare-matrix.outputs.all_versions)}}
     steps:
-    - run: ${{ tojson(needs) }}
+    - run: ${{ tojson(matrix) }}
       shell: cat {0}
+
