@@ -36,7 +36,6 @@ jobs:
            # matrixStringifiedObjectRules=$(node rules/json2nop.js rules/minimal.json)
            # echo "::set-output name=matrix::$matrixStringifiedObject"
            mininaljson=$(node rules/json2nop.js rules/minimal.json)
-           # mininal=${{ fromJSON(mininaljson) }}
            echo "::set-output name=matrix::${mininaljson}"
   job2:
     needs: job1
