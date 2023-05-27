@@ -42,11 +42,15 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v2
       - run: echo Run ${{ matrix.source }}
       - run: echo Run ${{ matrix.target }}
       - run: echo Run ${{ matrix.dockerfile }}
       
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
