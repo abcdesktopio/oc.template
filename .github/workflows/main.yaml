@@ -35,8 +35,8 @@ jobs:
            # matrixStringifiedObject="{\"include\":[{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
            # matrixStringifiedObjectRules=$(node rules/json2nop.js rules/minimal.json)
            # echo "::set-output name=matrix::$matrixStringifiedObject"
-           mininaljson=$(cat rules/minimal.json)
-           mininal=${mininaljson//'%'/'%25'}
+           mininaljson=$(node rules/json2nop.js rules/minimal.json)
+           mininal = fromJson( mininaljson )
            echo "::set-output name=matrix::${mininal}"
   job2:
     needs: job1
