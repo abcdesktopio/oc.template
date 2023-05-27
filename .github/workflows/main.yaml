@@ -10,7 +10,7 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
-           matrixStringifiedObject="{\"include\":[{\"run\":\"run1\"},{\"run\":\"run2\"}]}"
+           matrixStringifiedObject="{\"include\":[{\"source\":\"alpine\",\"target\":\"oc.template.alpine.minimal\",\"dockerfile\":\"oc.template.alpine.minimal\"},{\"source\":\"ubuntu:18.04\",\"target\":\"oc.template.ubuntu.minimal.18.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:20.04\",\"target\":\"oc.template.ubuntu.minimal.20.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"},{\"source\":\"ubuntu:22.04\",\"target\":\"oc.template.ubuntu.minimal.22.04\",\"dockerfile\":\"oc.template.ubuntu.minimal\"}]}"
            echo "::set-output name=matrix::$matrixStringifiedObject"
   job2:
     needs: job1
@@ -18,7 +18,9 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
     steps:
-    - run: echo Run ${{ matrix.run }}
+    - run: echo Run ${{ matrix.source }}
+    - run: echo Run ${{ matrix.target }}
+    - run: echo Run ${{ matrix.dockerfile }}
     - run: date
     - run: sleep 1
     - run: date
