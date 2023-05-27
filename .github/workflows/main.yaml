@@ -40,7 +40,7 @@ jobs:
     # }
     #
     strategy:
-      matrix: ${{ needs.prepare-matrix.all_versions }}
+      matrix: ${{ needs.all_versions }}
     steps:
     - run: ${{ tojson(matrix) }}
       shell: cat {0}
