@@ -40,8 +40,13 @@ jobs:
     # }
     #
     strategy:
-      matrix: ${{ needs.all_versions }}
+      matrix: ${{ fromJson(needs.prepare-matrix.outputs.all_versions) }}
     steps:
-    - run: ${{ tojson(matrix) }}
-      shell: cat {0}
+    - name: Hello
+      # ${{ tojson(matrix) }}
+      # shell: cat {0}
+      run: echo "hello"
+    - name: Dump
+      run: echo ${{ matrix.source }} 
+      
 
