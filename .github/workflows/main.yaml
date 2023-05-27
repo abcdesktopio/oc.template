@@ -26,7 +26,8 @@ jobs:
         id: dumpmatrixC
         run: |
            matrixStringifiedObjectRules=$(node rules/json2str.js rules/minimal.json)
-           matrixStringifiedObjectRuleJSON=toJSON(matrixStringifiedObjectRules)
+           echo "debug matrixStringifiedObjectRules=$matrixStringifiedObjectRules"
+           matrixStringifiedObjectRuleJSON=toJSON($matrixStringifiedObjectRules)
            echo "debug matrixStringifiedObjectRuleJSON=$matrixStringifiedObjectRuleJSON"
       - name: Set Dynamic Matrix
         id: setmatrix
