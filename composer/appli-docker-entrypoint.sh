@@ -1,56 +1,47 @@
 #!/bin/bash
 
-# Dump env APP ARG and APPARG to log file
-
-echo "APP=$APP" >> /tmp/lastcmd.log
-echo "ARGS=$ARGS" >> /tmp/lastcmd.log
-echo "APPARGS=$APPARGS" >> /tmp/lastcmd.log
-
-# export VAR
-export DISPLAY=${DISPLAY:-':0.0'}
-export PULSE_SERVER=${PULSE_SERVER:-'/tmp/.pulse.sock'}
-export CUPS_SERVER=${CUPS_SERVER:-'/tmp/.cups.sock'}
-export USER=$BUSER
-export LIBOVERLAY_SCROLLBAR=0
-export UBUNTU_MENUPROXY=0
-export HOME=/home/balloon
-export LOGNAME=balloon
 export STDOUT_LOGFILE=/tmp/lastcmd.log
 export STDOUT_ENVLOGFILE=/tmp/lastcmdenv.log
+START_TIME=$(date +%s)
+
+log() {
+echo "$(date) $1" >> $STDOUT_LOGFILE
+}
+
+
+# Dump env APP ARG and APPARG to log file
+# export VAR
+log "start new application $APP"
+log "-> APP=$APP"
+log "-> ARGS=$ARGS"
+log "-> APPARGS=$APPARGS"
+log "-> id=$(id)"
+
 env > $STDOUT_ENVLOGFILE
 INIT_OVERLAY_PATH=/composer/init.overlay.d
 
-# dump xhost settings
-echo "dump xhost settings" >> $STDOUT_LOGFILE
-xhost >> $STDOUT_LOGFILE
-
-echo "run previous init overlay stack" >> $STDOUT_LOGFILE
+log "run init overlay scripts"
 # Run init overlay script file if exist
 if [ -d "$INIT_OVERLAY_PATH" ]; then
 	for overlay_script in "INIT_OVERLAY_PATH/*.sh"
 	do
-		if [ -f $overlay_script -a -x $overlay_script ]
-		then
-			echo "run $overlay_script" >> $STDOUT_LOGFILE
+		if [ -f $overlay_script -a -x $overlay_script ]; then
+			log "running $overlay_script"
 			$overlay_script >> $STDOUT_LOGFILE
 		fi
 	done
 fi
+log "init overlay scripts done" 
 
-echo "run init app if exists" >> $STDOUT_LOGFILE
 # Run init APP if exist
 BASENAME_APP=$(basename "$APPBIN")
-echo "BASENAME_APP=$BASENAME_APP" >> $STDOUT_LOGFILE
+log "BASENAME_APP=$BASENAME_APP"
 SOURCEAPP_FILE=/composer/init.d/init.${BASENAME_APP}
 if [ -f "$SOURCEAPP_FILE" ]; then
-	echo "run /composer/init.d/init.${BASENAME_APP} $APPARGS" >> $STDOUT_LOGFILE
+	log "run $SOURCEAPP_FILE"
 	$SOURCEAPP_FILE "$APPARGS" > /tmp/${BASENAME_APP}.cmd.log 2>&1
-	echo "done /composer/init.d/init.${BASENAME_APP}" >> $STDOUT_LOGFILE
+	log "done  $SOURCEAPP_FILE"
 fi
-
-if [ -f ~/.DBUS_SESSION_BUS ]; then
-	source ~/.DBUS_SESSION_BUS
-fi 
 
 if [ ! -d ~/.cache ]; then
      mkdir  ~/.cache
@@ -62,22 +53,40 @@ fi
 
 # .Xauthority
 if [ ! -f ~/.Xauthority ]; then
-	echo "touch ~/.Xauthority file" >> $STDOUT_LOGFILE
-	touch ~/.Xauthority
-fi
-
-# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
-if [ ! -z "$XAUTH_KEY" ]; then
-	echo "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY" >> $STDOUT_LOGFILE
-	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
+	log "~/.Xauthority does not exist"
+	ls -la ~ >> $STDOUT_LOGFILE
+	# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
+	if [ ! -z "$XAUTH_KEY" ]; then
+        	log "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY"
+        	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
+		log "xauth add done exitcode=$?"
+	fi
+else
+	log "~/.Xauthority exists"
 fi
 
 # create a PULSEAUDIO COOKIE 
 if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
-	echo "setting pulseaudio cookie" >> $STDOUT_LOGFILE
+	log "setting pulseaudio cookie"
   	mkdir -p ~/.config/pulse
   	cat /etc/pulse/cookie | openssl rc4 -K "$PULSEAUDIO_COOKIE" -nopad -nosalt > ~/.config/pulse/cookie
+	log "pusleaudio cookie done exitcode=$?"
 fi
+
+# start dbux-launch if exists
+if [ -x /usr/bin/dbus-launch ]; then
+	mkdir -p /run/user/$(id -u)/dconf
+        export $(/usr/bin/dbus-launch)
+	log "dbus-launch done exitcode=$?" 
+fi
+log "end of init"
+
+# change current dir to homedir 
+# to fix ntlm_auth load for firefox on alpine distribution
+# firefox does not support SSO, does not execute ntlm_auth if ntlm_auth not in current dir or in $PATH
+cd ~
+log "current dir is $(pwd)"
+log "running $APP at $(date)"
 
 # Run the APP with args
 if [ -z "$ARGS" ]; then    
@@ -85,29 +94,31 @@ if [ -z "$ARGS" ]; then
 		# $APPARGS is empty or unset 
 		# $ARGS is empty or unset
 		# no params
-		${APP} 2>&1 | tee /tmp/$BASENAME_APP.log 
+		"${APP}" 2>&1 | tee /tmp/$BASENAME_APP.log 
 	else
 		# $APPARGS is set 
                 # $ARGS is empty or unset
                 # APPARGS is the only param
-		${APP} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
+		"${APP}" "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
 	fi
 else
 	if [ -z "$APPARGS" ]; then  
                 # $APPARGS is empty or unset 
                 # $ARGS is set
                 # $ARGS is the only param
-                ${APP} ${ARGS} 2>&1 | tee /tmp/$BASENAME_APP.log
+                "${APP}" ${ARGS} 2>&1 | tee /tmp/$BASENAME_APP.log
         else
 		# $APPARGS is set 
                 # $ARGS is set
                 # use params: $ARGS and $APPARGS
-                ${APP} ${ARGS} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
+                "${APP}" ${ARGS} "${APPARGS}" 2>&1 | tee /tmp/$BASENAME_APP.log
         fi
 fi
+
 EXIT_CODE=$?
 # log the exit code in /tmp/lastcmd.log
-echo "end of app exit_code=$EXIT_CODE" >> $STDOUT_LOGFILE
+log "end of app exit_code=$EXIT_CODE"
+
 # exit with the application exit code 
 exit $EXIT_CODE
 
