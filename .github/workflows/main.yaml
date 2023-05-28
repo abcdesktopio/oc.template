@@ -37,7 +37,6 @@ jobs:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
     strategy:
-              ${{ fromJson(needs.job1_init_minimal.outputs.level0) }}
       matrix: ${{ fromJson(needs.job1_init_minimal.outputs.matrix) }}
     steps:
       - run: echo Run ${{ matrix.source }}
