@@ -1,0 +1,14 @@
+{ "include" : 
+  [
+  {
+    "source": "abcdesktopio/oc.template.alpine",
+    "target": "oc.template.alpine.libreoffice",
+    "dockerfile": "oc.template.alpine.libreoffice"
+  },
+  {
+    "source": "abcdesktopio/oc.template.ubuntu.gtk.20.04",
+    "target": "oc.template.ubuntu.gtk.java",
+    "dockerfile": "oc.template.ubuntu.gtk.java"
+  }
+  ]
+}
