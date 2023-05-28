@@ -9,7 +9,7 @@ jobs:
        matrix: ${{ steps.setmatrix.outputs.matrix }}        
     steps:
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.ref_name }}
       - name: Use Node.js
@@ -21,6 +21,8 @@ jobs:
         run: |
            mininaljson=$(node rules/json2nop.js rules/minimal.json)
            echo "::set-output name=matrix::${mininaljson}"
+           mininaljson=$(node rules/json2nop.js rules/level0.json)
+           echo "::set-output name=level0::${mininaljson}"
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
@@ -31,7 +33,7 @@ jobs:
       - run: echo Run ${{ matrix.target }}
       - run: echo Run ${{ matrix.dockerfile }}
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.ref_name }}
           submodules: recursive
@@ -55,32 +57,14 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:$TAG
-  job3_init_level0:
+  job4_do_level0:
     needs: job2_do_minimal
     runs-on: ubuntu-latest
-    outputs:
-       matrix: ${{ steps.setmatrix.outputs.matrix }}        
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref_name }} 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with: 
-          node-version: "18.x"
-      - name: Set Dynamic Matrix
-        id: setmatrix
-        run: |
-           mininaljson=$(node rules/json2nop.js rules/level0.json)
-           echo "::set-output name=matrix::${mininaljson}"
-  job4_do_level0:
-    needs: job3_init_level0
-    runs-on: ubuntu-latest
     strategy:
-     matrix: ${{ fromJson(needs.job3_init_level0.outputs.matrix) }}
+     matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level0) }}
     steps:   
       - name: Checkout repository and submodules
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
           ref: ${{ github.ref_name }}
@@ -105,4 +89,5 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:$TAG
+  
  
