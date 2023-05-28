@@ -67,7 +67,7 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:dev
-  job4_do_level0:
+  job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
     runs-on: ubuntu-latest
     strategy:
@@ -99,5 +99,99 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:dev
-  
- 
+  job4_do_level1:
+    needs: [ job3_do_level0, job1_init_minimal ]
+    runs-on: ubuntu-latest
+    strategy:
+     matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level1) }}
+    steps:   
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          ref: ${{ github.ref_name }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build and push ${{ matrix.target }}
+        uses: docker/build-push-action@v3
+        with:
+          file: ${{ matrix.dockerfile }}
+          context: .
+          platforms: linux/amd64, linux/arm64
+          build-args: |
+            BASE_IMAGE=${{ matrix.source }}
+            TAG=dev
+          push: true
+          tags: |
+            abcdesktopio/${{ matrix.target }}:dev  
+  job5_do_level2:
+    needs: [ job4_do_level1, job1_init_minimal ]
+    runs-on: ubuntu-latest
+    strategy:
+     matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level2) }}
+    steps:   
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          ref: ${{ github.ref_name }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build and push ${{ matrix.target }}
+        uses: docker/build-push-action@v3
+        with:
+          file: ${{ matrix.dockerfile }}
+          context: .
+          platforms: linux/amd64, linux/arm64
+          build-args: |
+            BASE_IMAGE=${{ matrix.source }}
+            TAG=dev
+          push: true
+          tags: |
+            abcdesktopio/${{ matrix.target }}:dev  
+  job6_do_level3:
+    needs: [ job5_do_level2, job1_init_minimal ]
+    runs-on: ubuntu-latest
+    strategy:
+     matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level3) }}
+    steps:   
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          ref: ${{ github.ref_name }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build and push ${{ matrix.target }}
+        uses: docker/build-push-action@v3
+        with:
+          file: ${{ matrix.dockerfile }}
+          context: .
+          platforms: linux/amd64, linux/arm64
+          build-args: |
+            BASE_IMAGE=${{ matrix.source }}
+            TAG=dev
+          push: true
+          tags: |
+            abcdesktopio/${{ matrix.target }}:dev 
