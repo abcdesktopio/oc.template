@@ -68,7 +68,7 @@ jobs:
           tags: |
             abcdesktopio/${{ matrix.target }}:dev
   job4_do_level0:
-    needs: job2_do_minimal
+    needs: [ job2_do_minimal, job1_init_minimal ]
     runs-on: ubuntu-latest
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level0) }}
