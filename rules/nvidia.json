@@ -1,0 +1,14 @@
+{ "include" : 
+  [
+  {
+    "source": "nvidia/cuda:12.0.0-base-ubuntu20.04",
+    "target": "oc.template.ubuntu.nvidia.20.04",
+    "dockerfile": "oc.template.ubuntu.minimal"
+  },
+  {
+    "source": "nvidia/cuda:12.0.0-base-ubuntu22.04",
+    "target": "oc.template.ubuntu.nvidia.22.04",
+    "dockerfile": "oc.template.ubuntu.minimal"
+  }
+  ]
+}
