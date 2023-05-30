@@ -38,29 +38,29 @@ RUN dpkg --add-architecture i386
 #    apt-get install --no-install-recommends --yes aria2 \
 #    apt-get clean 
     
-RUN apt-get update && \
-    apt-get install --no-install-recommends --yes binutils \
-    apt-get clean 
+# RUN apt-get update && \
+#    apt-get install --no-install-recommends --yes binutils \
+#    apt-get clean 
     
-RUN apt-get update && \
-    apt-get install --no-install-recommends --yes cabextract fuseiso p7zip-full policykit-1 && \
-    apt-get clean     
+# RUN apt-get update && \
+#    apt-get install --no-install-recommends --yes cabextract fuseiso p7zip-full policykit-1 && \
+#    apt-get clean     
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends --yes fuseiso && \
-    apt-get clean  
+# RUN apt-get update && \
+#    apt-get install --no-install-recommends --yes fuseiso && \
+#    apt-get clean  
     
-RUN apt-get update && \
-    apt-get install --no-install-recommends --yes  p7zip-full policykit-1 && \
-    apt-get clean  
+# RUN apt-get update && \
+#    apt-get install --no-install-recommends --yes  p7zip-full policykit-1 && \
+#    apt-get clean  
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends --yes  policykit-1 && \
-    apt-get clean  
+# RUN apt-get update && \
+#     apt-get install --no-install-recommends --yes  policykit-1 && \
+#    apt-get clean  
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends --yes tor unrar unzip xdg-utils xz-utils zenity && \
-    apt-get clean 
+# RUN apt-get update && \
+#    apt-get install --no-install-recommends --yes tor unrar unzip xdg-utils xz-utils zenity && \
+#    apt-get clean 
  
 # gir1.2-gtk-3.0:i386 gir1.2-pango-1.0:i386 used by crossover
 
