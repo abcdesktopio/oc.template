@@ -1,12 +1,7 @@
 { "include" : 
   [
   {
-    "source": "abcdesktopio/oc.template.ubuntu.22.04",
-    "target": "oc.template.ubuntu.wine",
-    "dockerfile": "oc.template.ubuntu.wine"
-  },
-  {
-    "source": "abcdesktopio/oc.template.ubuntu.wine.22.04",
+    "source": "abcdesktopio/oc.template.ubuntu.wine",
     "target": "oc.template.ubuntu.wine.mswindow",
     "dockerfile": "oc.template.ubuntu.wine.mswindows"
   },
