@@ -1,7 +1,8 @@
 ARG TAG=dev
-FROM abcdesktopio/oc.template.gtk.wine:$TAG
-ENV DEBIAN_FRONTEND noninteractive 
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}:${TAG} 
 
+ENV DEBIAN_FRONTEND noninteractive 
 RUN apt-get update && \
  	apt-get install --install-recommends -y \
 	xterm			\
@@ -13,13 +14,9 @@ RUN apt-get update && \
 	libgettextpo-dev 	\
 	python-dbus 		\
 	&& rm -rf /var/lib/apt/lists/*	
-
-# add source play on linux 
-RUN wget -q "http://deb.playonlinux.com/public.gpg" -O- | sudo apt-key add -
-RUN wget http://deb.playonlinux.com/playonlinux_bionic.list -O /etc/apt/sources.list.d/playonlinux.list
+	
 # install play
 RUN apt-get update && apt-get install -y --no-install-recommends	\
-        playonlinux					\
 	libosmesa6:i386					\
         libnss-mdns					\
 	libnss-mdns:i386				\
@@ -40,3 +37,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends	\
 	libgl1-mesa-glx:i386				\
 	&& rm -rf /var/lib/apt/lists/*
 
+# add source play on linux 
+RUN apt-get update && \
+   wget https://www.playonlinux.com/script_files/PlayOnLinux/4.3.4/PlayOnLinux_4.3.4.deb && \
+   apt-get install -y ./PlayOnLinux_4.3.4.deb && \
+   rm PlayOnLinux_4.3.4.deb && \
+   && rm -rf /var/lib/apt/lists/*
