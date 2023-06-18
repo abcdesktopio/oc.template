@@ -60,6 +60,9 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        env: 
+          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+          tag: 'main'
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -67,9 +70,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
+            # nvidia images does not need TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:dev
+            abcdesktopio/${{ matrix.target }}:{{ env.tag }}
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
@@ -94,6 +98,9 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        env: 
+          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -101,9 +108,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
+            # init minimal does not need TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:dev
+            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
     runs-on: ubuntu-latest
@@ -125,6 +133,9 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        env: 
+          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -132,10 +143,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
-            TAG=dev
+            TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:dev
+            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
   job4_do_level1:
     needs: [ job3_do_level0, job1_init_minimal ]
     runs-on: ubuntu-latest
@@ -157,6 +168,9 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        env: 
+          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -164,10 +178,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
-            TAG=dev
+            TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:dev  
+            abcdesktopio/${{ matrix.target }}:${{ env.tag }}  
   job5_do_level2:
     needs: [ job4_do_level1, job1_init_minimal ]
     runs-on: ubuntu-latest
@@ -189,6 +203,9 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        env: 
+          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -196,10 +213,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
-            TAG=dev
+            TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:dev  
+            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
   job6_do_level3:
     needs: [ job5_do_level2, job1_init_minimal ]
     runs-on: ubuntu-latest
@@ -221,6 +238,9 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        env: 
+          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -228,7 +248,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
-            TAG=dev
+            TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:dev 
+            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
