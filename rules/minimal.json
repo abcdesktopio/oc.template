@@ -22,7 +22,7 @@
   {
     "source": "debian:stable-slim",
     "target": "oc.template.debian.minimal",
-    "dockerfile": "oc.template.ubuntu.minimal"
+    "dockerfile": "oc.template.debian.minimal"
   }
   ]
 }
