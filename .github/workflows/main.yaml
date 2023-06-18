@@ -60,8 +60,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        env: 
-          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        env:
           tag: 'main'
         uses: docker/build-push-action@v3
         with:
@@ -70,7 +70,6 @@ jobs:
           platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=${{ matrix.source }}
-            # nvidia images does not need TAG=${{ env.tag }}
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:{{ env.tag }}
@@ -98,8 +97,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         env: 
-          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
           tag: 'main' 
         uses: docker/build-push-action@v3
         with:
@@ -133,8 +132,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
+        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         env: 
-          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
           tag: 'main' 
         uses: docker/build-push-action@v3
         with:
@@ -168,8 +167,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        env: 
-          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        env:
           tag: 'main' 
         uses: docker/build-push-action@v3
         with:
@@ -203,8 +202,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        env: 
-          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        env:
           tag: 'main' 
         uses: docker/build-push-action@v3
         with:
@@ -238,8 +237,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        env: 
-          # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+        env:
           tag: 'main' 
         uses: docker/build-push-action@v3
         with:
