@@ -1,5 +1,5 @@
-{ "include" : 
-  [
+{ "include":
+[
   {
     "source": "abcdesktopio/oc.template.alpine",
     "target": "oc.template.alpine.libreoffice",
@@ -14,6 +14,6 @@
     "source": "abcdesktopio/oc.template.ubuntu",
     "target": "oc.template.ubuntu.wine",
     "dockerfile": "oc.template.ubuntu.wine"
-  },  
+  }
   ]
 }
