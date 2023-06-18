@@ -9,6 +9,11 @@
     "source": "abcdesktopio/oc.template.ubuntu.gtk.20.04",
     "target": "oc.template.ubuntu.gtk.java",
     "dockerfile": "oc.template.ubuntu.gtk.java"
-  }
+  },
+  {
+    "source": "abcdesktopio/oc.template.ubuntu",
+    "target": "oc.template.ubuntu.wine",
+    "dockerfile": "oc.template.ubuntu.wine"
+  },  
   ]
 }
