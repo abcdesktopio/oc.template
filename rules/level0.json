@@ -23,7 +23,7 @@
   {
     "source": "abcdesktopio/oc.template.debian.minimal",
     "target": "oc.template.debian",
-    "dockerfile": "oc.template.ubuntu"
+    "dockerfile": "oc.template.debian"
   }
   ]
 }
