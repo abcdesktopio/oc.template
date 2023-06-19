@@ -11,6 +11,11 @@
     "dockerfile": "oc.template.alpine"
   },
   {
+    "source": "abcdesktopio/oc.template.alpine.minimal.edge",
+    "target": "oc.template.alpine.edge",
+    "dockerfile": "oc.template.alpine"
+  }, 
+  {
     "source": "abcdesktopio/oc.template.alpine.minimal",
     "target": "oc.template.alpine",
     "dockerfile": "oc.template.alpine"
