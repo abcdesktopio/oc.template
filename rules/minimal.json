@@ -10,6 +10,11 @@
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
+    "source": "alpine:edge",
+    "target": "oc.template.alpine.minimal.edge",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
     "source": "alpine",
     "target": "oc.template.alpine.minimal",
     "dockerfile": "oc.template.alpine.minimal"
