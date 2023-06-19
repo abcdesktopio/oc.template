@@ -1,5 +1,15 @@
 { "include" : [
   {
+    "source": "alpine:3.17",
+    "target": "oc.template.alpine.minimal.3.17",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
+    "source": "alpine:3.18",
+    "target": "oc.template.alpine.minimal.3.18",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
     "source": "alpine",
     "target": "oc.template.alpine.minimal",
     "dockerfile": "oc.template.alpine.minimal"
