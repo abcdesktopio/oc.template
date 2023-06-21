@@ -115,24 +115,6 @@ jobs:
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
 
-  commit_minimal:
-    needs: [ job2_do_minimal, job1_init_minimal ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository and submodules
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref_name }}
-      - name: dump
-        run: |
-          echo ${{ needs.job1_init_minimal.outputs.matrix }}
-          echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq '.'
-      - name: dump2
-        run: |
-          l=echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq -r '.include[].target'
-          for i in $l; do echo $i; done
-          curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer <YOUR-TOKEN>" -H "X-GitHub-Api-Version: 2022-11-28"  https://api.github.com/repos/OWNER/REPO/actions/artifacts/ARTIFACT_ID
-      
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
