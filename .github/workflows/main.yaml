@@ -39,12 +39,16 @@ jobs:
   job2_do_nvidia:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
+    # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
+    env:
+      tag: 'main'
     strategy:
       matrix: ${{ fromJson(needs.job1_init_minimal.outputs.nvidia) }}
     steps:
-      - run: echo Run ${{ matrix.source }}
-      - run: echo Run ${{ matrix.target }}
-      - run: echo Run ${{ matrix.dockerfile }}
+      - run: echo Run source ${{ matrix.source }}
+      - run: echo Run target ${{ matrix.target }}
+      - run: echo Run dockerfile ${{ matrix.dockerfile }}
+      - run: echo tag ${{ env.tag }}
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
@@ -60,9 +64,8 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-        env:
-          tag: 'main'
+        # env:
+        #  tag: 'main'
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -80,8 +83,8 @@ jobs:
           node-version: "18.x"
 
       - name: create md file ${{ matrix.target }}
-        env:
-          tag: 'main'
+        # env:
+        #  tag: 'main'
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
           ls -la ${{ matrix.target }}.md
