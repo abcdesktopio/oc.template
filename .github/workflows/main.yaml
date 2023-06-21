@@ -160,11 +160,14 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: create md file ${{ matrix.target }}
-        id: createmd
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+      
+      - name: create md file ${{ matrix.target }}
+        id: createmd
+        run: |
           mdfilecontent=$(cat ${{ matrix.target }}.md)
-          echo "filecontent=$(echo ${mdfilecontent}" >> $GITHUB_OUTPUT
+          echo "filecontent=${{ mdfilecontent }}" >> $GITHUB_OUTPUT
           
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
