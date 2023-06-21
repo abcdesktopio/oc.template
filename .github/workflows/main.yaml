@@ -185,7 +185,23 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-
+      
+      - name: commit artifact md file ${{ matrix.target }}
+        env: 
+          CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
+          CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Continuous Integration
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: |
+            git config --global pull.ff only
+            git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+            git config --global user.email "abcdesktop@users.noreply.github.com"
+            git add ${{ matrix.target }}.md
+            git commit -m "{{ env.CI_COMMIT_MESSAGE }}" ${{ matrix.target }}.md
+            git pull origin ${{ github.head_ref }}
+            git push origin ${{ github.head_ref }}      
      
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
