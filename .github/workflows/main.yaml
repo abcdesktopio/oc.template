@@ -83,22 +83,21 @@ jobs:
           node-version: "18.x"
 
       - name: create md file ${{ matrix.target }}
-        # env:
-        #  tag: 'main'
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-          ls -la ${{ matrix.target }}.md
-          
+        
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
           name: artifact-${{ matrix.target }}
           path: ${{ matrix.target }}.md
-          if-no-files-found: warn # 'error' or 'ignore' are also available, defaults to `warn`
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
       
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
+    env:
+      tag: 'main'
     strategy:
       matrix: ${{ fromJson(needs.job1_init_minimal.outputs.matrix) }}
     steps:
@@ -125,9 +124,7 @@ jobs:
           cat ${{ matrix.dockerfile }}
       - name: Build and push ${{ matrix.target }}
         # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-        # build-args: minimal does not need TAG=${{ env.tag }}
-        env: 
-          tag: 'main' 
+        # build-args: minimal does not need TAG=${{ env.tag }} 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -138,9 +135,26 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+
+      - name: create md file ${{ matrix.target }}
+        run: |
+          node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+      
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
     runs-on: ubuntu-latest
+    env:
+      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level0) }}
     steps:   
@@ -160,8 +174,6 @@ jobs:
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-        env: 
-          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -173,9 +185,26 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+
+      - name: create md file ${{ matrix.target }}
+        run: |
+          node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+      
   job4_do_level1:
     needs: [ job3_do_level0, job1_init_minimal ]
     runs-on: ubuntu-latest
+    env:
+      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level1) }}
     steps:   
@@ -195,8 +224,6 @@ jobs:
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-        env:
-          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -208,9 +235,26 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}  
+            
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+
+      - name: create md file ${{ matrix.target }}
+        run: |
+          node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+      
   job5_do_level2:
     needs: [ job4_do_level1, job1_init_minimal ]
     runs-on: ubuntu-latest
+    env:
+      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level2) }}
     steps:   
@@ -230,8 +274,6 @@ jobs:
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-        env:
-          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -243,9 +285,26 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+
+      - name: create md file ${{ matrix.target }}
+        run: |
+          node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+
   job6_do_level3:
     needs: [ job5_do_level2, job1_init_minimal ]
     runs-on: ubuntu-latest
+    env:
+      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level3) }}
     steps:   
@@ -265,8 +324,6 @@ jobs:
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-        env:
-          tag: 'main' 
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -278,3 +335,18 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+
+      - name: create md file ${{ matrix.target }}
+        run: |
+          node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+
