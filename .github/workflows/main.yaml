@@ -166,7 +166,7 @@ jobs:
       - name: create md file ${{ matrix.target }}
         id: createmd
         run: |
-          mdfilecontent=$(cat ${{ matrix.target }}.md)
+          mdfilecontent=$(base64 ${{ matrix.target }}.md)
           echo "filecontent=${{ mdfilecontent }}" >> $GITHUB_OUTPUT
           
       - name: Repository Dispatch
