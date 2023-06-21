@@ -26,14 +26,16 @@ jobs:
         run: |
            # use jq to load the json file
            # load safe json file format
-           mininaljson=$(jq '.[]' rules/minimal.json)
+           mininaljson=$(node rules/json2nop.js rules/minimal.json)
            echo "::set-output name=matrix::${mininaljson}"
            # use jq to load the json file filter on target
            mininaltargetjson=$(jq 'map(.[].target)' rules/minimal.json)
+           echo "dump mininaltargetjson " 
+           echo ${mininaltargetjson}
            echo "::set-output name=mininaltargetjson::${mininaltargetjson}"
            
            # level0
-           level0json=$(jq '.[]' rules/level0.json)
+           level0json=$(node rules/json2nop.js rules/level0.json)
            echo "::set-output name=level0::${level0json}"
            level0targetjson=$(jq 'map(.[].target)' rules/level0.json)
            echo "::set-output name=level0target::${level0targetjson}"
