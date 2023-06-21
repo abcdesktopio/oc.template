@@ -131,6 +131,7 @@ jobs:
         run: |
           l=echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq -r '.include[].target'
           for i in $l; do echo $i; done
+          curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer <YOUR-TOKEN>" -H "X-GitHub-Api-Version: 2022-11-28"  https://api.github.com/repos/OWNER/REPO/actions/artifacts/ARTIFACT_ID
       
   job2_do_minimal:
     needs: job1_init_minimal
@@ -177,16 +178,20 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: create md file ${{ matrix.target }}
+        id: createmd
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-     
-      - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+          mdfilecontent=$(cat ${{ matrix.target }}.md)
+          echo "filecontent=$(echo ${mdfilecontent}" >> $GITHUB_OUTPUT
+          
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
         with:
-          name: artifact-${{ matrix.target }}
-          path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
-   
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{"filename": "${{ matrix.target }}.md", "filecontent": "${{ steps.createmd.outputs.filecontent }}"}'
+
      
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
