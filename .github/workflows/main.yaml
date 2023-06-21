@@ -127,8 +127,11 @@ jobs:
         run: |
           echo ${{ needs.job1_init_minimal.outputs.matrix }}
           echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq '.'
-          echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq --compact-output 'map(.[].target)' 
-    
+      - name: dump2
+        run: |
+          l=echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq -r '.include[].target'
+          for i in $l; do echo $i; done
+      
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
