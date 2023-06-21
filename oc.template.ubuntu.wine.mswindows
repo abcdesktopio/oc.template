@@ -12,7 +12,6 @@ RUN apt-get update && \
 	winbind			\
 	gettext			\ 
 	libgettextpo-dev 	\
-	python-dbus 		\
 	&& rm -rf /var/lib/apt/lists/*	
 	
 # install play
