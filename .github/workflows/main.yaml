@@ -163,7 +163,7 @@ jobs:
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
       
-      - name: create md file ${{ matrix.target }}
+      - name: read md file ${{ matrix.target }}
         id: createmd
         run: |
           mdfilecontent=$(base64 ${{ matrix.target }}.md)
