@@ -73,6 +73,26 @@ jobs:
           push: true
           tags: |
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+          
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with: 
+          node-version: "18.x"
+
+      - name: create md file
+        env:
+          tag: 'main'
+        run: |
+          node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+          ls -la ${{ matrix.dockerfile }}.md
+          
+      - name: create artifact md file
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.dockerfile }}
+          path: ${{ matrix.dockerfile }}.md
+          if-no-files-found: warn # 'error' or 'ignore' are also available, defaults to `warn`
+      
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
