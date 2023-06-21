@@ -1,8 +1,7 @@
 name: abcdesktoptemplatebuilder
 on: push
 env:
-  TAG: dev
-  dummy: test
+  tag: main
 jobs:
   job1_init_minimal:
     runs-on: ubuntu-latest
@@ -72,8 +71,6 @@ jobs:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
     # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
-    env:
-      tag: 'main'
     strategy:
       matrix: ${{ fromJson(needs.job1_init_minimal.outputs.nvidia) }}
     steps:
@@ -117,30 +114,24 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-          
-      - name: commit artifact md file ${{ matrix.target }}
-        env: 
-          CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
-          CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Continuous Integration
-        uses: nick-fields/retry@v2
+
+  commit_minimal:
+    needs: [ job2_do_minimal, job1_init_minimal ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v3
         with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: |
-            git config --global pull.ff only
-            git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-            git config --global user.email "abcdesktop@users.noreply.github.com"
-            git add ${{ matrix.target }}.md
-            git commit -m "{{ env.CI_COMMIT_MESSAGE }}" ${{ matrix.target }}.md
-            git pull origin ${{ github.head_ref }}
-            git push origin ${{ github.head_ref }}      
-        
+          ref: ${{ github.ref_name }}
+      - name: dump
+        run: |
+          echo ${{ needs.job1_init_minimal.outputs.matrix }}
+          echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq '.'
+          echo ${{ needs.job1_init_minimal.outputs.matrix }} | jq --compact-output 'map(.[].target)' 
     
   job2_do_minimal:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
-    env:
-      tag: 'main'
     strategy:
       matrix: ${{ fromJson(needs.job1_init_minimal.outputs.matrix) }}
     steps:
@@ -185,29 +176,18 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-      
-      - name: commit artifact md file ${{ matrix.target }}
-        env: 
-          CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
-          CI_COMMIT_AUTHOR: ${{ github.event.repository.name }} Continuous Integration
-        uses: nick-fields/retry@v2
+     
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
         with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: |
-            git config --global pull.ff only
-            git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-            git config --global user.email "abcdesktop@users.noreply.github.com"
-            git add ${{ matrix.target }}.md
-            git commit -m "{{ env.CI_COMMIT_MESSAGE }}" ${{ matrix.target }}.md
-            git pull origin ${{ github.head_ref }}
-            git push origin ${{ github.head_ref }}      
+          name: artifact-${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+   
      
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
     runs-on: ubuntu-latest
-    env:
-      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level0) }}
     steps:   
@@ -256,8 +236,6 @@ jobs:
   job4_do_level1:
     needs: [ job3_do_level0, job1_init_minimal ]
     runs-on: ubuntu-latest
-    env:
-      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level1) }}
     steps:   
@@ -306,8 +284,6 @@ jobs:
   job5_do_level2:
     needs: [ job4_do_level1, job1_init_minimal ]
     runs-on: ubuntu-latest
-    env:
-      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level2) }}
     steps:   
@@ -356,8 +332,6 @@ jobs:
   job6_do_level3:
     needs: [ job5_do_level2, job1_init_minimal ]
     runs-on: ubuntu-latest
-    env:
-      tag: 'main'
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level3) }}
     steps:   
