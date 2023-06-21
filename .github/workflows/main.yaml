@@ -162,18 +162,20 @@ jobs:
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
       
-      - name: read md file ${{ matrix.target }}
-        id: createmd
-        run: |
-          echo "filecontent=$(base64 ${{ matrix.target }}.md)" >> $GITHUB_OUTPUT
-          
+      - name: create artifact md file ${{ matrix.target }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ matrix.target }}.md
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+      
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.TOKEN_DISPATCH }}
           repository: abcdesktopio/docs
           event-type: dispatch-from-oc.template
-          client-payload: '{"filename": "${{ matrix.target }}.md", "filecontent": "${{ steps.createmd.outputs.filecontent }}"}'
+          client-payload: '{"filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
 
      
   job3_do_level0:
