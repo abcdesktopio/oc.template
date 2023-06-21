@@ -165,8 +165,7 @@ jobs:
       - name: read md file ${{ matrix.target }}
         id: createmd
         run: |
-          mdfilecontent=$(base64 ${{ matrix.target }}.md)
-          echo "filecontent=${{ mdfilecontent }}" >> $GITHUB_OUTPUT
+          echo "filecontent=$(base64 ${{ matrix.target }}.md)" >> $GITHUB_OUTPUT
           
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
