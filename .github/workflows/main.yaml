@@ -24,8 +24,11 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
+           # use jq to load the json file
+           # load safe json file format
            mininaljson=$(jq '.' rules/minimal.json)
            echo "::set-output name=matrix::${mininaljson}"
+           # use jq to load the json file filter on target
            mininaltargetjson=$(jq '.include[].target' rules/minimal.json)
            echo "::set-output name=mininaltargetjson::${mininaltargetjson}"
            
@@ -36,28 +39,28 @@ jobs:
            echo "::set-output name=level0target::${level0targetjson}"
            
            # level1
-           level1json=$(node rules/json2nop.js rules/level1.json)
+           level1json=$(jq '.' rules/level1.json)
            echo "::set-output name=level1::${level1json}"
            level1targetjson=$(jq '.include[].target' rules/level1.json)
            echo "::set-output name=level1target::${level1targetjson}"
            
            # level2
-           level2json=$(node rules/json2nop.js rules/level2.json)
+           level2json=$(jq '.' rules/level2.json)
            echo "::set-output name=level2::${level2json}"
            level2targetjson=$(jq '.include[].target' rules/level2.json)
            echo "::set-output name=level2target::${level2targetjson}"
            
            # level3
-           level3json=$(node rules/json2nop.js rules/level3.json)
+           level3json=$(jq '.' rules/level3.json)
            echo "::set-output name=level3::${level3json}"
            level3targetjson=$(jq '.include[].target' rules/level3.json)
            echo "::set-output name=level3target::${level3targetjson}"
            
-           # level4
-           level4json=$(node rules/json2nop.js rules/nvidia.json)
-           echo "::set-output name=nvidia::${level4json}"
-           level4targetjson=$(jq '.include[].target' rules/level4.json)
-           echo "::set-output name=level4target::${level4targetjson}" 
+           # nvidia
+           nvidiajson=$(jq '.' rules/nvidia.json)
+           echo "::set-output name=nvidia::${nvidiajson}"
+           nvidiatargetjson=$(jq '.include[].target' rules/nvidia.json)
+           echo "::set-output name=nvidiatarget::${nvidiatargetjson}" 
            
   job2_do_nvidia:
     needs: job1_init_minimal
