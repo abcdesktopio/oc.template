@@ -175,7 +175,7 @@ jobs:
           token: ${{ secrets.TOKEN_DISPATCH }}
           repository: abcdesktopio/docs
           event-type: dispatch-from-oc.template
-          client-payload: '{"filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
+          client-payload: '{ "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
 
      
   job3_do_level0:
