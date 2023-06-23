@@ -19,7 +19,6 @@ RUN dpkg --add-architecture i386
 
 # install play
 RUN apt-get update && apt-get install -y --no-install-recommends	\
-        wine:i386					\
 	libosmesa6:i386					\
         libnss-mdns					\
 	libnss-mdns:i386				\
