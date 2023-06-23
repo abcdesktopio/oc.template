@@ -116,6 +116,11 @@ function makedocumentation(imagename, imagebase, dockerfilename) {
   fs.writeSync( fd, "\n" );
   fs.writeSync( fd, '## `DockerFile` source code\n');
   const dockefiledatadata = fs.readFileSync(dockerfilename,{encoding:'utf8', flag:'r'});
+
+  fs.writeSync( fd, "\n" );
+  var date_time = new Date();
+  wstream.write(`> file ${filename} is created at ${date_time}\n`);
+	
   writecmd( fd, dockefiledatadata );
 
   fs.closeSync( fd );
