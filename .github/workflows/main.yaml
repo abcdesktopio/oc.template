@@ -3,6 +3,7 @@ on: push
 env:
   tag: main
 jobs:
+
   job1_init_minimal:
     runs-on: ubuntu-latest
     outputs:
@@ -99,11 +100,10 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          retention-days: 1
           name: nvidia
           path: ${{ matrix.target }}.md
   
-  dispatch_job2:
+  dispatch_nvidia:
     needs: job2_do_nvidia
     runs-on: ubuntu-latest
     steps:
@@ -167,7 +167,6 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          retention-days: 1
           name: minimal
           path: ${{ matrix.target }}.md
        
@@ -227,7 +226,6 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          retention-days: 1
           name: level0
           path: ${{ matrix.target }}.md
 
@@ -291,8 +289,7 @@ jobs:
         with:
           name: level1
           path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
-
+  
   dispatch_level1:
     needs: job4_do_level1
     runs-on: ubuntu-latest
@@ -352,7 +349,6 @@ jobs:
         with:
           name: level2
           path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
 
   dispatch_level2:
     needs: job5_do_level2
