@@ -100,16 +100,21 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           retention-days: 1
-          name: ${{ matrix.target }}
+          name: nvidia
           path: ${{ matrix.target }}.md
-      
+  
+  dispatch_job2:
+    needs: job2_do_nvidia
+    runs-on: ubuntu-latest
+    steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.TOKEN_DISPATCH }}
           repository: abcdesktopio/docs
           event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "nvidia" }'
+
 
   job2_do_minimal:
     needs: job1_init_minimal
@@ -163,17 +168,20 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           retention-days: 1
-          name: ${{ matrix.target }}
+          name: minimal
           path: ${{ matrix.target }}.md
        
+  dispatch_minimal:
+    needs: job2_do_minimal
+    runs-on: ubuntu-latest
+    steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.TOKEN_DISPATCH }}
           repository: abcdesktopio/docs
           event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
-
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "minimal" }'
      
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
