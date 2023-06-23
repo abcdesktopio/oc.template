@@ -224,18 +224,27 @@ jobs:
             
       - name: Use Node.js
         uses: actions/setup-node@v3
-
+        
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-
+      
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: artifact-${{ matrix.target }}
+          name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
           if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
       
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
+
+
   job4_do_level1:
     needs: [ job3_do_level0, job1_init_minimal ]
     runs-on: ubuntu-latest
@@ -276,14 +285,22 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-
+      
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: artifact-${{ matrix.target }}
+          name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
           if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
       
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
+
   job5_do_level2:
     needs: [ job4_do_level1, job1_init_minimal ]
     runs-on: ubuntu-latest
@@ -324,13 +341,21 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-
+      
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: artifact-${{ matrix.target }}
+          name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
           if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+      
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
 
   job6_do_level3:
     needs: [ job5_do_level2, job1_init_minimal ]
@@ -372,12 +397,20 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-
+      
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: artifact-${{ matrix.target }}
+          name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
           if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
+      
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}", "filename": "${{ matrix.target }}.md", "artifact": "${{ matrix.target }}" }'
 
 
