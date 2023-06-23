@@ -13,7 +13,10 @@ RUN apt-get update && \
 	gettext			\ 
 	libgettextpo-dev 	\
 	&& rm -rf /var/lib/apt/lists/*	
-	
+
+# set arch to i386
+RUN dpkg --add-architecture i386
+
 # install play
 RUN apt-get update && apt-get install -y --no-install-recommends	\
 	libosmesa6:i386					\
