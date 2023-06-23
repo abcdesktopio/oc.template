@@ -27,44 +27,31 @@ jobs:
            # use node to safe load the json file
            mininaljson=$(node rules/json2nop.js rules/minimal.json)
            echo "::set-output name=matrix::${mininaljson}"
-           # use jq to load the json file filter on target
-           mininaltargetjson=$(jq --compact-output 'map(.[].target)' rules/minimal.json)
-           echo "::set-output name=mininaltargetjson::${mininaltargetjson}"
-           
+            
            # level0
            # use node to safe load the json file
            level0json=$(node rules/json2nop.js rules/level0.json)
            echo "::set-output name=level0::${level0json}"
-           # level0targetjson=$(jq --compact-output 'map(.[].target)' rules/level0.json)
-           # echo "::set-output name=level0target::${level0targetjson}"
            
            # level1
            # use node to safe load the json file
            level1json=$(node rules/json2nop.js rules/level1.json)
            echo "::set-output name=level1::${level1json}"
-           # level1targetjson=$(jq --compact-output 'map(.[].target)' rules/level1.json)
-           # echo "::set-output name=level1target::${level1targetjson}"
            
            # level2
            # use node to safe load the json file
            level2json=$(node rules/json2nop.js rules/level2.json)
            echo "::set-output name=level2::${level2json}"
-           # level2targetjson=$(jq --compact-output 'map(.[].target)' rules/level2.json)
-           # echo "::set-output name=level2target::${level2targetjson}"
            
            # level3
            # use node to safe load the json file
            level3json=$(node rules/json2nop.js rules/level3.json)
            echo "::set-output name=level3::${level3json}"
-           # level3targetjson=$(jq --compact-output 'map(.[].target)' rules/level3.json)
-           # echo "::set-output name=level3target::${level3targetjson}"
            
            # nvidia
            # use node to safe load the json file
            nvidiajson=$(node rules/json2nop.js rules/nvidia.json)
            echo "::set-output name=nvidia::${nvidiajson}"
-           # nvidiatargetjson=$(jq --compact-output 'map(.[].target)' rules/nvidia.json)
-           # echo "::set-output name=nvidiatarget::${nvidiatargetjson}" 
            
   job2_do_nvidia:
     needs: job1_init_minimal
@@ -112,9 +99,9 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
+          retention-days: 1
           name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
       
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
@@ -175,10 +162,10 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
+          retention-days: 1
           name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
-      
+       
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
@@ -232,10 +219,10 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
+          retention-days: 1
           name: ${{ matrix.target }}
           path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
-      
+        
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
