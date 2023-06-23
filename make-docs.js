@@ -119,7 +119,7 @@ function makedocumentation(imagename, imagebase, dockerfilename) {
 
   fs.writeSync( fd, "\n" );
   var date_time = new Date();
-  wstream.write(`> file ${filename} is created at ${date_time}\n`);
+  fs.writeSync(`> file ${filename} is created at ${date_time} by make-docs.js\n`);
 	
   writecmd( fd, dockefiledatadata );
 
