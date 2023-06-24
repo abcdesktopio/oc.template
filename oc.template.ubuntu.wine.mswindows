@@ -5,43 +5,43 @@ FROM ${BASE_IMAGE}:${TAG}
 ENV DEBIAN_FRONTEND noninteractive 
 RUN apt-get update && \
  	apt-get install --install-recommends -y \
-	xterm			\
-	wget			\
-	netcat			\
-	file			\
-	winbind			\
-	gettext			\ 
-	libgettextpo-dev 	\
+	xterm \
+	wget \
+	netcat \
+	file \
+	winbind \
+	gettext \ 
+	libgettextpo-dev \
 	&& rm -rf /var/lib/apt/lists/*	
 
 # set arch to i386
 RUN dpkg --add-architecture i386
 
 # install play
-RUN apt-get update && apt-get install -y --no-install-recommends	\
-	libosmesa6:i386					\
-        libnss-mdns					\
-	libnss-mdns:i386				\
-	libncurses5:i386				\
-	libodbc1:i386					\
-	libxext6:i386 					\
-	libxi6:i386 					\
-	libfreetype6:i386  				\
-	libx11-6:i386 					\
-	libz1:i386 					\
-	libcups2:i386 					\
-	liblcms2-2:i386 				\
-	libglu1-mesa:i386 				\
-	libxcursor1:i386 				\
-	libxrandr2:i386 				\
-	libxml2:i386					\
-	libgl1-mesa-dri:i386 				\
-	libgl1-mesa-glx:i386				\
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	libosmesa6:i386	\
+        libnss-mdns \
+	libnss-mdns:i386 \
+	libncurses5:i386 \
+	libodbc1:i386 \
+	libxext6:i386 \
+	libxi6:i386 \
+	libfreetype6:i386 \
+	libx11-6:i386 \
+	libz1:i386 \
+	libcups2:i386 \
+	liblcms2-2:i386 \
+	libglu1-mesa:i386 \
+	libxcursor1:i386 \
+	libxrandr2:i386 \
+	libxml2:i386 \
+	libgl1-mesa-dri:i386 \
+	libgl1-mesa-glx:i386 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # add source play on linux 
 RUN apt-get update && \
    wget https://www.playonlinux.com/script_files/PlayOnLinux/4.3.4/PlayOnLinux_4.3.4.deb && \
-   apt-get install -y ./PlayOnLinux_4.3.4.deb && \
+   apt-get install --allow-downgrades -y ./PlayOnLinux_4.3.4.deb && \
    rm PlayOnLinux_4.3.4.deb && \
    rm -rf /var/lib/apt/lists/*
