@@ -11,7 +11,7 @@
     "dockerfile": "oc.template.ubuntu.gtk.java"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.22.04",
+    "source": "abcdesktopio/oc.template.ubuntu.20.04",
     "target": "oc.template.ubuntu.wine",
     "dockerfile": "oc.template.ubuntu.wine"
   }
