@@ -6,8 +6,8 @@
     "dockerfile": "oc.template.ubuntu.gtk"
   },
   {
-    "source": "abcdesktopio/oc.template.alpine",
-    "target": "oc.template.alpine.gtk",
+    "source": "abcdesktopio/oc.template.alpine.edge",
+    "target": "oc.template.alpine.edge.gtk",
     "dockerfile": "oc.template.alpine.gtk"
   },
   {
