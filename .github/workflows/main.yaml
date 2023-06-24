@@ -96,6 +96,7 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
+          cat ${{ matrix.target }}.md
       
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
@@ -163,7 +164,8 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-      
+          cat ${{ matrix.target }}.md
+          
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
@@ -222,7 +224,8 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-      
+          cat ${{ matrix.target }}.md
+          
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
@@ -283,7 +286,8 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-      
+          cat ${{ matrix.target }}.md
+          
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
@@ -343,7 +347,8 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-      
+          cat ${{ matrix.target }}.md
+          
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
@@ -403,7 +408,8 @@ jobs:
       - name: create md file ${{ matrix.target }}
         run: |
           node make-docs.js ${{ matrix.source }} ${{ matrix.target }}:${{ env.tag }} ${{ matrix.dockerfile }}
-      
+          cat ${{ matrix.target }}.md
+          
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
