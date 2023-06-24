@@ -104,7 +104,7 @@ function makedocumentation(imagename, imagebase, dockerfilename) {
     fs.writeSync( fd, `## from\n Docker official images [${imagebase}](https://hub.docker.com/_/${imagebasenotag})\n`);
   }
   else {
-    fs.writeSync( fd, `## from\n inherite [${imagebase}](../${imagebasenotagnoprefix})\n`);
+    fs.writeSync( fd, `## from\n inherit [${imagebase}](../${imagebasenotagnoprefix})\n`);
   }
   
   const release = getrelease(imagename);
@@ -118,12 +118,11 @@ function makedocumentation(imagename, imagebase, dockerfilename) {
   const dockefiledatadata = fs.readFileSync(dockerfilename,{encoding:'utf8', flag:'r'});
   writecmd( fd, dockefiledatadata );
   fs.writeSync( fd, "\n" );
+  fs.writeSync( fd, "\n" );
 	
   var date_time = new Date();
   fs.writeSync( fd, `> file ${filename} is created at ${date_time} by make-docs.js\n`);
 	
-  writecmd( fd, dockefiledatadata );
-
   fs.closeSync( fd );
 }
 
