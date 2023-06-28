@@ -2,6 +2,6 @@
 
 for json in "rules/*.json" 
 do 
- jq '.include[].dockerfile' $json | uniq 
+ jq '.include[].dockerfile' $json | uniq | tr -d '"'
 done
 
