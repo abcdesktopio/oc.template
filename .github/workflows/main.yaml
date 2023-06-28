@@ -22,10 +22,39 @@ jobs:
         uses: actions/setup-node@v3
         with: 
           node-version: "18.x"
+          
+      - name: Dump docker files
+        # list dockerfile from json files
+        id: dumpdockerfiles
+        run: |
+           ./scripts/list-dockerfile.sh > dockerfiles
+           cat dockerfiles
+   
+      - name: create artifact dockerfiles
+        uses: actions/upload-artifact@v3
+        with:
+          name: dockerfiles
+          path: dockerfiles
+      
+      - name: Dump template images
+        # Dump template images from json files
+        id: dumptemplateimagefiles
+        run: | 
+           ./scripts/list-templateimage.sh > templateimages 
+           cat templateimages
+           
+      - name: create artifact template image
+        uses: actions/upload-artifact@v3
+        with:
+          name: templateimages
+          path: templateimages
+   
+      # create matrix build 
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
            echo tag ${{ env.tag }}
+           
            # use node to safe load the json file
            mininaljson=$(node rules/json2nop.js rules/minimal.json)
            echo "::set-output name=matrix::${mininaljson}"
@@ -131,7 +160,6 @@ jobs:
           echo Dockerfile ${{ matrix.dockerfile }}
           cat ${{ matrix.dockerfile }}
       - name: Build and push ${{ matrix.target }}
-        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         # build-args: minimal does not need TAG=${{ env.tag }} 
         uses: docker/build-push-action@v3
         with:
@@ -183,7 +211,6 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -231,7 +258,6 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -279,7 +305,6 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -327,7 +352,6 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -354,3 +378,15 @@ jobs:
           name: template.md
           path: ${{ matrix.target }}.md
           if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`    
+
+  dispatch:
+    needs: [ job6_do_level3, job1_init_minimal ]
+    runs-on: ubuntu-latest
+    steps:  
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "template.md" }'
