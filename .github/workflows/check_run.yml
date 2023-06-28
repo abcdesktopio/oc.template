@@ -28,5 +28,14 @@ jobs:
         run: |
           echo "${{ github.event }}"
           
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_DISPATCH }}
+          repository: abcdesktopio/docs
+          event-type: dispatch-from-oc.template
+          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "template.md" }'
+
+          
           
           
