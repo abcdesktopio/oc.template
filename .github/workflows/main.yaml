@@ -1,7 +1,7 @@
 name: abcdesktoptemplatebuilder
 on: push
 env:
-  tag: main
+    tag: ${{ github.ref_name }}
 jobs:
 
   job1_init_minimal:
@@ -25,6 +25,7 @@ jobs:
       - name: Set Dynamic Matrix
         id: setmatrix
         run: |
+           echo tag ${{ env.tag }}
            # use node to safe load the json file
            mininaljson=$(node rules/json2nop.js rules/minimal.json)
            echo "::set-output name=matrix::${mininaljson}"
@@ -57,7 +58,6 @@ jobs:
   job2_do_nvidia:
     needs: job1_init_minimal
     runs-on: ubuntu-latest
-    # tag: ${{ github.head_ref || github.ref_name || 'dev' }}
     strategy:
       matrix: ${{ fromJson(needs.job1_init_minimal.outputs.nvidia) }}
     steps:
@@ -80,8 +80,6 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        env:
-          tag: 'main'
         uses: docker/build-push-action@v3
         with:
           file: ${{ matrix.dockerfile }}
@@ -101,21 +99,8 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: nvidia
+          name: template.md
           path: ${{ matrix.target }}.md
-  
-  dispatch_nvidia:
-    needs: job2_do_nvidia
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN_DISPATCH }}
-          repository: abcdesktopio/docs
-          event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "nvidia" }'
-
 
   job2_do_minimal:
     needs: job1_init_minimal
@@ -126,6 +111,7 @@ jobs:
       - run: echo Run ${{ matrix.source }}
       - run: echo Run ${{ matrix.target }}
       - run: echo Run ${{ matrix.dockerfile }}
+      - run: echo tag ${{ env.tag }}
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
@@ -169,27 +155,19 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: minimal
+          name: template.md
           path: ${{ matrix.target }}.md
        
-  dispatch_minimal:
-    needs: job2_do_minimal
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN_DISPATCH }}
-          repository: abcdesktopio/docs
-          event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "minimal" }'
-     
   job3_do_level0:
     needs: [ job2_do_minimal, job1_init_minimal ]
     runs-on: ubuntu-latest
     strategy:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level0) }}
     steps:   
+      - run: echo Run source ${{ matrix.source }}
+      - run: echo Run target ${{ matrix.target }}
+      - run: echo Run dockerfile ${{ matrix.dockerfile }}
+      - run: echo tag ${{ env.tag }}
       - name: Checkout repository and submodules
         uses: actions/checkout@v3
         with:
@@ -229,22 +207,8 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: level0
+          name: template.md
           path: ${{ matrix.target }}.md
-
-  dispatch_level0:
-    needs: job3_do_level0
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN_DISPATCH }}
-          repository: abcdesktopio/docs
-          event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "level0" }'
-     
-
 
   job4_do_level1:
     needs: [ job3_do_level0, job1_init_minimal ]
@@ -291,21 +255,8 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: level1
+          name: template.md
           path: ${{ matrix.target }}.md
-  
-  dispatch_level1:
-    needs: job4_do_level1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN_DISPATCH }}
-          repository: abcdesktopio/docs
-          event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "level1" }'
-     
 
   job5_do_level2:
     needs: [ job4_do_level1, job1_init_minimal ]
@@ -352,21 +303,8 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: level2
+          name: template.md
           path: ${{ matrix.target }}.md
-
-  dispatch_level2:
-    needs: job5_do_level2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN_DISPATCH }}
-          repository: abcdesktopio/docs
-          event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "level2" }'
-     
 
   job6_do_level3:
     needs: [ job5_do_level2, job1_init_minimal ]
@@ -413,19 +351,6 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v3
         with:
-          name: level3
+          name: template.md
           path: ${{ matrix.target }}.md
-          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`
-          
-  dispatch_level3:
-    needs: job6_do_level3
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.TOKEN_DISPATCH }}
-          repository: abcdesktopio/docs
-          event-type: dispatch-from-oc.template
-          client-payload: '{  "repository": "${{ github.repository }}", "run_id": "${{ github.run_id }}",  "artifact": "level3" }'
-          
+          if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`    
