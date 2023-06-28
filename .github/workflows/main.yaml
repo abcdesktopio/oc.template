@@ -30,7 +30,7 @@ jobs:
            ./scripts/list-dockerfile.sh > dockerfiles
            cat dockerfiles
    
-      - name: create artifact template image
+      - name: create artifact dockerfiles
         uses: actions/upload-artifact@v3
         with:
           name: dockerfiles
