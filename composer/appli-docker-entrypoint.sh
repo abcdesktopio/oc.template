@@ -68,9 +68,15 @@ fi
 # create a PULSEAUDIO COOKIE 
 if [ ! -z "$PULSEAUDIO_COOKIE" ]; then
 	log "setting pulseaudio cookie"
-  	mkdir -p ~/.config/pulse
-  	cat /etc/pulse/cookie | openssl rc4 -K "$PULSEAUDIO_COOKIE" -nopad -nosalt > ~/.config/pulse/cookie
-	log "pusleaudio cookie done exitcode=$?"
+	if [ ! -f ~/.config/pulse/cookie ]; then
+		echo 'create ~/.config/pulse/cookie'
+                mkdir -p ~/.config/pulse
+		# create a 256 Bytes cookie file for pulseaudio
+                for i in {1..8} 
+		do 
+  			echo -n "$PULSEAUDIO_COOKIE" >> ~/.config/pulse/cookie
+     		done
+        fi
 fi
 
 # start dbux-launch if exists
