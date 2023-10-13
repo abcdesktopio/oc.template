@@ -34,7 +34,7 @@ fi
 log "init overlay scripts done" 
 
 # Run init APP if exist
-BASENAME_APP=$(basename "$APPBIN")
+BASENAME_APP=$(basename "$APP")
 log "BASENAME_APP=$BASENAME_APP"
 SOURCEAPP_FILE=/composer/init.d/init.${BASENAME_APP}
 if [ -f "$SOURCEAPP_FILE" ]; then
