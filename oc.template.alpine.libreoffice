@@ -7,6 +7,7 @@ FROM ${BASE_IMAGE}:${TAG}
 
 # add libreoffice
 RUN apk add --no-cache --update  \
+   mesa-vulkan-swrast \  
    faenza-icon-theme-libreoffice \
    libreoffice 			 \
    libreoffice-gtk
