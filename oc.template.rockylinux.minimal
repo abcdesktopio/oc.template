@@ -1,14 +1,14 @@
-ARG BASE_IMAGE=rockylinux:9
+ARG BASE_IMAGE=rockylinux:8
 FROM ${BASE_IMAGE}
 
-MAINTAINER Alexandre DEVELY 
+MAINTAINER Alexandre DEVELY
+
 RUN mkdir -p /composer/init.d
 COPY etc/ /etc
 
-# correct debconf: (TERM is not set, so the dialog frontend is not usable.)
 
 RUN  yum update -y && \
-     yum install -y \
+    && yum install -y --allowerasing \
      glibc-langpack-en \
      cups-client \
      pulseaudio-libs \
