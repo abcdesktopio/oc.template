@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=rockylinux:8
+ARG BASE_IMAGE=rockylinux:9
 FROM ${BASE_IMAGE}
 
 MAINTAINER Alexandre DEVELY
@@ -8,7 +8,7 @@ COPY etc/ /etc
 
 
 RUN  yum update -y && \
-    && yum install -y --allowerasing \
+     yum install -y --allowerasing \
      glibc-langpack-en \
      cups-client \
      pulseaudio-libs \
