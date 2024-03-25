@@ -1,8 +1,8 @@
 
 # default TAG is dev
+ARG TAG=dev
 ARG BASE_IMAGE
-FROM ${BASE_IMAGE}
-
+FROM ${BASE_IMAGE}:${TAG}
 
 # add some fonts
 RUN yum update -y && \
