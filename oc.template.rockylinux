@@ -1,0 +1,17 @@
+
+# default TAG is dev
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+
+# add some fonts
+RUN yum install -y \
+        google-noto-fonts-common \
+        google-noto-mono-fonts \
+        xorg-x11-fonts-100dpi \
+        xorg-x11-fonts-75dpi \
+	texlive-utopia \
+	liberation-fonts-common \
+	dejavu-fonts-common \
+     && yum -y clean all \
+     && rm -rf /var/cache
