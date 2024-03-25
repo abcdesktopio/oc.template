@@ -8,7 +8,7 @@ COPY etc/ /etc
 # correct debconf: (TERM is not set, so the dialog frontend is not usable.)
 
 RUN yum update -y \
-    && yum install -y \
+    && yum install -y --allowerasing \
      glibc-langpack-en \
      cups-client \
      pulseaudio-libs \
