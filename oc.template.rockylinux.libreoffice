@@ -4,7 +4,6 @@ FROM ${BASE_IMAGE}:${TAG}
 
 # install gtk lib
 RUN yum update && \
-     yum install -y \
-        libreoffice-gtk3 \
+     yum install -y libreoffice && \
      && yum -y clean all \
      && rm -rf /var/cache
