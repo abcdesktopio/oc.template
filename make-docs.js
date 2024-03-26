@@ -70,18 +70,7 @@ function getrelease( image ) {
 }
 
 
-function detectimage(image) {
-  const detector={ 'debian':'/etc/os-release', 'ubuntu':'/etc/lsb-release', 'alpine':'/etc/alpine-release' };
-  var release=undefined;
-  for (const [key, value] of Object.entries(detector)) {
-    release = getrelease( image, value );
-    if (release) 
-      break;
-  }
-  return release
-}
-
-const rootimages=[ 'debian', 'ubuntu', 'alpine'];
+const rootimages=[ 'debian', 'ubuntu', 'alpine', 'rockylinux' ];
 
 
 function makedocumentation(imagename, imagebase, dockerfilename) {
