@@ -1,6 +1,16 @@
 { "include" : 
   [
   {
+    "source": "abcdesktopio/oc.template.rockylinux.minimal.8",
+    "target": "oc.template.rockylinux.8",
+    "dockerfile": "oc.template.rockylinux"
+  },
+  {
+    "source": "abcdesktopio/oc.template.rockylinux.minimal.9",
+    "target": "oc.template.rockylinux.9",
+    "dockerfile": "oc.template.rockylinux"
+  },
+  {
     "source": "abcdesktopio/oc.template.alpine.minimal.3.17",
     "target": "oc.template.alpine.3.17",
     "dockerfile": "oc.template.alpine"
