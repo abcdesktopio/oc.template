@@ -15,11 +15,11 @@ jobs:
        nvidia: ${{ steps.setmatrix.outputs.nvidia }} 
     steps:
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with: 
           node-version: "18.x"
           
@@ -31,7 +31,7 @@ jobs:
            cat dockerfiles
    
       - name: create artifact dockerfiles
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dockerfiles
           path: dockerfiles
@@ -44,7 +44,7 @@ jobs:
            cat templateimages
            
       - name: create artifact template image
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: templateimages
           path: templateimages
@@ -95,21 +95,21 @@ jobs:
       - run: echo Run dockerfile ${{ matrix.dockerfile }}
       - run: echo tag ${{ env.tag }}
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
           submodules: recursive
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
-        uses: docker/login-action@v2 
+        uses: docker/login-action@v3 
         with:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           file: ${{ matrix.dockerfile }}
           context: .
@@ -126,7 +126,7 @@ jobs:
           cat ${{ matrix.target }}.md
       
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -142,16 +142,16 @@ jobs:
       - run: echo Run ${{ matrix.dockerfile }}
       - run: echo tag ${{ env.tag }}
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
           submodules: recursive
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
-        uses: docker/login-action@v2 
+        uses: docker/login-action@v3
         with:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
@@ -161,7 +161,7 @@ jobs:
           cat ${{ matrix.dockerfile }}
       - name: Build and push ${{ matrix.target }}
         # build-args: minimal does not need TAG=${{ env.tag }} 
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           file: ${{ matrix.dockerfile }}
           context: .
@@ -173,7 +173,7 @@ jobs:
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: create md file ${{ matrix.target }}
         run: |
@@ -181,7 +181,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -197,21 +197,21 @@ jobs:
       - run: echo Run dockerfile ${{ matrix.dockerfile }}
       - run: echo tag ${{ env.tag }}
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           ref: ${{ github.ref_name }}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           file: ${{ matrix.dockerfile }}
           context: .
@@ -224,7 +224,7 @@ jobs:
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         
       - name: create md file ${{ matrix.target }}
         run: |
@@ -232,7 +232,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -244,21 +244,21 @@ jobs:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level1) }}
     steps:   
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           ref: ${{ github.ref_name }}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           file: ${{ matrix.dockerfile }}
           context: .
@@ -271,7 +271,7 @@ jobs:
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}  
             
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: create md file ${{ matrix.target }}
         run: |
@@ -279,7 +279,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -291,12 +291,12 @@ jobs:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level2) }}
     steps:   
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           ref: ${{ github.ref_name }}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Login to DockerHub
@@ -305,7 +305,7 @@ jobs:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           file: ${{ matrix.dockerfile }}
           context: .
@@ -318,7 +318,7 @@ jobs:
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: create md file ${{ matrix.target }}
         run: |
@@ -326,7 +326,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -338,21 +338,21 @@ jobs:
      matrix: ${{ fromJson(needs.job1_init_minimal.outputs.level3) }}
     steps:   
       - name: Checkout repository and submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           ref: ${{ github.ref_name }}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Login to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
          username: ${{ secrets.DOCKER_USERNAME }}
          password: ${{ secrets.DOCKER_TOKEN }}
       - name: Build and push ${{ matrix.target }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           file: ${{ matrix.dockerfile }}
           context: .
@@ -365,7 +365,7 @@ jobs:
             abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: create md file ${{ matrix.target }}
         run: |
@@ -373,7 +373,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -384,7 +384,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:  
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.TOKEN_DISPATCH }}
           repository: abcdesktopio/docs
