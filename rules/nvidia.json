@@ -1,6 +1,16 @@
 { "include" : 
   [
   {
+    "source": "nvidia/cuda:12.3.1-base-rockylinux8,
+    "target": "oc.template.rockylinux.8",
+    "dockerfile": "oc.template.rockylinux.minimal"
+  },
+  {
+    "source": "nvidia/cuda:12.3.1-base-rockylinux9,
+    "target": "oc.template.rockylinux.9",
+    "dockerfile": "oc.template.rockylinux.minimal"
+  },
+  {
     "source": "nvidia/cuda:12.0.0-base-ubuntu20.04",
     "target": "oc.template.ubuntu.nvidia.20.04",
     "dockerfile": "oc.template.ubuntu.minimal"
