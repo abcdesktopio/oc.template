@@ -31,7 +31,7 @@ jobs:
            cat dockerfiles
    
       - name: create artifact dockerfiles
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: dockerfiles
           path: dockerfiles
@@ -44,7 +44,7 @@ jobs:
            cat templateimages
            
       - name: create artifact template image
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: templateimages
           path: templateimages
@@ -126,7 +126,7 @@ jobs:
           cat ${{ matrix.target }}.md
       
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -181,7 +181,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -232,7 +232,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -279,7 +279,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -326,7 +326,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: template.md
           path: ${{ matrix.target }}.md
@@ -373,7 +373,7 @@ jobs:
           cat ${{ matrix.target }}.md
           
       - name: create artifact md file ${{ matrix.target }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: template.md
           path: ${{ matrix.target }}.md
