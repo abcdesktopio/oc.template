@@ -81,6 +81,8 @@ fi
 
 # start dbux-launch if exists
 if [ -x /usr/bin/dbus-launch ]; then
+	rm -f /var/lib/dbus/machine-id
+ 	dbus-uuidgen --ensure=/var/lib/dbus/machine-id
 	mkdir -p /run/user/$(id -u)/dconf
         export $(/usr/bin/dbus-launch)
 	log "dbus-launch done exitcode=$?" 
