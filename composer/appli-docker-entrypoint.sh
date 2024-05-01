@@ -89,6 +89,22 @@ if [ -x /usr/bin/dbus-launch ]; then
 fi
 log "end of init"
 
+log "start nvidia settings"
+if [ -d /proc/driver/nvidia ]; then
+       log "/proc/driver/nvidia exists"
+       if [ -x /usr/bin/nvidia-smi ]; then
+                log "command line /usr/bin/nvidia-smi found"
+                # Read the GPU UUID
+                GPU_UUID=$(nvidia-smi --query-gpu=gpu_uuid --format=csv,noheader)
+                log "the GPU_UUID is $GPU_UUID"
+                # Set NVIDIA_VISIBLE_DEVICES
+                export NVIDIA_VISIBLE_DEVICES=$GPU_UUID
+		log "NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES" 
+        fi
+fi
+echo NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES
+log "end of nvidia settings"
+
 # change current dir to homedir 
 # to fix ntlm_auth load for firefox on alpine distribution
 # firefox does not support SSO, does not execute ntlm_auth if ntlm_auth not in current dir or in $PATH
