@@ -92,14 +92,15 @@ log "end of init"
 log "start nvidia settings"
 if [ -d /proc/driver/nvidia ]; then
        log "/proc/driver/nvidia exists"
-       if [ -x /usr/bin/nvidia-smi ]; then
-                log "command line /usr/bin/nvidia-smi found"
+       if [ -f /tmp/gpu_uuid ]; then
+                log "the file /tmp/gpu_uuid is found"
                 # Read the GPU UUID
-                GPU_UUID=$(nvidia-smi --query-gpu=gpu_uuid --format=csv,noheader)
+                GPU_UUID=$(cat /tmp/gpu_uuid)
                 log "the GPU_UUID is $GPU_UUID"
                 # Set NVIDIA_VISIBLE_DEVICES
                 export NVIDIA_VISIBLE_DEVICES=$GPU_UUID
 		log "NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES" 
+  		export NVIDIA_VISIBLE_DEVICES=$GPU_UUID
         fi
 fi
 echo NVIDIA_VISIBLE_DEVICES=$NVIDIA_VISIBLE_DEVICES
