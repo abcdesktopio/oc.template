@@ -20,6 +20,16 @@
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
+    "source": "alpine:3.19",
+    "target": "oc.template.alpine.minimal.3.19",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
+    "source": "alpine:3.20",
+    "target": "oc.template.alpine.minimal.3.20",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
     "source": "alpine:edge",
     "target": "oc.template.alpine.minimal.edge",
     "dockerfile": "oc.template.alpine.minimal"
