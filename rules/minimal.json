@@ -40,21 +40,6 @@
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
-    "source": "ubuntu:18.04",
-    "target": "oc.template.ubuntu.minimal.18.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
-  },
-  {
-    "source": "ubuntu:20.04",
-    "target": "oc.template.ubuntu.minimal.20.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
-  },
-  {
-    "source": "ubuntu:22.04",
-    "target": "oc.template.ubuntu.minimal.22.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
-  },
-  {
     "source": "ubuntu:24.04",
     "target": "oc.template.ubuntu.minimal.24.04",
     "dockerfile": "oc.template.ubuntu.minimal"
