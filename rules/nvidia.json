@@ -11,13 +11,8 @@
     "dockerfile": "oc.template.rockylinux.minimal"
   },
   {
-    "source": "nvidia/cuda:12.4.1-base-ubuntu20.04",
-    "target": "oc.template.ubuntu.nvidia.20.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
-  },
-  {
-    "source": "nvidia/cuda:12.4.1-base-ubuntu22.04",
-    "target": "oc.template.ubuntu.nvidia.22.04",
+    "source": "nvidia/cuda:12.4.1-base-ubuntu24.04",
+    "target": "oc.template.ubuntu.nvidia.24.04",
     "dockerfile": "oc.template.ubuntu.minimal"
   }
   ]
