@@ -62,7 +62,7 @@ COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/aurorae/themes /usr/share/auro
 COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/color-schemes /usr/share/color-schemes
 COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/plasma/desktoptheme /usr/share/plasma/desktoptheme
 # COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/plasma/layout-templates /usr/share/plasma/layout-templates
-# COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/plasma/look-and-feel /usr/share/plasma/look-and-feel
+COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/plasma/look-and-feel /usr/share/plasma/look-and-feel
 # COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/Kvantum /usr/share/Kvantum
 # COPY --from=abcdesktopio/oc.themes:4.0 /usr/share/wallpapers /usr/share/wallpapers
 
