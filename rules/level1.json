@@ -21,26 +21,6 @@
     "dockerfile": "oc.template.alpine.gtk"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.18.04",
-    "target": "oc.template.ubuntu.gtk.18.04",
-    "dockerfile": "oc.template.ubuntu.gtk"
-  },
-  {
-    "source": "abcdesktopio/oc.template.ubuntu.20.04",
-    "target": "oc.template.ubuntu.gtk",
-    "dockerfile": "oc.template.ubuntu.gtk"
-  },
-  {
-    "source": "abcdesktopio/oc.template.ubuntu.20.04",
-    "target": "oc.template.ubuntu.gtk.20.04",
-    "dockerfile": "oc.template.ubuntu.gtk"
-  },
-  {
-    "source": "abcdesktopio/oc.template.ubuntu.22.04",
-    "target": "oc.template.ubuntu.gtk.22.04",
-    "dockerfile": "oc.template.ubuntu.gtk"
-  },
-  {
     "source": "abcdesktopio/oc.template.ubuntu.24.04",
     "target": "oc.template.ubuntu.gtk.24.04",
     "dockerfile": "oc.template.ubuntu.gtk"
