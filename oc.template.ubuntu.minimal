@@ -12,7 +12,11 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
      gnupg \
-     software-properties-common \
+     software-properties-common && \
+     apt-get clean && \
+     rm -rf /var/lib/apt/lists/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
      locales \
      cups-client \
      libpulse0 \
