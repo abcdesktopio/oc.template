@@ -137,7 +137,7 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v4
         with:
-          name: template.md
+          name: ${{ matrix.target }}.${{ env.tag }}.md
           path: ${{ matrix.target }}.md
 
   job2_do_minimal:
@@ -196,7 +196,7 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v4
         with:
-          name: template.md
+          name: ${{ matrix.target }}.${{ env.tag }}.md
           path: ${{ matrix.target }}.md
        
   job3_do_level0:
@@ -251,7 +251,7 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v4
         with:
-          name: template.md
+          name: ${{ matrix.target }}.${{ env.tag }}.md
           path: ${{ matrix.target }}.md
 
   job4_do_level1:
@@ -302,7 +302,7 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v4
         with:
-          name: template.md
+          name: ${{ matrix.target }}.${{ env.tag }}.md
           path: ${{ matrix.target }}.md
 
   job5_do_level2:
@@ -353,7 +353,7 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v4
         with:
-          name: template.md
+          name: ${{ matrix.target }}.${{ env.tag }}.md
           path: ${{ matrix.target }}.md
 
   job6_do_level3:
@@ -404,7 +404,7 @@ jobs:
       - name: create artifact md file ${{ matrix.target }}
         uses: actions/upload-artifact@v4
         with:
-          name: template.md
+          name: ${{ matrix.target }}.${{ env.tag }}.md
           path: ${{ matrix.target }}.md
           if-no-files-found: error # 'error' or 'ignore' are also available, defaults to `warn`    
 
