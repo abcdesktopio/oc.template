@@ -14,7 +14,7 @@
     "source": "nvidia/cuda:12.4.1-base-ubuntu22.04",
     "target": "oc.template.ubuntu.nvidia.22.04",
     "dockerfile": "oc.template.ubuntu.minimal"
-  }
+  },
   {
     "source": "nvidia/cuda:12.6.0-base-ubuntu24.04",
     "target": "oc.template.ubuntu.nvidia.24.04",
