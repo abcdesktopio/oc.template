@@ -10,23 +10,13 @@
     "dockerfile": "oc.template.rockylinux.minimal"
   },
   {
-    "source": "alpine:3.17",
-    "target": "oc.template.alpine.minimal.3.17",
-    "dockerfile": "oc.template.alpine.minimal"
-  },
-  {
-    "source": "alpine:3.18",
-    "target": "oc.template.alpine.minimal.3.18",
-    "dockerfile": "oc.template.alpine.minimal"
-  },
-  {
-    "source": "alpine:3.19",
-    "target": "oc.template.alpine.minimal.3.19",
-    "dockerfile": "oc.template.alpine.minimal"
-  },
-  {
     "source": "alpine:3.20",
     "target": "oc.template.alpine.minimal.3.20",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
+    "source": "alpine:3.21",
+    "target": "oc.template.alpine.minimal.3.21",
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
@@ -40,18 +30,8 @@
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
-    "source": "ubuntu:18.04",
-    "target": "oc.template.ubuntu.minimal.18.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
-  },
-  {
     "source": "ubuntu:20.04",
     "target": "oc.template.ubuntu.minimal.20.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
-  },
-  {
-    "source": "ubuntu:22.04",
-    "target": "oc.template.ubuntu.minimal.22.04",
     "dockerfile": "oc.template.ubuntu.minimal"
   },
   {
