@@ -21,8 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libosmesa6:i386	\
         libnss-mdns \
 	libnss-mdns:i386 \
-	libncurses5:i386 \
-	libodbc1:i386 \
 	libxext6:i386 \
 	libxi6:i386 \
 	libfreetype6:i386 \
@@ -35,7 +33,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libxrandr2:i386 \
 	libxml2:i386 \
 	libgl1-mesa-dri:i386 \
-	libgl1-mesa-glx:i386 \
 	&& rm -rf /var/lib/apt/lists/*
 
 # add source play on linux 
