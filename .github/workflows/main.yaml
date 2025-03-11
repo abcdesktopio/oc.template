@@ -115,8 +115,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3 
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_TOKEN }}
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         uses: docker/build-push-action@v5
         with:
@@ -127,7 +128,7 @@ jobs:
             BASE_IMAGE=${{ matrix.source }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            ghcr.io/abcdesktopio/${{ matrix.target }}:${{ env.tag }}
           
       - name: create md file ${{ matrix.target }}
         run: |
@@ -166,8 +167,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_TOKEN }}
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Dump Dockerfile
         run: |
           echo Dockerfile ${{ matrix.dockerfile }}
@@ -183,7 +185,7 @@ jobs:
             BASE_IMAGE=${{ matrix.source }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            ghcr.io/abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -225,8 +227,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_TOKEN }}
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         uses: docker/build-push-action@v5
         with:
@@ -238,7 +241,7 @@ jobs:
             TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            ghcr.io/abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -276,8 +279,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_TOKEN }}
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         uses: docker/build-push-action@v5
         with:
@@ -289,7 +293,7 @@ jobs:
             TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:${{ env.tag }}  
+            ghcr.io/abcdesktopio/${{ matrix.target }}:${{ env.tag }}  
             
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -327,8 +331,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v2
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_TOKEN }}
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         uses: docker/build-push-action@v5
         with:
@@ -340,7 +345,7 @@ jobs:
             TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            ghcr.io/abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -378,8 +383,9 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-         username: ${{ secrets.DOCKER_USERNAME }}
-         password: ${{ secrets.DOCKER_TOKEN }}
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push ${{ matrix.target }}
         uses: docker/build-push-action@v5
         with:
@@ -391,7 +397,7 @@ jobs:
             TAG=${{ env.tag }}
           push: true
           tags: |
-            abcdesktopio/${{ matrix.target }}:${{ env.tag }}
+            ghcr.io/abcdesktopio/${{ matrix.target }}:${{ env.tag }}
             
       - name: Use Node.js
         uses: actions/setup-node@v4
