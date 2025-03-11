@@ -11,16 +11,6 @@
     "dockerfile": "oc.template.rockylinux"
   },
   {
-    "source": "abcdesktopio/oc.template.alpine.minimal.3.17",
-    "target": "oc.template.alpine.3.17",
-    "dockerfile": "oc.template.alpine"
-  },
-  {
-    "source": "abcdesktopio/oc.template.alpine.minimal.3.18",
-    "target": "oc.template.alpine.3.18",
-    "dockerfile": "oc.template.alpine"
-  },
-  {
     "source": "abcdesktopio/oc.template.alpine.minimal.edge",
     "target": "oc.template.alpine.edge",
     "dockerfile": "oc.template.alpine"
