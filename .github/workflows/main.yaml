@@ -237,7 +237,7 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           build-args: |
-            BASE_IMAGE=${{ matrix.source }}
+            BASE_IMAGE=ghcr.io/${{ matrix.source }}
             TAG=${{ env.tag }}
           push: true
           tags: |
@@ -289,7 +289,7 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           build-args: |
-            BASE_IMAGE=${{ matrix.source }}
+            BASE_IMAGE=ghcr.io/${{ matrix.source }}
             TAG=${{ env.tag }}
           push: true
           tags: |
@@ -341,7 +341,7 @@ jobs:
           context: .
           platforms: linux/amd64
           build-args: |
-            BASE_IMAGE=${{ matrix.source }}
+            BASE_IMAGE=ghcr.io/${{ matrix.source }}
             TAG=${{ env.tag }}
           push: true
           tags: |
@@ -393,7 +393,7 @@ jobs:
           context: .
           platforms: linux/amd64
           build-args: |
-            BASE_IMAGE=${{ matrix.source }}
+            BASE_IMAGE=ghcr.io/${{ matrix.source }}
             TAG=${{ env.tag }}
           push: true
           tags: |
