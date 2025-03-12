@@ -21,8 +21,13 @@
     "dockerfile": "oc.template.alpine"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.minimal.24.04",
-    "target": "oc.template.ubuntu.24.04",
+    "source": "abcdesktopio/oc.template.ubuntu.minimal.18.04",
+    "target": "oc.template.ubuntu.18.04",
+    "dockerfile": "oc.template.ubuntu"
+  },
+  {
+    "source": "abcdesktopio/oc.template.ubuntu.minimal.20.04",
+    "target": "oc.template.ubuntu.20.04",
     "dockerfile": "oc.template.ubuntu"
   },
   {
@@ -31,8 +36,8 @@
     "dockerfile": "oc.template.ubuntu"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.minimal.18.04",
-    "target": "oc.template.ubuntu.18.04",
+    "source": "abcdesktopio/oc.template.ubuntu.minimal.24.04",
+    "target": "oc.template.ubuntu.24.04",
     "dockerfile": "oc.template.ubuntu"
   },
   {
