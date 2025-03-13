@@ -8,7 +8,7 @@ RUN yum update -y && \
     yum install -y \
         gtk3 \
         gnome-font-viewer && \
-     yum -y clean all \
+     yum -y clean all && \
      rm -rf /var/cache
 
 COPY --from=abcdesktopio/oc.themes /usr/share/icons  /usr/share/icons
