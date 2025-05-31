@@ -58,18 +58,5 @@ RUN NODE_MAJOR=20; if [ "18.04" = "$(. /etc/os-release;echo $VERSION_ID)" ]; the
 
 # Add nodejs service
 # ocrun can call create another container or pod
-RUN cd /composer/node/ocrun && npm install  
-
-#
-# create account 
-# Next command use $BUSER context
-# this is the default user if no user defined
-ENV BUSER balloon
-# create group, user, set password
-RUN groupadd --gid 4096 $BUSER && \
-    useradd --create-home --shell /bin/bash --uid 4096 -g $BUSER --groups $BUSER $BUSER && \
-    echo "balloon:lmdpocpetit" | chpasswd $BUSER
-# allow default user to write in /var/log/desktop  if no user defined 
-RUN mkdir -p /var/log/desktop && \
-    chown -R $BUSER:$BUSER /home/$BUSER /var/log/desktop
+RUN cd /composer/node/ocrun && npm install
 
