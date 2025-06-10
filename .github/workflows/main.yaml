@@ -339,7 +339,7 @@ jobs:
         with:
           file: ${{ matrix.dockerfile }}
           context: .
-          platforms: linux/amd64
+          platforms: linux/amd64, linux/arm64
           build-args: |
             BASE_IMAGE=ghcr.io/${{ matrix.source }}
             TAG=${{ env.tag }}
