@@ -16,7 +16,7 @@
     "dockerfile": "oc.template.alpine.libreoffice"
   },
   {
-    "source": "abcdesktopio/oc.template.ubuntu.24.04",
+    "source": "abcdesktopio/oc.template.ubuntu.gtk.24.04",
     "target": "oc.template.ubuntu.libreoffice",
     "dockerfile": "oc.template.ubuntu.libreoffice"
   },
