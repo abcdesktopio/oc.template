@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      && apt-get clean \
      && rm -rf /var/lib/apt/lists/	\
      && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
+ENV LANG=en_US.utf8
 
 ############
 COPY composer /composer
@@ -42,7 +42,7 @@ RUN cd /composer/node/ocrun && npm install
 
 ##########
 # Next command use $BUSER context
-ENV BUSER balloon
+ENV BUSER=balloon
 # RUN adduser --disabled-password --gecos '' $BUSER
 # RUN id -u $BUSER &>/dev/null || 
 RUN groupadd --gid 4096 $BUSER
