@@ -7,8 +7,8 @@ RUN mkdir -p /composer/init.d
 COPY etc/ /etc
 
 # correct debconf: (TERM is not set, so the dialog frontend is not usable.)
-ENV DEBCONF_FRONTEND noninteractive
-ENV TERM linux
+ENV DEBCONF_FRONTEND=noninteractive
+ENV TERM=linux
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
