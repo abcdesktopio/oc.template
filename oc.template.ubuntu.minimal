@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
      locales \
-     libnss-extrausers \
      cups-client \
      libpulse0 \
      curl \
