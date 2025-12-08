@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      locales \
      cups-client \
      libpulse0 \
+     libnss-extrausers \
      curl \
      xauth \
      && apt-get clean \
