@@ -1,13 +1,12 @@
-
 ARG BASE_IMAGE=alpine
 FROM ${BASE_IMAGE}
 MAINTAINER Alexandre DEVELY 
 RUN mkdir -p /composer/init.d
 COPY etc/ /etc
-ENV TERM linux
+ENV TERM=linux
 # add core lib and bin
 RUN apk add --no-cache --update gnupg cups-client libpulse curl openssl xauth
-ENV LANG en_US.utf8
+ENV LANG=en_US.utf8
 COPY composer /composer
 # Install npm
 RUN apk add --no-cache --update bash nodejs npm

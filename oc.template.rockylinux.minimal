@@ -13,7 +13,7 @@ RUN  dnf update -y && \
      xorg-x11-xauth && \
      dnf -y clean all && \
      rm -rf /var/cache
-ENV LANG en_US.utf8
+ENV LANG=en_US.utf8
 COPY composer /composer
 RUN dnf update -y && \
     dnf module -y enable nodejs:18 && \
