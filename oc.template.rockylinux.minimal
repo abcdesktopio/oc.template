@@ -1,6 +1,6 @@
 ARG BASE_IMAGE=rockylinux:8
 # image ghcr.io/abcdesktopio/libnss-extrausers-rpm_rockylinux as the rpm package inside
-FROM ghcr.io/abcdesktopio/libnss-extrausers-rpm_${BASE_IMAGE} as libnss-extrausers
+FROM ghcr.io/abcdesktopio/libnss-extrausers-rpm_${BASE_IMAGE} AS libnss-extrausers
 FROM ${BASE_IMAGE}
 RUN mkdir -p /composer/init.d
 COPY etc/ /etc
