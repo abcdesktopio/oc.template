@@ -10,13 +10,18 @@
     "dockerfile": "oc.template.rockylinux.minimal"
   },
   {
-    "source": "alpine:3.20",
-    "target": "oc.template.alpine.minimal.3.20",
+    "source": "alpine:3.21",
+    "target": "oc.template.alpine.minimal.3.21",
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
-    "source": "alpine:3.21",
-    "target": "oc.template.alpine.minimal.3.21",
+    "source": "alpine:3.22",
+    "target": "oc.template.alpine.minimal.3.22",
+    "dockerfile": "oc.template.alpine.minimal"
+  },
+  {
+    "source": "alpine:3.23",
+    "target": "oc.template.alpine.minimal.3.23",
     "dockerfile": "oc.template.alpine.minimal"
   },
   {
