@@ -3,12 +3,12 @@
   {
     "source": "nvidia/cuda:12.4.1-base-rockylinux8",
     "target": "oc.template.rockylinux.nvidia.8",
-    "dockerfile": "oc.template.rockylinux.minimal"
+    "dockerfile": "oc.template.rockylinux.8.nvidia.minimal"
   },
   {
     "source": "nvidia/cuda:12.4.1-base-rockylinux9",
     "target": "oc.template.rockylinux.nvidia.9",
-    "dockerfile": "oc.template.rockylinux.minimal"
+    "dockerfile": "oc.template.rockylinux.9.nvidia.minimal"
   },
   {
     "source": "nvidia/cuda:12.4.1-base-ubuntu22.04",
