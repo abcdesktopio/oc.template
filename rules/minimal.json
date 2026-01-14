@@ -1,5 +1,20 @@
 { "include" : [
   {
+    "source": "almalinux:10",
+    "target": "oc.template.almalinux.minimal.10",
+    "dockerfile": "oc.template.rockylinux.minimal"
+  },
+  {
+    "source": "almalinux:9",
+    "target": "oc.template.almalinux.minimal.9",
+    "dockerfile": "oc.template.rockylinux.minimal"
+  },
+  {
+    "source": "almalinux:8",
+    "target": "oc.template.almalinux.minimal.8",
+    "dockerfile": "oc.template.rockylinux.minimal"
+  },
+  {
     "source": "rockylinux:9",
     "target": "oc.template.rockylinux.minimal.9",
     "dockerfile": "oc.template.rockylinux.minimal"

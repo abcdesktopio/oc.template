@@ -1,6 +1,21 @@
 { "include" : 
   [
   {
+    "source": "abcdesktopio/oc.template.almalinux.minimal.8",
+    "target": "oc.template.almalinux.8",
+    "dockerfile": "oc.template.rockylinux"
+  },
+  {
+    "source": "abcdesktopio/oc.template.almalinux.minimal.8",
+    "target": "oc.template.almalinux.9",
+    "dockerfile": "oc.template.rockylinux"
+  },
+  {
+    "source": "abcdesktopio/oc.template.almalinux.minimal.8",
+    "target": "oc.template.almalinux.10",
+    "dockerfile": "oc.template.rockylinux"
+  },
+  {
     "source": "abcdesktopio/oc.template.rockylinux.minimal.8",
     "target": "oc.template.rockylinux.8",
     "dockerfile": "oc.template.rockylinux"
