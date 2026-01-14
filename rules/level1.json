@@ -1,6 +1,21 @@
 { "include" : 
   [
   {
+    "source": "abcdesktopio/oc.template.almalinux.8",
+    "target": "oc.template.almalinux.gtk.8",
+    "dockerfile": "oc.template.rockyinux.gtk"
+  },
+  {
+    "source": "abcdesktopio/oc.template.almalinux.9",
+    "target": "oc.template.almalinux.gtk.9",
+    "dockerfile": "oc.template.rockylinux.gtk"
+  },
+  {
+    "source": "abcdesktopio/oc.template.almalinux.10",
+    "target": "oc.template.almalinux.gtk.10",
+    "dockerfile": "oc.template.rockylinux.gtk"
+  },
+  {
     "source": "abcdesktopio/oc.template.rockylinux.8",
     "target": "oc.template.rockylinux.gtk.8",
     "dockerfile": "oc.template.rockylinux.gtk"
