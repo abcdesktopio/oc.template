@@ -3,7 +3,7 @@ ARG BASE_IMAGE
 FROM ${BASE_IMAGE}:${TAG} 
 
 # install gtk lib
-RUN yum update -y && \
-     yum install -y --skip-broken libreoffice \
-     && yum -y clean all \
+RUN dnf update -y && \
+     dnf install -y --skip-broken libreoffice \
+     && dnf -y clean all \
      && rm -rf /var/cache

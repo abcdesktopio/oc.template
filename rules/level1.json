@@ -3,7 +3,7 @@
   {
     "source": "abcdesktopio/oc.template.almalinux.8",
     "target": "oc.template.almalinux.gtk.8",
-    "dockerfile": "oc.template.rockyinux.gtk"
+    "dockerfile": "oc.template.rockylinux.gtk"
   },
   {
     "source": "abcdesktopio/oc.template.almalinux.9",
