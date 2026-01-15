@@ -36,6 +36,11 @@
     "dockerfile": "oc.template.alpine"
   },
   {
+    "source": "abcdesktopio/oc.template.alpine.minimal.3.23",
+    "target": "oc.template.alpine.3.23",
+    "dockerfile": "oc.template.alpine"
+  },
+  {
     "source": "abcdesktopio/oc.template.ubuntu.minimal.18.04",
     "target": "oc.template.ubuntu.18.04",
     "dockerfile": "oc.template.ubuntu"
