@@ -5,8 +5,9 @@ ARG BASE_IMAGE
 FROM ${BASE_IMAGE}:${TAG}
 
 # add some fonts
-RUN yum update -y && \
-    yum install -y \
+RUN dnf update -y && \
+    dnf install -y \
+        default-fonts \
         google-noto-fonts-common \
         xorg-x11-fonts-100dpi \
         xorg-x11-fonts-75dpi \
