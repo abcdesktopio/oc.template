@@ -7,11 +7,13 @@ FROM ${BASE_IMAGE}:${TAG}
 # add some fonts
 RUN dnf update -y && \
     dnf install -y \
-        default-fonts \
         google-noto-fonts-common \
         xorg-x11-fonts-100dpi \
         xorg-x11-fonts-75dpi \
 	texlive-utopia \
+	dejavu-fonts-common \
 	liberation-fonts-common \
-     && yum -y clean all \
+	stix-fonts \
+	stix-math-fonts \
+     && dnf -y clean all \
      && rm -rf /var/cache
