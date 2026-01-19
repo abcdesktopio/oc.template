@@ -10,10 +10,8 @@ RUN dnf update -y && \
         google-noto-fonts-common \
         xorg-x11-fonts-100dpi \
         xorg-x11-fonts-75dpi \
-	texlive-utopia \
-	dejavu-fonts-common \
-	liberation-fonts-common \
-	stix-fonts \
-	stix-math-fonts \
-     && dnf -y clean all \
-     && rm -rf /var/cache
+		texlive-utopia \
+		liberation-fonts-common \
+		stix-fonts \
+	&& dnf -y clean all \
+    && rm -rf /var/cache
