@@ -67,7 +67,7 @@
   {
     "source": "ubuntu:26.04",
     "target": "oc.template.ubuntu.minimal.26.04",
-    "dockerfile": "oc.template.ubuntu.minimal"
+    "dockerfile": "oc.template.ubuntu.minimal.26.04"
   },
   {
     "source": "debian:stable-slim",
