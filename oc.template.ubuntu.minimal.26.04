@@ -1,0 +1,43 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+RUN mkdir -p /composer/init.d
+COPY etc/ /etc
+
+# correct debconf: (TERM is not set, so the dialog frontend is not usable.)
+ENV DEBCONF_FRONTEND=noninteractive
+ENV TERM=linux
+ENV NODE_MAJOR=24
+
+# RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+
+# libnss-extrausers is required for 4.3
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+     gnupg \
+     libnss-extrausers \
+     locales \
+     cups-client \
+     libpulse0 \
+     curl \
+     xauth && \
+     apt-get clean && \
+     rm -rf /var/lib/apt/lists/ && \
+     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+# default LANG is en_US if not set
+ENV LANG=en_US.utf8
+
+# copy compser source code
+COPY composer /composer
+
+# install nodejs and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash - && \
+    apt-get update && apt-get install -y --no-install-recommends nodejs && \
+    npm install -g npm && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add nodejs service
+# ocrun can call create another container or pod
+RUN cd /composer/node/ocrun && npm install
+
