@@ -1,14 +1,14 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE}
-
-MAINTAINER Alexandre DEVELY 
 RUN mkdir -p /composer/init.d
 COPY etc/ /etc
 
 # correct debconf: (TERM is not set, so the dialog frontend is not usable.)
 ENV DEBCONF_FRONTEND=noninteractive
 ENV TERM=linux
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+ENV NODE_MAJOR=24
+
+# RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # libnss-extrausers is required for 4.3
 
@@ -32,23 +32,9 @@ ENV LANG=en_US.utf8
 COPY composer /composer
 
 # install nodejs and npm
-# the default install version is 20
-#
-# read from https://github.com/nodesource/distributions
-#
-# | Distro Name          | Node 16x | Node 18x | Node 20x |
-# | :------------------- | :------: | :------: | :------: |
-# | Ubuntu Bionic ^18.04 |    OK    |    KO    |    KO    |
-# | Ubuntu Focal ^20.04  |    OK    |    OK    |    OK    |
-# | Ubuntu Jammy ^22.04  |    OK    |    OK    |    OK    |
-#
-# if VERSION_ID == 18.04 then install nodejs 16 else install nodejs 20
-RUN NODE_MAJOR=20; if [ "18.04" = "$(. /etc/os-release;echo $VERSION_ID)" ]; then NODE_MAJOR=16; fi; echo "node version install $NODE_MAJOR" && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \ 
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends nodejs && \
+RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash - && \
+    apt-get update && apt-get install -y --no-install-recommends nodejs && \
+    npm install -g npm && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
