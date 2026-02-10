@@ -59,6 +59,11 @@
     "source": "abcdesktopio/oc.template.ubuntu.24.04",
     "target": "oc.template.ubuntu.gtk.24.04",
     "dockerfile": "oc.template.ubuntu.gtk"
+  },
+  {
+    "source": "abcdesktopio/oc.template.ubuntu.26.04",
+    "target": "oc.template.ubuntu.gtk.26.04",
+    "dockerfile": "oc.template.ubuntu.gtk"
   }
   ]
 }
