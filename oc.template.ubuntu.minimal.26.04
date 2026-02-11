@@ -21,11 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
      curl \
      xauth && \
      apt-get clean && \
-     rm -rf /var/lib/apt/lists/ && \
-     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-
-# default LANG is en_US if not set
-ENV LANG=en_US.utf8
+     rm -rf /var/lib/apt/lists/ 
 
 # copy compser source code
 COPY composer /composer
