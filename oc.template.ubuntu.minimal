@@ -33,7 +33,7 @@ COPY composer /composer
 
 # install nodejs and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash - && \
-    apt-get update && apt-get install -y --no-install-recommends nodejs && \
+    apt-get update && apt-get install -y nodejs && \
     npm install -g npm && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
