@@ -6,12 +6,10 @@ COPY etc/ /etc
 # correct debconf: (TERM is not set, so the dialog frontend is not usable.)
 ENV DEBCONF_FRONTEND=noninteractive
 ENV TERM=linux
-ENV NODE_MAJOR=22
+ENV NODE_MAJOR=24
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-# RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-
-# libnss-extrausers is required for 4.3
-
+# libnss-extrausers is required for release >= 4.3
 RUN apt-get update && apt-get install -y --no-install-recommends \
      gnupg \
      bash \
@@ -27,8 +25,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # copy compser source code
 COPY composer /composer
 
-RUN apt-get update && \
+
+# install nodejs and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash - && \
     apt-get install -y --no-install-recommends nodejs npm && \
+    npm install -g npm && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
