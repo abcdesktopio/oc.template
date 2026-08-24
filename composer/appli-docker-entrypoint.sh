@@ -51,18 +51,12 @@ if [ -d /composer/.cache ]; then
 	cp -nr /composer/.cache/* ~/.cache/
 fi 
 
-# .Xauthority
-if [ ! -f ~/.Xauthority ]; then
-	log "~/.Xauthority does not exist"
-	ls -la ~ >> $STDOUT_LOGFILE
-	# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
-	if [ ! -z "$XAUTH_KEY" ]; then
-        	log "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY"
-        	xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
-		log "xauth add done exitcode=$?"
-	fi
-else
-	log "~/.Xauthority exists"
+
+# create a MIT-MAGIC-COOKIE-1 entry in .Xauthority
+if [ ! -z "$XAUTH_KEY" ]; then
+   log "xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY"
+   xauth add $DISPLAY MIT-MAGIC-COOKIE-1 $XAUTH_KEY >> $STDOUT_LOGFILE 2>&1
+   log "xauth add done exitcode=$?"
 fi
 
 # create a PULSEAUDIO COOKIE 
